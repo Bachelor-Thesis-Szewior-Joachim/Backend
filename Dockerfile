@@ -1,4 +1,3 @@
-# Use an official Ubuntu 24 base image
 FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -14,9 +13,8 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY out/artifacts/backend_jar/backend.jar /app/backend.jar
+COPY ./target/backend-0.0.1-SNAPSHOT-spring-boot.jar /app/backend.jar
 
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "/app/backend.jar"]
-
