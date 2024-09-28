@@ -1,7 +1,9 @@
 package org.example.backend.blockchain.token.entity;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +15,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
 public class Token {
     @Id
     private Long id;
@@ -20,9 +23,8 @@ public class Token {
     private String symbol;
     private int decimals;
     private long totalSupply;
+    @ElementCollection
     private Map<String, Long> balances = new HashMap<>();
-    private Map<String, Map<String, Long>> allowances = new HashMap<>();
-
     public Token() {
 
     }

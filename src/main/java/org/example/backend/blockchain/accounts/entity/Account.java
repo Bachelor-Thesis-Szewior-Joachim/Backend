@@ -2,19 +2,18 @@ package org.example.backend.blockchain.accounts.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.backend.blockchain.user.entity.User;
+import org.example.backend.blockchain.client.entity.Client;
 import org.example.backend.blockchain.wallet.entity.Wallet;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
 public class Account {
 
     @Id
@@ -29,7 +28,7 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Client client;
     public Account() {
 
     }

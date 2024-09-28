@@ -2,10 +2,8 @@ package org.example.backend.blockchain.accounts.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.backend.blockchain.user.entity.User;
+import org.example.backend.blockchain.client.entity.Client;
 import org.example.backend.blockchain.wallet.entity.Wallet;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -15,5 +13,5 @@ public class AccountDto {
     private String publicKey;
     private String privateKey;
     private Wallet wallet;
-    private User user;
+    private Client client;
 }

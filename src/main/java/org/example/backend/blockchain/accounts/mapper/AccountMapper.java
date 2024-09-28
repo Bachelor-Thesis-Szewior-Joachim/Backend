@@ -10,7 +10,7 @@ public class AccountMapper {
                 .publicKey(accountDto.getPublicKey())
                 .privateKey(accountDto.getPrivateKey())
                 .wallet(accountDto.getWallet())
-                .user(accountDto.getUser())
+                .client(accountDto.getClient())
                 .build();
     }
 
@@ -20,7 +20,7 @@ public class AccountMapper {
                 .publicKey(account.getPublicKey())
                 .privateKey(account.getPrivateKey())
                 .wallet(account.getWallet())
-                .user(account.getUser())
+                .client(account.getClient())
                 .build();
 
     }
