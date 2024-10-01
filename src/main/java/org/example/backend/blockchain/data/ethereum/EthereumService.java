@@ -1,46 +1,63 @@
 package org.example.backend.blockchain.data.ethereum;
 
+import lombok.Value;
 import org.springframework.stereotype.Service;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.methods.response.Web3ClientVersion;
-import org.web3j.protocol.core.methods.response.EthBlock;
-import org.web3j.protocol.core.methods.response.EthTransaction;
-import org.web3j.protocol.http.HttpService;
-import org.web3j.utils.Convert;
-import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class EthereumService {
 
-    private final Web3j web3j;
+    private final RestTemplate restTemplate;
+
+    @Value("${etherscan.api.key}")
+    private String apiKey;
+
+    @Value("${etherscan.api.url}")
+    private String apiUrl;
 
     public EthereumService() {
-        this.web3j = Web3j.build(new HttpService("https://mainnet.infura.io/v3/8c409480bf6646acb9bbb1dc826ff097"));
+        this.restTemplate = new RestTemplate();
     }
 
-    public String getClientVersion() throws ExecutionException, InterruptedException {
-        Web3ClientVersion web3ClientVersion = web3j.web3ClientVersion().sendAsync().get();
-        return web3ClientVersion.getWeb3ClientVersion();
+    public String getEtherBalance(String address) {
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                .queryParam("module", "account")
+                .queryParam("action", "balance")
+                .queryParam("address", address)
+                .queryParam("tag", "latest")
+                .queryParam("apikey", apiKey);
+
+        return restTemplate.getForObject(uriBuilder.toUriString(), String.class);
     }
 
-    public BigDecimal getAccountBalance(String address) throws ExecutionException, InterruptedException {
-        EthGetBalance ethGetBalance = web3j.ethGetBalance(address, org.web3j.protocol.core.DefaultBlockParameterName.LATEST)
-                .sendAsync().get();
-        BigInteger wei = ethGetBalance.getBalance();
-        return Convert.fromWei(wei.toString(), Convert.Unit.ETHER);
+    // Get normal transactions for an Ethereum address
+    public String getNormalTransactions(String address, int startBlock, int endBlock, String sort) {
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                .queryParam("module", "account")
+                .queryParam("action", "txlist")
+                .queryParam("address", address)
+                .queryParam("startblock", startBlock)
+                .queryParam("endblock", endBlock)
+                .queryParam("sort", sort)
+                .queryParam("apikey", apiKey);
+
+        return restTemplate.getForObject(uriBuilder.toUriString(), String.class);
     }
 
-    public EthTransaction getTransactionByHash(String transactionHash) throws ExecutionException, InterruptedException {
-        return web3j.ethGetTransactionByHash(transactionHash).sendAsync().get();
-    }
+    // Get internal transactions for an Ethereum address
+    public String getInternalTransactions(String address, int startBlock, int endBlock, String sort) {
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                .queryParam("module", "account")
+                .queryParam("action", "txlistinternal")
+                .queryParam("address", address)
+                .queryParam("startblock", startBlock)
+                .queryParam("endblock", endBlock)
+                .queryParam("sort", sort)
+                .queryParam("apikey", apiKey);
 
-    public EthBlock getBlockByNumber(BigInteger blockNumber) throws ExecutionException, InterruptedException {
-        return web3j.ethGetBlockByNumber(org.web3j.protocol.core.DefaultBlockParameter.valueOf(blockNumber), true)
-                .sendAsync().get();
+        return restTemplate.getForObject(uriBuilder.toUriString(), String.class);
     }
 
 }
