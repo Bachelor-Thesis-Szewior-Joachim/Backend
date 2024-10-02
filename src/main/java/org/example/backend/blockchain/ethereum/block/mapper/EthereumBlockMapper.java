@@ -8,8 +8,6 @@ public class EthereumBlockMapper {
     public static EthereumBlock mapBlockDtoToBlock(EthereumBlockDto blockDto) {
 
         return EthereumBlock.builder()
-                .id(blockDto.getId())
-                .header(blockDto.getHeader())
                 .transactionCount(blockDto.getTransactionCount())
                 .transactions(blockDto.getTransactions())
                 .blockNumber(blockDto.getBlockNumber())
@@ -28,8 +26,6 @@ public class EthereumBlockMapper {
     public static EthereumBlockDto mapBlockToBlockDto(EthereumBlock block) {
 
         return EthereumBlockDto.builder()
-                .id(block.getId())
-                .header(block.getHeader())
                 .transactionCount(block.getTransactionCount())
                 .transactions(block.getTransactions())
                 .blockNumber(block.getBlockNumber())

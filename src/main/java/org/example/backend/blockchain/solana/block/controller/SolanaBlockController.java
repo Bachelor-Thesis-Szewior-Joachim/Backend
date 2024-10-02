@@ -1,26 +1,26 @@
 package org.example.backend.blockchain.solana.block.controller;
 
+import org.example.backend.blockchain.solana.block.service.SolanaBlockService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/solana/block")
 public class SolanaBlockController {
 
-//    @GetMapping("/{hash}")
-//    public ResponseEntity<?> getBlock(@PathVariable String hash) {
-//
-//        return new ResponseEntity<>(new Error("Couldn't fine the block with this hash: "+hash), HttpStatus.NOT_FOUND);
-//    }
-//
-//    @GetMapping("/listOfBlocks")
-//    public ResponseEntity<?> getBlocks(@RequestParam String name, @RequestParam Integer limit) {
-//
-//        return new ResponseEntity<>(new Error("Couldn't find the blocks in this blockchain: "+ name), HttpStatus.NOT_FOUND);
-//    }
-//
-//    @GetMapping("/blockTransactions")
-//    public ResponseEntity<?> getBlockTransactions(@RequestParam String hash, @RequestParam Integer limit) {
-//
-//        return new ResponseEntity<>(new Error("Couldn't load transactions from the block with with this hash: "+ hash), HttpStatus.NOT_FOUND);
-//    }
+
+    private final SolanaBlockService solanaBlockService;
+
+    public SolanaBlockController(SolanaBlockService solanaBlockService) {
+        this.solanaBlockService = solanaBlockService;
+    }
+    @GetMapping("/{blockNumber}")
+    public String getBlockInfo(@PathVariable long blockNumber) {
+        try {
+            return solanaBlockService.getBlock(blockNumber);
+        } catch (Exception e) {
+            return "Error fetching block info: " + e.getMessage();
+        }
+    }
 }

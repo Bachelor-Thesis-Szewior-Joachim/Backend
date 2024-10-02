@@ -1,28 +1,22 @@
 package org.example.backend.blockchain.bitcoin.bitcoinBlock.controller;
 
+import org.example.backend.blockchain.bitcoin.bitcoinBlock.service.BitcoinBlockService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/block")
+@RequestMapping("/bitcoin/block")
 public class BitcoinBlockController {
 
-    @GetMapping("/{hash}")
-    public ResponseEntity<?> getBlock(@PathVariable String hash) {
+    private final BitcoinBlockService bitcoinBlockService;
 
-        return new ResponseEntity<>(new Error("Couldn't fine the block with this hash: "+hash), HttpStatus.NOT_FOUND);
+    public BitcoinBlockController(BitcoinBlockService bitcoinBlockService) {
+        this.bitcoinBlockService = bitcoinBlockService;
     }
 
-    @GetMapping("/listOfBlocks")
-    public ResponseEntity<?> getBlocks(@RequestParam String name, @RequestParam Integer limit) {
-
-        return new ResponseEntity<>(new Error("Couldn't find the blocks in this blockchain: "+ name), HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping("/blockTransactions")
-    public ResponseEntity<?> getBlockTransactions(@RequestParam String hash, @RequestParam Integer limit) {
-
-        return new ResponseEntity<>(new Error("Couldn't load transactions from the block with with this hash: "+ hash), HttpStatus.NOT_FOUND);
+    @GetMapping("/data/{blockHash}")
+    public String getBlockData(@PathVariable String blockHash) {
+        return bitcoinBlockService.getBitcoinBlockData(blockHash);
     }
 }

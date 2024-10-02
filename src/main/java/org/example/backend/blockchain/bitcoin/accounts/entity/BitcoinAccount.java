@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.backend.blockchain.solana.transaction.entity.Transaction;
+import org.example.backend.blockchain.solana.transaction.entity.SolanaTransaction;
 import java.util.List;
 
 @Getter
@@ -23,7 +23,7 @@ public class BitcoinAccount {
     private int n_tx;
     private int unconfirmed_n_tx;
     private int final_n_tx;
-    private List<Transaction> transactions;
+    private List<SolanaTransaction> transactions;
     public BitcoinAccount() {
 
     }

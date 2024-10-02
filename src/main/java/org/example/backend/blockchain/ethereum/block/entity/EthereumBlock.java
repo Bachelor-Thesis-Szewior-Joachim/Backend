@@ -12,16 +12,11 @@ import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransa
 
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 public class EthereumBlock {
-    @Id
-    private Long id;
-    @OneToOne
-    private EthereumBlockHeader header;
     private int transactionCount;
     private String blockNumber;
     private String slot;
@@ -32,7 +27,6 @@ public class EthereumBlock {
     private String baseFee;
     private String reward;
     private String burntFees;
-    @OneToMany
     private List<EthereumTransaction> transactions;
 
     public EthereumBlock() {

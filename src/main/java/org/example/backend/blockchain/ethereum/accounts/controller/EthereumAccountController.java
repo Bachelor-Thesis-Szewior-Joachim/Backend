@@ -1,31 +1,43 @@
 package org.example.backend.blockchain.ethereum.accounts.controller;
 
-import org.example.backend.blockchain.data.bitcoin.BitcoinService;
-import org.example.backend.blockchain.data.ethereum.EthereumService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.ExecutionException;
+import org.example.backend.blockchain.ethereum.accounts.service.EthereumAccountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/ethereum")
+@RequestMapping("/ethereum/account")
 public class EthereumAccountController {
 
-    private final EthereumService ethereumService;
+    private final EthereumAccountService ethereumAccountService;
 
-
-    public EthereumAccountController(EthereumService ethereumService) {
-        this.ethereumService = ethereumService;
+    @Autowired
+    public EthereumAccountController(EthereumAccountService ethereumAccountService) {
+        this.ethereumAccountService = ethereumAccountService;
     }
 
-    @GetMapping("/client-version")
-    public ResponseEntity<?> getClientVersion() throws ExecutionException, InterruptedException {
-        String example = ethereumService.getClientVersion();
-            return new ResponseEntity<>(example, HttpStatus.OK);
+    @GetMapping("/balance/{address}")
+    public String getEtherBalance(@PathVariable String address) {
+        return ethereumAccountService.getEtherBalance(address);
     }
 
+    @GetMapping("/tokenbalance/{address}/{contractAddress}")
+    public String getTokenBalance(@PathVariable String address, @PathVariable String contractAddress) {
+        return ethereumAccountService.getTokenBalance(address, contractAddress);
+    }
+
+    @GetMapping("/erc20transfers/{address}")
+    public String ethereumAccountService(@PathVariable String address,
+                                         @RequestParam(defaultValue = "0") int startBlock,
+                                         @RequestParam(defaultValue = "99999999") int endBlock,
+                                         @RequestParam(defaultValue = "asc") String sort) {
+        return ethereumAccountService.getERC20TokenTransfers(address, startBlock, endBlock, sort);
+    }
+
+    @GetMapping("/erc721transfers/{address}")
+    public String getERC721TokenTransfers(@PathVariable String address,
+                                          @RequestParam(defaultValue = "0") int startBlock,
+                                          @RequestParam(defaultValue = "99999999") int endBlock,
+                                          @RequestParam(defaultValue = "asc") String sort) {
+        return ethereumAccountService.getERC721TokenTransfers(address, startBlock, endBlock, sort);
+    }
 }

@@ -8,7 +8,6 @@ public class EthereumTransactionMapper {
 
     public static EthereumTransactionDto mapTrasactionToTransactionDto(EthereumTransaction transaction) {
         return EthereumTransactionDto.builder()
-                .id(transaction.getId())
                 .blockchain(transaction.getBlockchain())
                 .hash(transaction.getHash())
                 .fromAddress(transaction.getFromAddress())
@@ -23,7 +22,6 @@ public class EthereumTransactionMapper {
 
     public static EthereumTransaction mapTrasactionDtoToTransaction(EthereumTransactionDto transactionDto) {
         return EthereumTransaction.builder()
-                .id(transactionDto.getId())
                 .blockchain(transactionDto.getBlockchain())
                 .hash(transactionDto.getHash())
                 .fromAddress(transactionDto.getFromAddress())

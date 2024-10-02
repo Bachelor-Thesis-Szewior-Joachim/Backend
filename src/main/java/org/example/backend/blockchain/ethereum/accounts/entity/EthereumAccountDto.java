@@ -9,7 +9,6 @@ import org.example.backend.client.wallet.entity.Wallet;
 @Setter
 @Builder
 public class EthereumAccountDto {
-    private Long id;
     private String publicKey;
     private String privateKey;
     private Wallet wallet;

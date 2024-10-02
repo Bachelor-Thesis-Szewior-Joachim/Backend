@@ -10,7 +10,6 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 public class EthereumTransactionDto {
-    private Long id;
     private String blockchain;
     private String hash;
     private String fromAddress;

@@ -1,4 +1,4 @@
-package org.example.backend.blockchain.solana.accounts.service;
+package org.example.backend.blockchain.solana.transaction.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,16 +12,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class SolanaAccountService {
-
+public class SolanaTransactionService {
 
     private final RestTemplate restTemplate;
 
-    public SolanaAccountService(@Qualifier("restTemplate")RestTemplate restTemplate) {
+    private static final String SOLANA_RPC_URL = "https://api.mainnet-beta.solana.com";
+
+    public SolanaTransactionService(@Qualifier("restTemplate") RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-
-    private static final String SOLANA_RPC_URL = "https://api.mainnet-beta.solana.com";
 
     private HttpEntity<String> createRequestBody(String method, Object[] params) throws Exception {
         Map<String, Object> body = new HashMap<>();
@@ -36,11 +35,10 @@ public class SolanaAccountService {
         return new HttpEntity<>(new ObjectMapper().writeValueAsString(body), headers);
     }
 
-    public String getAccountInfo(String accountAddress) throws Exception {
-        String method = "getAccountInfo";
-        Object[] params = new Object[]{accountAddress, new HashMap<>()};
+    public String getTransaction(String transactionSignature) throws Exception {
+        String method = "getTransaction";
+        Object[] params = new Object[]{transactionSignature};
         HttpEntity<String> request = createRequestBody(method, params);
         return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
     }
-
 }

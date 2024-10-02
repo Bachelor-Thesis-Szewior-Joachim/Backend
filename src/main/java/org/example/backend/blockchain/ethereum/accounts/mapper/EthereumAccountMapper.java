@@ -5,8 +5,7 @@ import org.example.backend.blockchain.ethereum.accounts.entity.EthereumAccountDt
 
 public class EthereumAccountMapper {
     public static EthereumAccount mapAccountDtoToAccount(EthereumAccountDto accountDto) {
-        return EthereumAccount.builder().
-                id(accountDto.getId())
+        return EthereumAccount.builder()
                 .publicKey(accountDto.getPublicKey())
                 .privateKey(accountDto.getPrivateKey())
                 .wallet(accountDto.getWallet())
@@ -20,8 +19,7 @@ public class EthereumAccountMapper {
     }
 
     public static EthereumAccountDto mapAccountToAccountDto(EthereumAccount account) {
-        return EthereumAccountDto.builder().
-                id(account.getId())
+        return EthereumAccountDto.builder()
                 .publicKey(account.getPublicKey())
                 .privateKey(account.getPrivateKey())
                 .wallet(account.getWallet())

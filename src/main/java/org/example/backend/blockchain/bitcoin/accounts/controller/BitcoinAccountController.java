@@ -1,5 +1,6 @@
 package org.example.backend.blockchain.bitcoin.accounts.controller;
 
+import org.example.backend.blockchain.bitcoin.accounts.service.BitcoinAccountService;
 import org.example.backend.blockchain.data.bitcoin.BitcoinService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,34 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/bitcoin")
+@RequestMapping("/bitcoin/account")
 public class BitcoinAccountController {
 
-    private final BitcoinService bitcoinService;
+    private final BitcoinAccountService bitcoinAccountService;
 
-
-    public BitcoinAccountController(BitcoinService bitcoinService) {
-        this.bitcoinService = bitcoinService;
+    public BitcoinAccountController(BitcoinAccountService bitcoinAccountService) {
+        this.bitcoinAccountService = bitcoinAccountService;
     }
 
-    @GetMapping("/account/{address}")
-    public ResponseEntity<?> getAccountInfo(@PathVariable String address) {
-        String example = bitcoinService.getAllAccountData(address);
-        return new ResponseEntity<>(example, HttpStatus.OK);
-    }
-
-    @GetMapping("/transaction/{address}")
-    public ResponseEntity<?> getTransactionInfo(@PathVariable String address) {
-
-        String example = bitcoinService.getTransactionByHash(address);
-        return new ResponseEntity<>(example, HttpStatus.OK);
-    }
-
-    @GetMapping("/block/{address}")
-    public ResponseEntity<?> getBlockInfo(@PathVariable String address) {
-
-        String example = bitcoinService.getBitcoinBlockData(address);
-        return new ResponseEntity<>(example, HttpStatus.OK);
+    @GetMapping("/data/{address}")
+    public String getAccountData(@PathVariable String address) {
+        return bitcoinAccountService.getAllAccountData(address);
     }
 
 }

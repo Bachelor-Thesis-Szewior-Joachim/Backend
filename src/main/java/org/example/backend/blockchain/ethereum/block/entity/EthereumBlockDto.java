@@ -13,7 +13,6 @@ import java.util.List;
 public class EthereumBlockDto {
 
     private Long id;
-    private EthereumBlockHeader header;
     private int transactionCount;
     private List<EthereumTransaction> transactions;
     private String blockNumber;

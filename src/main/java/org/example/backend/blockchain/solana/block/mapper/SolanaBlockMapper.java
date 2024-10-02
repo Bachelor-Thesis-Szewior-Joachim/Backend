@@ -8,8 +8,6 @@ public class SolanaBlockMapper {
     public static SolanaBlock mapBlockDtoToBlock(SolanaBlockDto blockDto) {
 
         return SolanaBlock.builder()
-                .id(blockDto.getId())
-                .header(blockDto.getHeader())
                 .transactionCount(blockDto.getTransactionCount())
                 .transactions(blockDto.getTransactions())
                 .blockNumber(blockDto.getBlockNumber())
@@ -28,8 +26,6 @@ public class SolanaBlockMapper {
     public static SolanaBlockDto mapBlockToBlockDto(SolanaBlock block) {
 
         return SolanaBlockDto.builder()
-                .id(block.getId())
-                .header(block.getHeader())
                 .transactionCount(block.getTransactionCount())
                 .transactions(block.getTransactions())
                 .blockNumber(block.getBlockNumber())
