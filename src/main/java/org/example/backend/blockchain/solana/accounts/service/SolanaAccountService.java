@@ -17,7 +17,7 @@ public class SolanaAccountService {
 
     private final RestTemplate restTemplate;
 
-    public SolanaAccountService(@Qualifier("restTemplate")RestTemplate restTemplate) {
+    public SolanaAccountService(@Qualifier("restTemplate") RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -38,7 +38,8 @@ public class SolanaAccountService {
 
     public String getAccountInfo(String accountAddress) throws Exception {
         String method = "getAccountInfo";
-        Object[] params = new Object[]{accountAddress, new HashMap<>()};
+        // Add "encoding" parameter to specify how the account data should be returned (base64 or jsonParsed)
+        Object[] params = new Object[]{accountAddress, Map.of("encoding", "base64")};
         HttpEntity<String> request = createRequestBody(method, params);
         return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
     }

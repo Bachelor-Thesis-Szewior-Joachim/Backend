@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/solana/account")
 public class SolanaAccountController {
 
-    private SolanaAccountService solanaAccountService;
+    private final SolanaAccountService solanaAccountService;
+
+    public SolanaAccountController(SolanaAccountService solanaAccountService) {
+        this.solanaAccountService = solanaAccountService;
+    }
 
     @GetMapping("/{address}")
     public String getAccountInfo(@PathVariable String address) {

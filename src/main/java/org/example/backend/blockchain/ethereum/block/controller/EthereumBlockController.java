@@ -13,23 +13,23 @@ public class EthereumBlockController {
         this.ethereumBlockService = ethereumBlockService;
     }
 
-    @GetMapping("/minedblocks/{address}")
+    @GetMapping("/{blockNumber}")
+    public String getBlock(@PathVariable Long blockNumber) {
+        return ethereumBlockService.getBlockByNumber(blockNumber);
+    }
+
+    @GetMapping("/minedBlocks/{address}")
     public String getMinedBlocks(@PathVariable String address, @RequestParam(defaultValue = "blocks") String blockType) {
         return ethereumBlockService.getMinedBlocks(address, blockType);
     }
 
-    @GetMapping("/ethsupply")
+    @GetMapping("/ethSupply")
     public String getEthSupply() {
         return ethereumBlockService.getEthSupply();
     }
 
-    @GetMapping("/ethprice")
+    @GetMapping("/ethPrice")
     public String getEthPrice() {
         return ethereumBlockService.getEthPrice();
-    }
-
-    @GetMapping("/historicalprice")
-    public String getHistoricalPrice() {
-        return ethereumBlockService.getHistoricalPrice();
     }
 }

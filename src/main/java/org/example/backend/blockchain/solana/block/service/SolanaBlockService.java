@@ -36,8 +36,18 @@ public class SolanaBlockService {
 
     public String getBlock(long blockNumber) throws Exception {
         String method = "getBlock";
-        Object[] params = new Object[]{blockNumber};
+
+        Object[] params = new Object[]{
+                blockNumber,
+                Map.of(
+                        "encoding", "json",
+                        "transactionDetails", "full",
+                        "maxSupportedTransactionVersion", 0
+                )
+        };
+
         HttpEntity<String> request = createRequestBody(method, params);
         return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
     }
+
 }

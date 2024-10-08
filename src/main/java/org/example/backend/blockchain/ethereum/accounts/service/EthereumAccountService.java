@@ -22,6 +22,30 @@ public class EthereumAccountService {
         this.restTemplate = restTemplate;
     }
 
+    public String getEtherBalanceAndTransactionHistory(String address) {
+        UriComponentsBuilder balanceUriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                .queryParam("module", "account")
+                .queryParam("action", "balance")
+                .queryParam("address", address)
+                .queryParam("tag", "latest")
+                .queryParam("apikey", apiKey);
+
+        String balanceResponse = restTemplate.getForObject(balanceUriBuilder.toUriString(), String.class);
+
+        UriComponentsBuilder txUriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                .queryParam("module", "account")
+                .queryParam("action", "txlist")
+                .queryParam("address", address)
+                .queryParam("startblock", "0")  // Fetch from block 0
+                .queryParam("endblock", "99999999")  // Fetch until latest block
+                .queryParam("sort", "asc")  // Sort by ascending order of block number
+                .queryParam("apikey", apiKey);
+
+        String transactionHistoryResponse = restTemplate.getForObject(txUriBuilder.toUriString(), String.class);
+
+        return "Balance: " + balanceResponse + "\nTransaction History: " + transactionHistoryResponse;
+    }
+
     public String getEtherBalance(String address) {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
                 .queryParam("module", "account")

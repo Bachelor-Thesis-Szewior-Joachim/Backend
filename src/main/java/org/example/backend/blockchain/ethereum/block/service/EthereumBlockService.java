@@ -20,6 +20,17 @@ public class EthereumBlockService {
         this.restTemplate = new RestTemplate();
     }
 
+    public String getBlockByNumber(long blockNumber) {
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                .queryParam("module", "proxy")
+                .queryParam("action", "eth_getBlockByNumber")
+                .queryParam("tag", "0x" + Long.toHexString(blockNumber))  // Convert block number to hexadecimal format
+                .queryParam("boolean", "true")  // true to include full transaction details
+                .queryParam("apikey", apiKey);
+
+        return restTemplate.getForObject(uriBuilder.toUriString(), String.class);
+    }
+
     public String getMinedBlocks(String address, String blockType) {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
                 .queryParam("module", "account")
@@ -44,15 +55,6 @@ public class EthereumBlockService {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
                 .queryParam("module", "stats")
                 .queryParam("action", "ethprice")
-                .queryParam("apikey", apiKey);
-
-        return restTemplate.getForObject(uriBuilder.toUriString(), String.class);
-    }
-
-    public String getHistoricalPrice() {
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
-                .queryParam("module", "stats")
-                .queryParam("action", "ethdailyprice")
                 .queryParam("apikey", apiKey);
 
         return restTemplate.getForObject(uriBuilder.toUriString(), String.class);

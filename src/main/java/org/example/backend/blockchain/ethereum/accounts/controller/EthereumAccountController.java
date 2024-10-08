@@ -15,18 +15,18 @@ public class EthereumAccountController {
         this.ethereumAccountService = ethereumAccountService;
     }
 
-    @GetMapping("/balance/{address}")
-    public String getEtherBalance(@PathVariable String address) {
-        return ethereumAccountService.getEtherBalance(address);
+    @GetMapping("/data/{address}")
+    public String getEtherData(@PathVariable String address) {
+        return ethereumAccountService.getEtherBalanceAndTransactionHistory(address);
     }
 
-    @GetMapping("/tokenbalance/{address}/{contractAddress}")
+    @GetMapping("/tokenBalance/{address}/{contractAddress}")
     public String getTokenBalance(@PathVariable String address, @PathVariable String contractAddress) {
         return ethereumAccountService.getTokenBalance(address, contractAddress);
     }
 
     @GetMapping("/erc20transfers/{address}")
-    public String ethereumAccountService(@PathVariable String address,
+    public String getERC20TokenTransfers(@PathVariable String address,
                                          @RequestParam(defaultValue = "0") int startBlock,
                                          @RequestParam(defaultValue = "99999999") int endBlock,
                                          @RequestParam(defaultValue = "asc") String sort) {

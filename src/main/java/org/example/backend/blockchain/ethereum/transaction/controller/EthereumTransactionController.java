@@ -1,10 +1,7 @@
 package org.example.backend.blockchain.ethereum.transaction.controller;
 
 
-import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransaction;
 import org.example.backend.blockchain.ethereum.transaction.service.EthereumTransactionService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,17 +30,17 @@ public class EthereumTransactionController {
         return ethereumTransactionService.getInternalTransactions(address, startBlock, endBlock, sort);
     }
 
-    @GetMapping("/estimategas")
+    @GetMapping("/estimateGas")
     public String estimateGas(@RequestParam String to, @RequestParam String value, @RequestParam String data) {
         return ethereumTransactionService.estimateGas(to, value, data);
     }
 
-    @GetMapping("/contractstatus/{txHash}")
+    @GetMapping("/contractStatus/{txHash}")
     public String getContractExecutionStatus(@PathVariable String txHash) {
         return ethereumTransactionService.getContractExecutionStatus(txHash);
     }
 
-    @GetMapping("/receiptstatus/{txHash}")
+    @GetMapping("/receiptStatus/{txHash}")
     public String getTransactionReceiptStatus(@PathVariable String txHash) {
         return ethereumTransactionService.getTransactionReceiptStatus(txHash);
     }
