@@ -1,9 +1,6 @@
 package org.example.backend.blockchain.bitcoin.accounts.entity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import org.example.backend.blockchain.solana.transaction.entity.SolanaTransaction;
+import lombok.*;
+import org.example.backend.blockchain.bitcoin.transaction.entity.BitcoinTransaction;
 
 import java.util.List;
 
@@ -11,6 +8,7 @@ import java.util.List;
 @Setter
 @Builder
 @AllArgsConstructor
+@ToString
 public class BitcoinAccountDto {
     private String address;
     private long total_received;
@@ -21,5 +19,5 @@ public class BitcoinAccountDto {
     private int n_tx;
     private int unconfirmed_n_tx;
     private int final_n_tx;
-    private List<SolanaTransaction> transactions;
+    private List<BitcoinTransaction> transactions;
 }

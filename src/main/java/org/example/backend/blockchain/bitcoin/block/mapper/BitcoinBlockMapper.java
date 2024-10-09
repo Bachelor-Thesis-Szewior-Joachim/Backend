@@ -1,7 +1,7 @@
-package org.example.backend.blockchain.bitcoin.bitcoinBlock.mapper;
+package org.example.backend.blockchain.bitcoin.block.mapper;
 
-import org.example.backend.blockchain.bitcoin.bitcoinBlock.entity.BitcoinBlock;
-import org.example.backend.blockchain.bitcoin.bitcoinBlock.entity.BitcoinBlockDto;
+import org.example.backend.blockchain.bitcoin.block.entity.BitcoinBlock;
+import org.example.backend.blockchain.bitcoin.block.entity.BitcoinBlockDto;
 
 public class BitcoinBlockMapper {
 
