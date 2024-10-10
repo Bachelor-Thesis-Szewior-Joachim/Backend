@@ -59,4 +59,29 @@ public class EthereumBlockService {
 
         return restTemplate.getForObject(uriBuilder.toUriString(), String.class);
     }
+
+    // Returns the estimated time remaining, in seconds, until a certain block is mined.
+    public String getBlockCountdown(int blockNumber) {
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                .queryParam("module", "block")
+                .queryParam("action", "getblockcountdown")
+                .queryParam("blockno", blockNumber)
+                .queryParam("apikey", apiKey);
+
+        return restTemplate.getForObject(uriBuilder.toUriString(), String.class);
+    }
+
+    // Returns the block number that was mined at a certain timestamp.
+    public String getBlockByTimestamp(long timestamp, String closest) {
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                .queryParam("module", "block")
+                .queryParam("action", "getblocknobytime")
+                .queryParam("timestamp", timestamp)
+                .queryParam("closest", closest)  // Can be 'before' or 'after'
+                .queryParam("apikey", apiKey);
+
+        return restTemplate.getForObject(uriBuilder.toUriString(), String.class);
+    }
+
+
 }

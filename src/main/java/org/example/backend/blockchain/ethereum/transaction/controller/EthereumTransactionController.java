@@ -14,6 +14,7 @@ public class EthereumTransactionController {
         this.ethereumTransactionService = ethereumTransactionService;
     }
 
+    //Returns the list of transactions performed by an address, with optional pagination.
     @GetMapping("/normal/{address}")
     public String getNormalTransactions(@PathVariable String address,
                                         @RequestParam(defaultValue = "0") int startBlock,
@@ -22,6 +23,7 @@ public class EthereumTransactionController {
         return ethereumTransactionService.getNormalTransactions(address, startBlock, endBlock, sort);
     }
 
+    //Returns the list of internal transactions performed by an address, with optional pagination
     @GetMapping("/internal/{address}")
     public String getInternalTransactions(@PathVariable String address,
                                           @RequestParam(defaultValue = "0") int startBlock,

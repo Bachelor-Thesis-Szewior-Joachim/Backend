@@ -34,4 +34,23 @@ public class BitcoinTransactionService {
             return null;
         }
     }
+
+    // Returns details of the inputs of a specific Bitcoin transaction.
+    public String getTransactionInput(String txHash) {
+        String url = "https://api.blockcypher.com/v1/btc/main/txs/" + txHash + "/inputs";
+        return restTemplate.getForObject(url, String.class);
+    }
+
+    // Returns details of the outputs of a specific Bitcoin transaction.
+    public String getTransactionOutput(String txHash) {
+        String url = "https://api.blockcypher.com/v1/btc/main/txs/" + txHash + "/outputs";
+        return restTemplate.getForObject(url, String.class);
+    }
+
+    // Returns the confidence level of a transaction being included in the blockchain.
+    public String getTransactionConfidence(String txHash) {
+        String url = "https://api.blockcypher.com/v1/btc/main/txs/" + txHash + "/confidence";
+        return restTemplate.getForObject(url, String.class);
+    }
+
 }
