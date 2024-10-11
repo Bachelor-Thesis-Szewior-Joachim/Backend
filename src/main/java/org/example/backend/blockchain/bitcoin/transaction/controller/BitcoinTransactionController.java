@@ -1,13 +1,13 @@
 package org.example.backend.blockchain.bitcoin.transaction.controller;
 
-
-import org.example.backend.blockchain.bitcoin.transaction.entity.BitcoinTransaction;
-import org.example.backend.blockchain.bitcoin.transaction.entity.BitcoinTransactionDto;
+import org.example.backend.blockchain.bitcoin.transaction.entity.input.BitcoinTransactionInputDto;
+import org.example.backend.blockchain.bitcoin.transaction.entity.output.BitcoinTransactionOutputDto;
+import org.example.backend.blockchain.bitcoin.transaction.entity.transaction.BitcoinTransactionDto;
 import org.example.backend.blockchain.bitcoin.transaction.service.BitcoinTransactionService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,5 +31,33 @@ public class BitcoinTransactionController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    // Endpoint to get transaction input details
+    @GetMapping("/transaction/{txHash}/inputs")
+    public ResponseEntity<List<BitcoinTransactionInputDto>> getTransactionInput(@PathVariable String txHash) {
+        List<BitcoinTransactionInputDto> inputDtoList = bitcoinTransactionService.getTransactionInput(txHash);
+        if (inputDtoList != null) {
+            return ResponseEntity.ok(inputDtoList);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Endpoint to get transaction output details
+    @GetMapping("/transaction/{txHash}/outputs")
+    public ResponseEntity<List<BitcoinTransactionOutputDto>> getTransactionOutput(@PathVariable String txHash) {
+        List<BitcoinTransactionOutputDto> outputDto = bitcoinTransactionService.getTransactionOutput(txHash);
+        if (outputDto != null) {
+            return ResponseEntity.ok(outputDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Endpoint to get transaction confidence
+    @GetMapping("/transaction/{txHash}/confidence")
+    public ResponseEntity<Float> getTransactionConfidence(@PathVariable String txHash) {
+        return ResponseEntity.ok(bitcoinTransactionService.getTransactionConfidence(txHash));
     }
 }

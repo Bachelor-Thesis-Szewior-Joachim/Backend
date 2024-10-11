@@ -1,8 +1,10 @@
 package org.example.backend.blockchain.bitcoin.stats.service;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+@Service
 public class BitcoinStatsService {
 
     private final RestTemplate restTemplate;

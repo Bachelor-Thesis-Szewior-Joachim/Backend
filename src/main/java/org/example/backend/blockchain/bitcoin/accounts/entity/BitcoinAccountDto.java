@@ -1,6 +1,6 @@
 package org.example.backend.blockchain.bitcoin.accounts.entity;
 import lombok.*;
-import org.example.backend.blockchain.bitcoin.transaction.entity.BitcoinTransaction;
+import org.example.backend.blockchain.bitcoin.transaction.entity.transaction.BitcoinTransaction;
 
 import java.util.List;
 

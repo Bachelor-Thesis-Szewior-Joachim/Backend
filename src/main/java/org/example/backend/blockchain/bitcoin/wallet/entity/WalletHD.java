@@ -11,8 +11,9 @@ import java.util.List;
 @Setter
 @Builder
 @AllArgsConstructor
-public class WalletDto {
+public class WalletHD {
     private String name;
     private String token;
-    private List<String> addresses;
+    private String extendedPublicKey;
+    private List<Integer> subchainIndexes;
 }
