@@ -9,15 +9,11 @@ import lombok.Setter;
 import org.example.backend.client.client.entity.Client;
 import org.example.backend.client.wallet.entity.Wallet;
 
-@Entity
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 public class SolanaAccount {
-
-    @Id
-    private Long id;
 
     private String publicKey;
     private String privateKey;

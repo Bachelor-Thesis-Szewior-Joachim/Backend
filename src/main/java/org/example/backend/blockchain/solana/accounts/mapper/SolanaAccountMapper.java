@@ -5,8 +5,7 @@ import org.example.backend.blockchain.solana.accounts.entity.SolanaAccountDto;
 
 public class SolanaAccountMapper {
     public static SolanaAccount mapAccountDtoToAccount(SolanaAccountDto accountDto) {
-        return SolanaAccount.builder().
-                id(accountDto.getId())
+        return SolanaAccount.builder()
                 .publicKey(accountDto.getPublicKey())
                 .privateKey(accountDto.getPrivateKey())
                 .wallet(accountDto.getWallet())
@@ -20,8 +19,7 @@ public class SolanaAccountMapper {
     }
 
     public static SolanaAccountDto mapAccountToAccountDto(SolanaAccount account) {
-        return SolanaAccountDto.builder().
-                id(account.getId())
+        return SolanaAccountDto.builder()
                 .publicKey(account.getPublicKey())
                 .privateKey(account.getPrivateKey())
                 .wallet(account.getWallet())

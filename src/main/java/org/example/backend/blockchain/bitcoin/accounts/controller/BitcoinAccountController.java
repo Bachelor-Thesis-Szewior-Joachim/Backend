@@ -2,8 +2,6 @@ package org.example.backend.blockchain.bitcoin.accounts.controller;
 
 import org.example.backend.blockchain.bitcoin.accounts.entity.BitcoinAccountDto;
 import org.example.backend.blockchain.bitcoin.accounts.service.BitcoinAccountService;
-import org.example.backend.blockchain.data.bitcoin.BitcoinService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

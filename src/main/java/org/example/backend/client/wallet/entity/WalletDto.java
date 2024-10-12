@@ -1,4 +1,4 @@
-package org.example.backend.blockchain.bitcoin.wallet.entity;
+package org.example.backend.client.wallet.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,8 @@ import java.util.List;
 @Setter
 @Builder
 @AllArgsConstructor
-public class WalletHD {
+public class WalletDto {
     private String name;
     private String token;
-    private String extendedPublicKey;
-    private List<Integer> subchainIndexes;
+    private List<String> addresses;
 }

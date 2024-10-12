@@ -1,7 +1,7 @@
-package org.example.backend.blockchain.bitcoin.wallet.mapper;
+package org.example.backend.client.wallet.mapper;
 
-import org.example.backend.blockchain.bitcoin.wallet.entity.WalletHD;
-import org.example.backend.blockchain.bitcoin.wallet.entity.WalletHDDto;
+import org.example.backend.client.wallet.entity.WalletHD;
+import org.example.backend.client.wallet.entity.WalletHDDto;
 
 public class WalletHDMapper {
 

@@ -1,22 +1,18 @@
 package org.example.backend.client.wallet.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 public class Wallet {
-    @Id
-    private Long id;
-
-    public Wallet() {
-
-    }
+    private String name;
+    private String token;
+    private List<String> addresses;
 }

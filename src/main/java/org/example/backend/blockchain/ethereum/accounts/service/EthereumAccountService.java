@@ -1,8 +1,5 @@
 package org.example.backend.blockchain.ethereum.accounts.service;
 
-import org.example.backend.blockchain.ethereum.accounts.entity.EthereumAccount;
-import org.example.backend.blockchain.ethereum.accounts.entity.EthereumAccountDto;
-import org.example.backend.blockchain.ethereum.accounts.mapper.EthereumAccountMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -53,20 +50,21 @@ public class EthereumAccountService {
     }
 
     //Returns the current balance of an ERC-20 token of an address.
-    public EthereumAccountDto getTokenBalance(String address, String contractAddress) {
+    public String getTokenBalance(String address, String contractAddress) {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
                 .queryParam("module", "account")
                 .queryParam("action", "tokenbalance")
-                .queryParam("address", address)
                 .queryParam("contractaddress", contractAddress)
+                .queryParam("address", address)
                 .queryParam("tag", "latest")
                 .queryParam("apikey", apiKey);
 
-        Optional<EthereumAccount> ethereumAccountOptional = Optional.ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), EthereumAccount.class));
+        Optional<String> ethereumAccountOptional = Optional.ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), String.class));
+
+        System.out.println(ethereumAccountOptional.toString());
 
         if (ethereumAccountOptional.isPresent()) {
-            EthereumAccountDto ethereumAccountDto = EthereumAccountMapper.mapAccountToAccountDto(ethereumAccountOptional.get());
-            return ethereumAccountDto;
+            return ethereumAccountOptional.get();
         } else {
             return null;
         }

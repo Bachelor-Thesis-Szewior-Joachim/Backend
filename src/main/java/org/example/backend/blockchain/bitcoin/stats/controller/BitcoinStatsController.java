@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/bitcoin/stats")
-public class StatsController {
+public class BitcoinStatsController {
 
     private final BitcoinStatsService bitcoinStatsService;
 
-    public StatsController(BitcoinStatsService bitcoinStatsService) {
+    public BitcoinStatsController(BitcoinStatsService bitcoinStatsService) {
         this.bitcoinStatsService = bitcoinStatsService;
     }
 

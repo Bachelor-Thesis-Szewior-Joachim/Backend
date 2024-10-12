@@ -6,6 +6,7 @@ import org.example.backend.blockchain.bitcoin.transaction.entity.transaction.Bit
 import org.example.backend.blockchain.bitcoin.transaction.entity.transaction.BitcoinTransactionDto;
 import org.example.backend.blockchain.bitcoin.transaction.mapper.BitcoinTransactionMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;

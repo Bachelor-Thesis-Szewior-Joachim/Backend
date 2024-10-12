@@ -14,19 +14,18 @@ public class EthereumAccountController {
 
     private final EthereumAccountService ethereumAccountService;
 
-    @Autowired
     public EthereumAccountController(EthereumAccountService ethereumAccountService) {
         this.ethereumAccountService = ethereumAccountService;
     }
 
     @GetMapping("/data/{address}")
-    public String getEtherData(@PathVariable String address) {
+    public String GetEtherBalanceAndTransactionHistory(@PathVariable String address) {
         return ethereumAccountService.getEtherBalanceAndTransactionHistory(address);
     }
 
     @GetMapping("/tokenBalance/{address}/{contractAddress}")
-    public ResponseEntity<EthereumAccountDto> getTokenBalance(@PathVariable String address, @PathVariable String contractAddress) {
-        Optional<EthereumAccountDto> ethereumAccountDtoOptional = Optional.ofNullable(ethereumAccountService.getTokenBalance(address, contractAddress));
+    public ResponseEntity<String> getTokenBalance(@PathVariable String address, @PathVariable String contractAddress) {
+        Optional<String> ethereumAccountDtoOptional = Optional.ofNullable(ethereumAccountService.getTokenBalance(address, contractAddress));
 
         if (ethereumAccountDtoOptional.isPresent()) {
             return ResponseEntity.ok(ethereumAccountDtoOptional.get());

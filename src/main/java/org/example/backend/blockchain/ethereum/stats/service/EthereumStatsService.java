@@ -1,10 +1,12 @@
 package org.example.backend.blockchain.ethereum.stats.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-public class StatsService {
+@Service
+public class EthereumStatsService {
 
 
     private final RestTemplate restTemplate;
@@ -15,7 +17,7 @@ public class StatsService {
     @Value("${etherscan.api.url}")
     private String apiUrl;
 
-    public StatsService(RestTemplate restTemplate) {
+    public EthereumStatsService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -74,6 +76,4 @@ public class StatsService {
 
         return restTemplate.getForObject(uriBuilder.toUriString(), String.class);
     }
-
-
 }

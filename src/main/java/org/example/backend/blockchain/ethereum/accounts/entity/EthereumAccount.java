@@ -1,11 +1,6 @@
 package org.example.backend.blockchain.ethereum.accounts.entity;
 
-
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.example.backend.client.client.entity.Client;
 import org.example.backend.client.wallet.entity.Wallet;
 
@@ -13,6 +8,7 @@ import org.example.backend.client.wallet.entity.Wallet;
 @Setter
 @Builder
 @AllArgsConstructor
+@ToString
 public class EthereumAccount {
 
     private String publicKey;
