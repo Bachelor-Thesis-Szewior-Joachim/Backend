@@ -2,10 +2,12 @@ package org.example.backend.blockchain.ethereum.accounts.controller;
 
 import org.example.backend.blockchain.ethereum.accounts.entity.EthereumAccountDto;
 import org.example.backend.blockchain.ethereum.accounts.service.EthereumAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransactionDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -19,13 +21,13 @@ public class EthereumAccountController {
     }
 
     @GetMapping("/data/{address}")
-    public String GetEtherBalanceAndTransactionHistory(@PathVariable String address) {
+    public Optional<EthereumAccountDto> GetEtherBalanceAndTransactionHistory(@PathVariable String address) {
         return ethereumAccountService.getEtherBalanceAndTransactionHistory(address);
     }
 
     @GetMapping("/tokenBalance/{address}/{contractAddress}")
-    public ResponseEntity<String> getTokenBalance(@PathVariable String address, @PathVariable String contractAddress) {
-        Optional<String> ethereumAccountDtoOptional = Optional.ofNullable(ethereumAccountService.getTokenBalance(address, contractAddress));
+    public ResponseEntity<Double> getTokenBalance(@PathVariable String address, @PathVariable String contractAddress) {
+        Optional<Double> ethereumAccountDtoOptional = Optional.ofNullable(ethereumAccountService.getTokenBalance(address, contractAddress));
 
         if (ethereumAccountDtoOptional.isPresent()) {
             return ResponseEntity.ok(ethereumAccountDtoOptional.get());
@@ -35,19 +37,34 @@ public class EthereumAccountController {
     }
 
     @GetMapping("/erc20transfers/{address}")
-    public String getERC20TokenTransfers(@PathVariable String address,
-                                         @RequestParam(defaultValue = "0") int startBlock,
-                                         @RequestParam(defaultValue = "99999999") int endBlock,
-                                         @RequestParam(defaultValue = "asc") String sort) {
-        return ethereumAccountService.getERC20TokenTransfers(address, startBlock, endBlock, sort);
+    public ResponseEntity<List<EthereumTransactionDto>> getERC20TokenTransfers(@PathVariable String address,
+                                                                                   @RequestParam(defaultValue = "0") int startBlock,
+                                                                                   @RequestParam(defaultValue = "99999999") int endBlock,
+                                                                                   @RequestParam(defaultValue = "asc") String sort) {
+
+        Optional<List<EthereumTransactionDto>> optionalEthereumTransactionDtos = ethereumAccountService.getERC20TokenTransfers(address, startBlock, endBlock, sort);
+
+        if (optionalEthereumTransactionDtos.isPresent()) {
+            return ResponseEntity.ok(optionalEthereumTransactionDtos.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/erc721transfers/{address}")
-    public String getERC721TokenTransfers(@PathVariable String address,
+    public ResponseEntity<List<EthereumTransactionDto>> getERC721TokenTransfers(@PathVariable String address,
                                           @RequestParam(defaultValue = "0") int startBlock,
                                           @RequestParam(defaultValue = "99999999") int endBlock,
                                           @RequestParam(defaultValue = "asc") String sort) {
-        return ethereumAccountService.getERC721TokenTransfers(address, startBlock, endBlock, sort);
+
+        Optional<List<EthereumTransactionDto>> optionalEthereumTransactionDtos = ethereumAccountService
+                .getERC721TokenTransfers(address, startBlock, endBlock, sort);
+
+        if (optionalEthereumTransactionDtos.isPresent()) {
+            return ResponseEntity.ok(optionalEthereumTransactionDtos.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/blocksMinedByAddress/{address}")

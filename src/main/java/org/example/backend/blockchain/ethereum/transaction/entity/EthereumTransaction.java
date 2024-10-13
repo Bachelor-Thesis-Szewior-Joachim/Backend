@@ -12,15 +12,33 @@ import lombok.Setter;
 @AllArgsConstructor
 public class EthereumTransaction {
 
-    private String blockchain;
+    private String blockNumber;
+    private String blockHash;
+    private String timeStamp;
     private String hash;
-    private String fromAddress;
-    private String toAddress;
-    private double amount;
-    private String method;
-    private Long blockNumber;
-    private String age;
-    private double transactionFee;
+    private String nonce;
+    private String transactionIndex;
+    private String from;
+    private String to;
+    private String value;
+    private String gas;
+    private String gasPrice;
+    private String input;
+    private String methodId;
+    private String functionName;
+    private String contractAddress;
+    private String cumulativeGasUsed;
+    private String txReceiptStatus;
+    private String gasUsed;
+    private String confirmations;
+    private String isError;
+    private String tokenName;
+    private String tokenSymbol;
+    private String tokenDecimal;
+    private String tokenId;
+    private String traceId;
+    private String type;
+    private String errorCode;
 
     public EthereumTransaction() {
 

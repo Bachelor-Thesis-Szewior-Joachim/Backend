@@ -1,6 +1,7 @@
 package org.example.backend.blockchain.ethereum.token.controller;
 
 import org.example.backend.blockchain.ethereum.token.service.EthereumTokenService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,13 @@ public class EthereumTokensController {
     }
 
     @GetMapping("tokenSupplyBy/{address}")
-    public String tokenSupplyBy(@PathVariable String address) {
+    public ResponseEntity<String> tokenSupplyBy(@PathVariable String address) {
+        Optional<String> optionalTokenSupplyBy = ethereumTokenService.getTokenSupply(address);
 
-        return ethereumTokenService.getTokenSupply(address);
+        if (optionalTokenSupplyBy.isPresent()) {
+            return ResponseEntity.ok(optionalTokenSupplyBy.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

@@ -2,7 +2,9 @@ package org.example.backend.blockchain.ethereum.contract.controller;
 
 
 import org.example.backend.blockchain.ethereum.contract.entity.contract.ContractDto;
+import org.example.backend.blockchain.ethereum.contract.entity.sourceCode.SourceCodeDto;
 import org.example.backend.blockchain.ethereum.contract.service.ContractService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class ContractController {
 
     private final ContractService contractService;
+
     public ContractController(ContractService contractService) {
         this.contractService = contractService;
     }
@@ -31,9 +34,9 @@ public class ContractController {
 
     // Endpoint to get the contract creation information for a list of contract addresses
     @GetMapping("/sourcecode/{contractAddress}")
-    public ResponseEntity<String> getSourceCode(@PathVariable String contractAddress) {
+    public ResponseEntity<SourceCodeDto> getSourceCode(@PathVariable String contractAddress) {
         // Call the service and retrieve the Optional result
-        Optional<String> sourceCode = contractService.getSourceCode(contractAddress);
+        Optional<SourceCodeDto> sourceCode = contractService.getSourceCode(contractAddress);
 
         // If the source code is present, return it with an HTTP 200 OK status
         if (sourceCode.isPresent()) {

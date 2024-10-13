@@ -1,9 +1,14 @@
 package org.example.backend.blockchain.ethereum.contract.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.ethereum.contract.entity.contract.Contract;
 import org.example.backend.blockchain.ethereum.contract.entity.contract.ContractDto;
 import org.example.backend.blockchain.ethereum.contract.entity.response.ContractResponse;
+import org.example.backend.blockchain.ethereum.contract.entity.sourceCode.SourceCode;
+import org.example.backend.blockchain.ethereum.contract.entity.sourceCode.SourceCodeDto;
 import org.example.backend.blockchain.ethereum.contract.mapper.ContractMapper;
+import org.example.backend.blockchain.ethereum.contract.mapper.SourceCodeMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -54,7 +59,7 @@ public class ContractService {
         }
     }
 
-    public Optional<String> getSourceCode(String contractAddress) {
+    public Optional<SourceCodeDto> getSourceCode(String contractAddress) {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
                 .queryParam("module", "contract")
                 .queryParam("action", "getsourcecode")
@@ -62,16 +67,22 @@ public class ContractService {
                 .queryParam("apikey", apiKey);
 
         try {
-            // Attempt to get the source code as a String
             String response = restTemplate.getForObject(uriBuilder.toUriString(), String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(response);
+            System.out.println(response);
 
-            // Return the result wrapped in an Optional
-            return Optional.ofNullable(response);
+            JsonNode resultNode = jsonNode.get("result").get(0);
+
+            SourceCode sourceCode = new SourceCode();
+            sourceCode.setSourceCode(resultNode.get("SourceCode").asText());
+            sourceCode.setABI(resultNode.get("ABI").asText());
+
+            return Optional.of(SourceCodeMapper.mapSourceCodeToSourceCodeDto(sourceCode));
         } catch (Exception e) {
-            // If there's an exception (e.g., contract not found), return an empty Optional
+            e.printStackTrace();
             return Optional.empty();
         }
     }
-
 
 }
