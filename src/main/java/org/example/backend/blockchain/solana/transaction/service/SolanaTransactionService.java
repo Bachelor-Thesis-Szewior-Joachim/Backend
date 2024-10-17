@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -44,21 +43,24 @@ public class SolanaTransactionService {
         }
     }
 
-    public Optional<SolanaTransactionDto> getTransaction(String transactionSignature) {
-//        String method = "getTransaction";
-//        Object[] params = new Object[]{transactionSignature};
-//        HttpEntity<String> request = createRequestBody(method, params);
-//        return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
-        return Optional.empty();
+    public String getTransaction(String transactionSignature) {
+        String method = "getTransaction";
+        Object[] params = new Object[]{transactionSignature};
+        HttpEntity<String> request = createRequestBody(method, params);
+        return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
     }
 
-    public Optional<List<SolanaTransactionDto>> getSignatureStatuses(List<String> signatures) {
-
-        return Optional.empty();
+    public String getSignatureStatuses(List<String> signatures) {
+        String method = "getSignatureStatuses";
+        Object[] params = new Object[]{signatures};
+        HttpEntity<String> request = createRequestBody(method, params);
+        return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
     }
 
-    public Optional<SolanaTransactionDto> getSignaturesForAddress(String signature) {
-
-        return Optional.empty();
+    public String getSignaturesForAddress(String signature) {
+        String method = "getSignaturesForAddress";
+        Object[] params = new Object[]{signature};
+        HttpEntity<String> request = createRequestBody(method, params);
+        return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
     }
 }

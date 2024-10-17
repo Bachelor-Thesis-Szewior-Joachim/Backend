@@ -23,8 +23,8 @@ public class SolanaAccountController {
 
     //Get account balance
     @GetMapping("/balance/{address}")
-    public ResponseEntity<Long> getSolanaAccountBalance(@PathVariable String address) {
-        Optional<Long> optionalBalance = solanaAccountService.getAccountBalance(address);
+    public ResponseEntity<String> getSolanaAccountBalance(@PathVariable String address) {
+        Optional<String> optionalBalance = solanaAccountService.getAccountBalance(address);
 
         return optionalBalance.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -32,8 +32,8 @@ public class SolanaAccountController {
 
     //Returns the 20 largest accounts, by lamport balance (results may be cached up to two hours).
     @GetMapping("/getLargestAccounts")
-    public ResponseEntity<List<SolanaAccountDto>> getSolanaBiggestAccounts() {
-        Optional<List<SolanaAccountDto>> optionalBalance = solanaAccountService.getSolanaBiggestAccounts();
+    public ResponseEntity<String> getSolanaBiggestAccounts() {
+        Optional<String> optionalBalance = solanaAccountService.getSolanaBiggestAccounts();
 
         return optionalBalance.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -41,8 +41,8 @@ public class SolanaAccountController {
 
     // Endpoint to fetch account info
     @GetMapping("/{address}")
-    public ResponseEntity<SolanaAccountDto> getSolanaAccount(@PathVariable String address) {
-        Optional<SolanaAccountDto> solanaAccountDto = solanaAccountService.getAccountInfo(address);
+    public ResponseEntity<String> getSolanaAccount(@PathVariable String address) {
+        Optional<String> solanaAccountDto = solanaAccountService.getAccountInfo(address);
 
         return solanaAccountDto.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -50,8 +50,8 @@ public class SolanaAccountController {
 
     // Returns all accounts owned by the provided program Pubkey.
     @GetMapping("/{address}")
-    public ResponseEntity<SolanaAccountDto> getProgramAccounts(@PathVariable String address) {
-        Optional<SolanaAccountDto> solanaAccountDto = solanaAccountService.getProgramAccounts(address);
+    public ResponseEntity<String> getProgramAccounts(@PathVariable String address) {
+        Optional<String> solanaAccountDto = solanaAccountService.getProgramAccounts(address);
 
         return solanaAccountDto.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

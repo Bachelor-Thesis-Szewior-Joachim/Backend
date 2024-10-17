@@ -21,15 +21,15 @@ public class SolanaTransactionController {
     }
 
     @GetMapping("/{signature}")
-    public ResponseEntity<SolanaTransactionDto> getTransactionInfo(@PathVariable String signature) {
-        Optional<SolanaTransactionDto> solanaTransactionDtoOptional = solanaTransactionService.getTransaction(signature);
+    public ResponseEntity<String> getTransactionInfo(@PathVariable String signature) {
+        Optional<String> solanaTransactionDtoOptional = Optional.ofNullable(solanaTransactionService.getTransaction(signature));
 
         return solanaTransactionDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/signatures/{signatures}")
-    public ResponseEntity<List<SolanaTransactionDto>> getSignatureStatuses(@RequestParam List<String> signatures) {
-        Optional<List<SolanaTransactionDto>> solanaTransactionServiceSignatureStatusesOptional = solanaTransactionService.getSignatureStatuses(signatures);
+    public ResponseEntity<String> getSignatureStatuses(@RequestParam List<String> signatures) {
+        Optional<String> solanaTransactionServiceSignatureStatusesOptional = Optional.ofNullable(solanaTransactionService.getSignatureStatuses(signatures));
 
         return solanaTransactionServiceSignatureStatusesOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
@@ -37,8 +37,8 @@ public class SolanaTransactionController {
     //Returns signatures for confirmed transactions that include the given address in their accountKeys list.
     // Returns signatures backwards in time from the provided signature or most recent confirmed block.
     @GetMapping("/signaturesForAddress/{signature}")
-    public ResponseEntity<?> getSignaturesForAddress(@PathVariable String signature) {
-        Optional<SolanaTransactionDto> solanaTransactionDtoOptional = solanaTransactionService.getSignaturesForAddress(signature);
+    public ResponseEntity<String> getSignaturesForAddress(@PathVariable String signature) {
+        Optional<String> solanaTransactionDtoOptional = Optional.ofNullable(solanaTransactionService.getSignaturesForAddress(signature));
 
         return solanaTransactionDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }

@@ -21,8 +21,8 @@ public class NodeController {
     }
     //Returns information about all the nodes participating in the cluster
     @GetMapping("/getClusterNodes")
-    public ResponseEntity<Map<String, String>> getClusterNodes() {
-        Optional<Map<String, String>> clusterNodesOptional = nodeService.getClusterNodes();
+    public ResponseEntity<String> getClusterNodes() {
+        Optional<String> clusterNodesOptional = nodeService.getClusterNodes();
         return clusterNodesOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 
     }

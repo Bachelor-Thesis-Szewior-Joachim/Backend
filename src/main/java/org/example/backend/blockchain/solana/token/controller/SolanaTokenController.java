@@ -2,10 +2,7 @@ package org.example.backend.blockchain.solana.token.controller;
 
 import org.example.backend.blockchain.solana.token.service.SolanaTokenService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -20,8 +17,8 @@ public class SolanaTokenController {
     }
 
     @GetMapping("/tokenAccountByOwner/{address}")
-    public ResponseEntity<String> getTokenAccountsByOwner(@PathVariable String address) {
-        Optional<String> dataOptional = solanaTokenService.getTokenAccountsByOwner(address);
+    public ResponseEntity<String> getTokenAccountsByOwner(@PathVariable String address, @RequestParam String option, @RequestParam String pubkey) {
+        Optional<String> dataOptional = solanaTokenService.getTokenAccountsByOwner(address, option, pubkey);
 
         return dataOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
