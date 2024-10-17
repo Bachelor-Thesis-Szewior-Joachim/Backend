@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -56,54 +57,22 @@ public class SolanaAccountService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        //        try {
-//            // Build the request JSON manually to avoid string formatting issues
-//            ObjectNode requestBody = objectMapper.createObjectNode();
-//            requestBody.put("jsonrpc", "2.0");
-//            requestBody.put("id", 1);
-//            requestBody.put("method", "getAccountInfo");
-//
-//            // Create the "params" array
-//            ObjectNode encodingNode = objectMapper.createObjectNode();
-//            encodingNode.put("encoding", "base58");
-//
-//            ArrayNode params = objectMapper.createArrayNode();
-//            params.add(address);
-//            params.add(encodingNode);
-//
-//            requestBody.set("params", params);
-//
-//            // Set headers for the request
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.APPLICATION_JSON); // Setting content-type to application/json
-//
-//            HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers); // Use .toString() to send raw JSON
-//
-//            // Send the API request and get the response
-//            ResponseEntity<String> response = restTemplate.exchange(SOLANA_RPC_URL, HttpMethod.POST, entity, String.class);
-//            String responseBody = response.getBody();
-//
-//            System.out.println("Response Body: " + responseBody); // Debugging response
-//
-//            if (responseBody != null) {
-//                // Parse response as JsonNode
-//                JsonNode jsonNode = objectMapper.readTree(responseBody);
-//                JsonNode accountInfoNode = jsonNode.get("result").get("value"); // Fetch "value" node
-//                JsonNode slotNode = jsonNode.get("context").get("slot"); // Fetch "context.slot"
-//
-//                // Check if accountInfoNode exists
-//                if (accountInfoNode != null && !accountInfoNode.isNull()) {
-//                    // Map to SolanaAccount and SolanaAccountDto
-//                    SolanaAccount solanaAccount = SolanaAccountMapper.mapToSolanaAccount(accountInfoNode, slotNode.asLong());
-//                    SolanaAccountDto solanaAccountDto = SolanaAccountMapper.mapToDto(solanaAccount);
-//                    return Optional.of(solanaAccountDto);
-//                }
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Error parsing Solana account data: " + e);
-//        }
 
         return Optional.empty();
     }
 
+    public Optional<Long> getAccountBalance(String address) {
+
+        return Optional.empty();
+    }
+
+    public Optional<List<SolanaAccountDto>> getSolanaBiggestAccounts() {
+
+        return Optional.empty();
+    }
+
+    public Optional<SolanaAccountDto> getProgramAccounts(String address) {
+
+        return Optional.empty();
+    }
 }

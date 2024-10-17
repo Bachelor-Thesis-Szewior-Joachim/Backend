@@ -1,15 +1,20 @@
 package org.example.backend.blockchain.solana.transaction.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransactionDto;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class SolanaTransactionService {
@@ -22,7 +27,7 @@ public class SolanaTransactionService {
         this.restTemplate = restTemplate;
     }
 
-    private HttpEntity<String> createRequestBody(String method, Object[] params) throws Exception {
+    private HttpEntity<String> createRequestBody(String method, Object[] params) {
         Map<String, Object> body = new HashMap<>();
         body.put("jsonrpc", "2.0");
         body.put("id", 1);
@@ -32,13 +37,28 @@ public class SolanaTransactionService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        return new HttpEntity<>(new ObjectMapper().writeValueAsString(body), headers);
+        try {
+            return new HttpEntity<>(new ObjectMapper().writeValueAsString(body), headers);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public String getTransaction(String transactionSignature) throws Exception {
-        String method = "getTransaction";
-        Object[] params = new Object[]{transactionSignature};
-        HttpEntity<String> request = createRequestBody(method, params);
-        return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+    public Optional<SolanaTransactionDto> getTransaction(String transactionSignature) {
+//        String method = "getTransaction";
+//        Object[] params = new Object[]{transactionSignature};
+//        HttpEntity<String> request = createRequestBody(method, params);
+//        return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+        return Optional.empty();
+    }
+
+    public Optional<List<SolanaTransactionDto>> getSignatureStatuses(List<String> signatures) {
+
+        return Optional.empty();
+    }
+
+    public Optional<SolanaTransactionDto> getSignaturesForAddress(String signature) {
+
+        return Optional.empty();
     }
 }
