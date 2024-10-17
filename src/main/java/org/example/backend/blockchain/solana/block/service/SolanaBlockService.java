@@ -37,48 +37,102 @@ public class SolanaBlockService {
         return new HttpEntity<>(new ObjectMapper().writeValueAsString(body), headers);
     }
 
-    public Optional<SolanaBlockDto> getBlock(long blockNumber) {
+    public Optional<String> getBlock(long blockNumber) {
 
-//        try{
-//            String method = "getBlock";
-//
-//            Object[] params = new Object[]{
-//                    blockNumber,
-//                    Map.of(
-//                            "encoding", "json",
-//                            "transactionDetails", "full",
-//                            "maxSupportedTransactionVersion", 0
-//                    )
-//            };
-//
-//            HttpEntity<String> request = createRequestBody(method, params);
-//            return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
+        try{
+            String method = "getBlock";
+
+            Object[] params = new Object[]{
+                    blockNumber,
+                    Map.of(
+                            "encoding", "json",
+                            "transactionDetails", "full",
+                            "maxSupportedTransactionVersion", 0
+                    )
+            };
+
+            HttpEntity<String> request = createRequestBody(method, params);
+            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return Optional.empty();
     }
 
-    public Optional<SolanaBlockDto> getBlockProduction() {
+    public Optional<String> getBlockProduction() {
+        try {
+            String method = "getBlockProduction";
+
+            Object[] params = new Object[]{
+
+            };
+            HttpEntity<String> request = createRequestBody(method, params);
+            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+        } catch (Exception e) {
+
+        }
         return Optional.empty();
     }
 
-    public Optional<Long> getBlockTime(long blockNumber) {
+    public Optional<String> getBlockTime(long blockNumber) {
 
+        try {
+            String method = "getBlockTime";
+
+            Object[] params = new Object[]{
+                blockNumber
+            };
+            HttpEntity<String> request = createRequestBody(method, params);
+            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+        } catch (Exception e) {
+
+        }
         return Optional.empty();
     }
 
-    public Optional<Map<String, Long>> getBlockCommitment(long blockNumber) {
+    public Optional<String> getBlockCommitment(long blockNumber) {
 
+        try {
+            String method = "getBlockCommitment";
+
+            Object[] params = new Object[]{
+                    blockNumber
+            };
+            HttpEntity<String> request = createRequestBody(method, params);
+            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+        } catch (Exception e) {
+
+        }
         return Optional.empty();
     }
 
-    public Optional<List<SolanaBlockDto>> getBlocksWithLimit(Long startingBlock, Long amount) {
+    public Optional<String> getBlocksWithLimit(Long startingBlock, Long amount) {
 
+        try {
+            String method = "getBlockCommitment";
+            Long[] array = {startingBlock, amount};
+            Object[] params = new Object[]{
+                    array
+            };
+            HttpEntity<String> request = createRequestBody(method, params);
+            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+        } catch (Exception e) {
+
+        }
         return Optional.empty();
     }
 
-    public Optional<Long> getBlockHeight() {
+    public Optional<String> getBlockHeight() {
+
+        try {
+            String method = "getBlockCommitment";
+            Object[] params = new Object[]{
+            };
+            HttpEntity<String> request = createRequestBody(method, params);
+            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+        } catch (Exception e) {
+
+        }
         return Optional.empty();
     }
 
