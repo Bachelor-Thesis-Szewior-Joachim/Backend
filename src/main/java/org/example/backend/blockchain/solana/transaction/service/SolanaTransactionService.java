@@ -52,7 +52,9 @@ public class SolanaTransactionService {
 
     public String getSignatureStatuses(List<String> signatures) {
         String method = "getSignatureStatuses";
-        Object[] params = new Object[]{signatures};
+        Map<String, Boolean> searchTransactionHistory = new HashMap<>();
+        searchTransactionHistory.put("searchTransactionHistory", true);
+        Object[] params = new Object[]{signatures, searchTransactionHistory};
         HttpEntity<String> request = createRequestBody(method, params);
         return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
     }

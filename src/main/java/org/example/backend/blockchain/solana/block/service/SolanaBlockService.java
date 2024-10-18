@@ -109,10 +109,9 @@ public class SolanaBlockService {
     public Optional<String> getBlocksWithLimit(Long startingBlock, Long amount) {
 
         try {
-            String method = "getBlockCommitment";
-            Long[] array = {startingBlock, amount};
+            String method = "getBlocksWithLimit";
             Object[] params = new Object[]{
-                    array
+                    startingBlock,amount
             };
             HttpEntity<String> request = createRequestBody(method, params);
             return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
@@ -125,7 +124,7 @@ public class SolanaBlockService {
     public Optional<String> getBlockHeight() {
 
         try {
-            String method = "getBlockCommitment";
+            String method = "getBlockHeight";
             Object[] params = new Object[]{
             };
             HttpEntity<String> request = createRequestBody(method, params);

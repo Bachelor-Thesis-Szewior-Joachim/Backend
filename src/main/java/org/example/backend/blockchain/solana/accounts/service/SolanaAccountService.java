@@ -29,9 +29,6 @@ public class SolanaAccountService {
         this.restTemplate = restTemplate;
     }
 
-    private static final String SOLANA_RPC_URL = "https://api.devnet.solana.com";
-
-
     public Optional<String> getAccountInfo(String address) {
 
         try {
@@ -40,8 +37,10 @@ public class SolanaAccountService {
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("jsonrpc", "2.0");
             requestBody.put("id", 1);
-            requestBody.put("method", "getBlockProduction");
-            requestBody.put("params", new Object[]{});  // Use empty array for default params
+            requestBody.put("method", "getAccountInfo");
+            requestBody.put("params", new Object[]{
+                    address
+            });
 
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonRequest = objectMapper.writeValueAsString(requestBody);
@@ -60,7 +59,6 @@ public class SolanaAccountService {
             throw new RuntimeException(e);
         }
 
-        //return Optional.empty();
     }
 
     public Optional<String> getAccountBalance(String address) {
@@ -92,62 +90,4 @@ public class SolanaAccountService {
             throw new RuntimeException(e);
         }
     }
-
-    public Optional<String> getSolanaBiggestAccounts() {
-        try {
-            String url = "https://solana-mainnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
-
-            Map<String, Object> requestBody = new HashMap<>();
-            requestBody.put("jsonrpc", "2.0");
-            requestBody.put("id", 1);
-            requestBody.put("method", "getLargestAccounts");
-            requestBody.put("params", new Object[]{});  // Use empty array for default params
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonRequest = objectMapper.writeValueAsString(requestBody);
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-            HttpEntity<String> entity = new HttpEntity<>(jsonRequest, headers);
-
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-
-            // Print response
-            System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Optional<String> getProgramAccounts(String address) {
-
-        try {
-            String url = "https://solana-mainnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
-
-            Map<String, Object> requestBody = new HashMap<>();
-            requestBody.put("jsonrpc", "2.0");
-            requestBody.put("id", 1);
-            requestBody.put("method", "getProgramAccounts");
-            requestBody.put("params", new Object[]{
-                    address
-            });  // Use empty array for default params
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonRequest = objectMapper.writeValueAsString(requestBody);
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-            HttpEntity<String> entity = new HttpEntity<>(jsonRequest, headers);
-
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-
-            // Print response
-            System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }    }
 }

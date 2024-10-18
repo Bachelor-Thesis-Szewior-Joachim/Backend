@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,25 +20,28 @@ public class SolanaTokenService {
 
 
     public Optional<String> getTokenAccountsByOwner(String address, String option, String pubkey) {
-
         try {
             String url = "https://solana-mainnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
 
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("jsonrpc", "2.0");
             requestBody.put("id", 1);
-            requestBody.put("method", "minimumLedgerSlot");
+            requestBody.put("method", "getTokenAccountsByOwner");
 
-            // Create the inner map for options
-            Map<String, Object> innerMap = new HashMap<>();
-            if(option.equals("mint")) {
-                innerMap.put("mint", pubkey);
-            } else if (option.equals("program")){
-                innerMap.put("program", pubkey);
+            // Create the filter map (either "mint" or "programId")
+            Map<String, String> filter = new HashMap<>();
+            if ("mint".equals(option)) {
+                filter.put("mint", pubkey);
+            } else if ("program".equals(option)) {
+                filter.put("programId", pubkey);
             }
+            Map<String, String> coding = new HashMap<>();
+            coding.put("encoding", "jsonParsed");
 
-            // Add the params with the inner map
-            requestBody.put("params", new Object[]{address, innerMap});
+            // Construct the params array with the address and the filter
+            Object[] params = new Object[]{address, filter, coding};
+
+            requestBody.put("params", params);
 
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonRequest = objectMapper.writeValueAsString(requestBody);
@@ -58,6 +60,8 @@ public class SolanaTokenService {
             throw new RuntimeException(e);
         }
     }
+
+
 
     public Optional<String> getTokenAccountBalance(String address) {
 

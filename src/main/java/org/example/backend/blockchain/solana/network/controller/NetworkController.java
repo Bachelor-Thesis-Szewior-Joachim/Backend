@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -36,13 +35,6 @@ public class NetworkController {
         Optional<String> epochDtoOptional = networkService.getCurrentEpochInfo();
 
         return epochDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/feeForMessage")
-    public ResponseEntity<String> getFeeForMessage(@RequestParam String message) {
-        Optional<String> feeMessageOptional = networkService.getFeeForMessage(message);
-
-        return feeMessageOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/genesisHash")

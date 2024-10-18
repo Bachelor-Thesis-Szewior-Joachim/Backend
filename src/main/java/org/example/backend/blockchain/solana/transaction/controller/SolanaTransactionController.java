@@ -27,7 +27,7 @@ public class SolanaTransactionController {
         return solanaTransactionDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/signatures/{signatures}")
+    @GetMapping("/signatures")
     public ResponseEntity<String> getSignatureStatuses(@RequestParam List<String> signatures) {
         Optional<String> solanaTransactionServiceSignatureStatusesOptional = Optional.ofNullable(solanaTransactionService.getSignatureStatuses(signatures));
 

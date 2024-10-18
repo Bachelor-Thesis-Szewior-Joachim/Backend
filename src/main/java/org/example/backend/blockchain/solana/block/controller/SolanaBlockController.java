@@ -22,7 +22,6 @@ public class SolanaBlockController {
     }
 
     //Returns recent block production information from the current or previous epoch.
-    //@ToDo
     @GetMapping("/blockProduction")
     public ResponseEntity<?> getBlockProduction() {
         Optional<String> solanaBlockDtoOptional = solanaBlockService.getBlockProduction();
@@ -55,7 +54,7 @@ public class SolanaBlockController {
     }
 
     //Returns a list of confirmed blocks starting at the given slot
-    @GetMapping("/getBlocksWithLimit/")
+    @GetMapping("/getBlocksWithLimit")
     public ResponseEntity<String> getBlocksWithLimit(@RequestParam Long startingBlock,
                                                                    @RequestParam Long amount) {
         Optional<String> solanaBlockDtoOptional = solanaBlockService.getBlocksWithLimit(startingBlock, amount);
@@ -64,7 +63,7 @@ public class SolanaBlockController {
     }
 
     //Returns the current block height of the node
-    @GetMapping("/getBlockHeight/")
+    @GetMapping("/getBlockHeight")
     public ResponseEntity<String> getBlockHeight() {
         Optional<String> solanaBlockDtoOptional = solanaBlockService.getBlockHeight();
         return solanaBlockDtoOptional.map(ResponseEntity::ok)

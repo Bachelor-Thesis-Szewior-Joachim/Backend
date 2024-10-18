@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -58,39 +59,8 @@ public class NetworkService {
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("jsonrpc", "2.0");
             requestBody.put("id", 1);
-            requestBody.put("method", "getVersion");
+            requestBody.put("method", "getEpochInfo");
             requestBody.put("params", new Object[]{});  // Use empty array for default params
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonRequest = objectMapper.writeValueAsString(requestBody);
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-            HttpEntity<String> entity = new HttpEntity<>(jsonRequest, headers);
-
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-
-            // Print response
-            System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Optional<String> getFeeForMessage(String message) {
-
-        try {
-            String url = "https://solana-mainnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
-
-            Map<String, Object> requestBody = new HashMap<>();
-            requestBody.put("jsonrpc", "2.0");
-            requestBody.put("id", 1);
-            requestBody.put("method", "getFeeForMessage");
-            requestBody.put("params", new Object[]{
-                    message
-            });  // Use empty array for default params
 
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonRequest = objectMapper.writeValueAsString(requestBody);

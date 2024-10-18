@@ -30,28 +30,10 @@ public class SolanaAccountController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    //Returns the 20 largest accounts, by lamport balance (results may be cached up to two hours).
-    @GetMapping("/getLargestAccounts")
-    public ResponseEntity<String> getSolanaBiggestAccounts() {
-        Optional<String> optionalBalance = solanaAccountService.getSolanaBiggestAccounts();
-
-        return optionalBalance.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     // Endpoint to fetch account info
     @GetMapping("/{address}")
     public ResponseEntity<String> getSolanaAccount(@PathVariable String address) {
         Optional<String> solanaAccountDto = solanaAccountService.getAccountInfo(address);
-
-        return solanaAccountDto.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    // Returns all accounts owned by the provided program Pubkey.
-    @GetMapping("/{address}")
-    public ResponseEntity<String> getProgramAccounts(@PathVariable String address) {
-        Optional<String> solanaAccountDto = solanaAccountService.getProgramAccounts(address);
 
         return solanaAccountDto.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
