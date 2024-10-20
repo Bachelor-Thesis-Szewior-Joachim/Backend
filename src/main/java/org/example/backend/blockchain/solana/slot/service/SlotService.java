@@ -1,6 +1,7 @@
 package org.example.backend.blockchain.solana.slot.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.backend.blockchain.solana.block.mapper.SolanaSimpleJsonMapper;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -42,7 +43,7 @@ public class SlotService {
 
             // Print response
             System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
+            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToValue(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

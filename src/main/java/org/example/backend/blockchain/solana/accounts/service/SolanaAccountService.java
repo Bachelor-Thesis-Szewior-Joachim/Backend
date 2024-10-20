@@ -1,7 +1,9 @@
 package org.example.backend.blockchain.solana.accounts.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import  com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.backend.blockchain.solana.accounts.entity.SolanaAccount;
 import org.example.backend.blockchain.solana.accounts.entity.SolanaAccountDto;
+import org.example.backend.blockchain.solana.accounts.mapper.SolanaAccountMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,7 +31,7 @@ public class SolanaAccountService {
         this.restTemplate = restTemplate;
     }
 
-    public Optional<String> getAccountInfo(String address) {
+    public Optional<SolanaAccountDto> getAccountInfo(String address) {
 
         try {
             String url = "https://solana-mainnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
@@ -52,9 +54,10 @@ public class SolanaAccountService {
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
+            SolanaAccount account = SolanaAccountMapper.mapToSolanaAccount(response.getBody());
             // Print response
             System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
+            return Optional.of(SolanaAccountMapper.mapAccountToAccountDto(account));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

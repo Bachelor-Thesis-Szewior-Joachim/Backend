@@ -16,4 +16,5 @@ public class Instruction {
     private String programIdIndex;
     private List<String> accounts;
     private String data;
+    private Integer stackHeight;
 }

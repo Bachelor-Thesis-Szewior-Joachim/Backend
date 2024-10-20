@@ -1,7 +1,9 @@
 package org.example.backend.blockchain.solana.block.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.backend.blockchain.solana.block.entity.SolanaBlockDto;
+import org.example.backend.blockchain.solana.block.mapper.SolanaSimpleJsonMapper;
+import org.example.backend.blockchain.solana.block.mapper.SolanaCommitmentMapper;
+import org.example.backend.blockchain.solana.block.mapper.SolanaValueMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -59,7 +60,7 @@ public class SolanaBlockService {
         return Optional.empty();
     }
 
-    public Optional<String> getBlockProduction() {
+    public Optional<Map<String, Object>> getBlockProduction() {
         try {
             String method = "getBlockProduction";
 
@@ -67,7 +68,11 @@ public class SolanaBlockService {
 
             };
             HttpEntity<String> request = createRequestBody(method, params);
-            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+            Optional<String> optionalString =  Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+            if (optionalString.isPresent()) {
+                Map<String, Object> blockProductionResponse = SolanaValueMapper.mapJsonToValue(optionalString.get());
+                return Optional.ofNullable(blockProductionResponse);
+            }
         } catch (Exception e) {
 
         }
@@ -83,14 +88,16 @@ public class SolanaBlockService {
                 blockNumber
             };
             HttpEntity<String> request = createRequestBody(method, params);
-            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+            String jsonResponse = restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+            String blockTime = SolanaSimpleJsonMapper.mapJsonToValue(jsonResponse);
+            return Optional.ofNullable(blockTime);
         } catch (Exception e) {
 
         }
         return Optional.empty();
     }
 
-    public Optional<String> getBlockCommitment(long blockNumber) {
+    public Optional<Map<String, String>> getBlockCommitment(long blockNumber) {
 
         try {
             String method = "getBlockCommitment";
@@ -99,7 +106,9 @@ public class SolanaBlockService {
                     blockNumber
             };
             HttpEntity<String> request = createRequestBody(method, params);
-            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+            String jsonResponse = restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+            Map<String, String> commitmentMap = SolanaCommitmentMapper.mapJsonToValue(jsonResponse);
+            return Optional.ofNullable(commitmentMap);
         } catch (Exception e) {
 
         }
@@ -114,7 +123,9 @@ public class SolanaBlockService {
                     startingBlock,amount
             };
             HttpEntity<String> request = createRequestBody(method, params);
-            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+            String jsonResponse = restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+            String blocksWithLimit = SolanaSimpleJsonMapper.mapJsonToValue(jsonResponse);
+            return Optional.ofNullable(blocksWithLimit);
         } catch (Exception e) {
 
         }
@@ -128,9 +139,10 @@ public class SolanaBlockService {
             Object[] params = new Object[]{
             };
             HttpEntity<String> request = createRequestBody(method, params);
-            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
-        } catch (Exception e) {
-
+            String jsonResponse = restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+            String blockHeight = SolanaSimpleJsonMapper.mapJsonToValue(jsonResponse);
+            return Optional.ofNullable(blockHeight);        }
+        catch (Exception e) {
         }
         return Optional.empty();
     }

@@ -24,15 +24,15 @@ public class NetworkController {
     }
 
     @GetMapping("/supply")
-    public ResponseEntity<String> getSupply() {
-        Optional<String> supplyDtoOptional = networkService.getSupply();
+    public ResponseEntity<SupplyDto> getSupply() {
+        Optional<SupplyDto> supplyDtoOptional = networkService.getSupply();
 
         return supplyDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/currentEpoch")
-    public ResponseEntity<String> getCurrentEpochInfo() {
-        Optional<String> epochDtoOptional = networkService.getCurrentEpochInfo();
+    public ResponseEntity<EpochDto> getCurrentEpochInfo() {
+        Optional<EpochDto> epochDtoOptional = networkService.getCurrentEpochInfo();
 
         return epochDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }

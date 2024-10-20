@@ -16,8 +16,8 @@ public class SolanaAccountDto {
     private String coding;
     private String state;
     private boolean executable;
-    private Long rentEpoch;
-    private Long size;
+    private String rentEpoch;
+    private Long space;
 
 
 }

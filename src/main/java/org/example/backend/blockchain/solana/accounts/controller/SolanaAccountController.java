@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -32,8 +31,8 @@ public class SolanaAccountController {
 
     // Endpoint to fetch account info
     @GetMapping("/{address}")
-    public ResponseEntity<String> getSolanaAccount(@PathVariable String address) {
-        Optional<String> solanaAccountDto = solanaAccountService.getAccountInfo(address);
+    public ResponseEntity<SolanaAccountDto> getSolanaAccount(@PathVariable String address) {
+        Optional<SolanaAccountDto> solanaAccountDto = solanaAccountService.getAccountInfo(address);
 
         return solanaAccountDto.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

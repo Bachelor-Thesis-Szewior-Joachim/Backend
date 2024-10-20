@@ -1,8 +1,13 @@
 package org.example.backend.blockchain.solana.accounts.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.solana.accounts.entity.SolanaAccount;
 import org.example.backend.blockchain.solana.accounts.entity.SolanaAccountDto;
+
+import java.io.IOException;
 
 public class SolanaAccountMapper {
     public static SolanaAccount mapAccountDtoToAccount(SolanaAccountDto accountDto) {
@@ -14,7 +19,7 @@ public class SolanaAccountMapper {
                 .coding(accountDto.getCoding())
                 .executable(accountDto.isExecutable())
                 .rentEpoch(accountDto.getRentEpoch())
-                .size(accountDto.getSize())
+                .space(accountDto.getSpace())
                 .build();
     }
 
@@ -27,33 +32,35 @@ public class SolanaAccountMapper {
                 .coding(account.getCoding())
                 .executable(account.isExecutable())
                 .rentEpoch(account.getRentEpoch())
-                .size(account.getSize())
+                .space(account.getSpace())
                 .build();
 
     }
 
-    public static SolanaAccount mapToSolanaAccount(JsonNode accountInfoNode, Long slot) {
-        SolanaAccount account = new SolanaAccount();
+    public static SolanaAccount mapToSolanaAccount(String jsonResponse) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(jsonResponse);
+            JsonNode resultNode = rootNode.path("result");
+            JsonNode contextNode = resultNode.path("context");
+            JsonNode valueNode = resultNode.path("value");
 
-        // Set the balance (lamports), owner, and other fields
-        account.setLamports(accountInfoNode.get("lamports").asLong());
-        account.setOwner(accountInfoNode.get("owner").asText());
-        account.setData(accountInfoNode.get("data").get(0).asText()); // First element of "data" array (Base64)
-        account.setExecutable(accountInfoNode.get("executable").asBoolean());
-        account.setRentEpoch(accountInfoNode.get("rentEpoch").asLong());
-        account.setSlot(slot); // Slot passed separately
-        account.setSize((long) accountInfoNode.get("data").get(0).asText().length()); // Size based on data length
+            SolanaAccount account = new SolanaAccount();
+            account.setLamports(valueNode.path("lamports").asLong());
+            account.setSlot(contextNode.path("slot").asLong());
+            account.setOwner(valueNode.path("owner").asText());
+            account.setData(valueNode.path("data").asText());
+            account.setExecutable(valueNode.path("executable").asBoolean());
+            account.setRentEpoch(valueNode.path("rentEpoch").asText());
+            account.setSpace(valueNode.path("space").asLong());
 
-        return account;
-    }
+            // Assuming "state" and "coding" are derived from other values or not directly in the JSON
+            account.setState(null); // Placeholder for actual logic if needed
+            account.setCoding(null); // Placeholder for actual logic if needed
 
-    // Mapping from SolanaAccount to SolanaAccountDto
-    public static SolanaAccountDto mapToDto(SolanaAccount solanaAccount) {
-        return SolanaAccountDto.builder()
-        .lamports(solanaAccount.getLamports())
-        .owner(solanaAccount.getOwner())
-        .rentEpoch(solanaAccount.getRentEpoch())
-        .executable(solanaAccount.isExecutable())
-                .build();
+            return account;
+        } catch (IOException e) {
+            throw new RuntimeException("Error mapping JSON to SolanaAccount", e);
+        }
     }
 }

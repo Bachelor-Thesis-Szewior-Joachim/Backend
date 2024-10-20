@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.backend.blockchain.solana.transaction.entity.transaction.message.addressTableLookups.AddressTableLookups;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.message.header.Header;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.message.instruction.Instruction;
 
@@ -20,5 +19,5 @@ public class SolanaTransactionMessage {
     private Header header;
     private String recentBlockHash;
     private List<Instruction> instructions;
-    private AddressTableLookups addressTableLookups;
+    private String blockHash;
 }

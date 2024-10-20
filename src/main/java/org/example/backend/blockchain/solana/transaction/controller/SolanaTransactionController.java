@@ -21,8 +21,8 @@ public class SolanaTransactionController {
     }
 
     @GetMapping("/{signature}")
-    public ResponseEntity<String> getTransactionInfo(@PathVariable String signature) {
-        Optional<String> solanaTransactionDtoOptional = Optional.ofNullable(solanaTransactionService.getTransaction(signature));
+    public ResponseEntity<SolanaTransactionDto> getTransactionInfo(@PathVariable String signature) {
+        Optional<SolanaTransactionDto> solanaTransactionDtoOptional = Optional.ofNullable(solanaTransactionService.getTransaction(signature));
 
         return solanaTransactionDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }

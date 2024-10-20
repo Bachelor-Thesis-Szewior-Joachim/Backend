@@ -17,6 +17,6 @@ public class SolanaAccount {
     private String state;
     private String coding;
     private boolean executable;
-    private Long rentEpoch;
-    private Long size;
+    private String rentEpoch;
+    private Long space;
 }

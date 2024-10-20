@@ -15,6 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 public class SolanaTransaction {
 
+    private String blockTime;
+    private String slot;
     private List<String> signatures;
     private SolanaTransactionMessage message;
 

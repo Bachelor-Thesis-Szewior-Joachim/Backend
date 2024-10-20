@@ -23,8 +23,8 @@ public class SolanaBlockController {
 
     //Returns recent block production information from the current or previous epoch.
     @GetMapping("/blockProduction")
-    public ResponseEntity<?> getBlockProduction() {
-        Optional<String> solanaBlockDtoOptional = solanaBlockService.getBlockProduction();
+    public ResponseEntity<Map<String, Object>> getBlockProduction() {
+        Optional<Map<String, Object>> solanaBlockDtoOptional = solanaBlockService.getBlockProduction();
             return solanaBlockDtoOptional.map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
     }
@@ -47,8 +47,8 @@ public class SolanaBlockController {
 
     //Returns the estimated production time of a block
     @GetMapping("/commitment/{blockNumber}")
-    public ResponseEntity<String> getBlockCommitment(@PathVariable long blockNumber) {
-        Optional<String> solanaBlockDtoOptional = solanaBlockService.getBlockCommitment(blockNumber);
+    public ResponseEntity<Map<String, String>> getBlockCommitment(@PathVariable long blockNumber) {
+        Optional<Map<String, String>> solanaBlockDtoOptional = solanaBlockService.getBlockCommitment(blockNumber);
         return solanaBlockDtoOptional.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

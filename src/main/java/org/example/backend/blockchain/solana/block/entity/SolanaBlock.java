@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.backend.blockchain.solana.block.entity.rewards.Rewards;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransaction;
 
 import java.util.List;
@@ -14,18 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 public class SolanaBlock {
 
-    private int transactionCount;
-    private String blockNumber;
-    private String slot;
-    private String age;
-    private String feeRecipient;
-    private String gasUsed;
-    private String gasLimit;
-    private String baseFee;
-    private String reward;
-    private String burntFees;
-    private List<SolanaTransaction> transactions;
-    public SolanaBlock() {
-
-    }
+   private String blockHeight;
+   private String blockTime;
+   private String blockHash;
+   private String parentSlot;
+   private String previousHash;
+   private Rewards rewards;
+   private List<SolanaTransaction> transactions;
 }

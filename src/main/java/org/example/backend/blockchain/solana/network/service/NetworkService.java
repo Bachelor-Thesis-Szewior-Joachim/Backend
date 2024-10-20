@@ -1,8 +1,11 @@
 package org.example.backend.blockchain.solana.network.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.backend.blockchain.solana.block.mapper.SolanaSimpleJsonMapper;
 import org.example.backend.blockchain.solana.network.entity.epoch.EpochDto;
 import org.example.backend.blockchain.solana.network.entity.supply.SupplyDto;
+import org.example.backend.blockchain.solana.network.mapper.SolanaEpochMapper;
+import org.example.backend.blockchain.solana.network.mapper.SolanaSupplyMapper;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,7 +26,7 @@ public class NetworkService {
         this.restTemplate = restTemplate;
     }
 
-    public Optional<String> getSupply() {
+    public Optional<SupplyDto> getSupply() {
         try {
             String url = "https://solana-mainnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
 
@@ -42,16 +45,15 @@ public class NetworkService {
             HttpEntity<String> entity = new HttpEntity<>(jsonRequest, headers);
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            SupplyDto resultSupplyDto = SolanaSupplyMapper.mapFromJsonToSupplyDto(response.getBody());
 
-            // Print response
-            System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
+            return Optional.ofNullable(resultSupplyDto);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Optional<String> getCurrentEpochInfo() {
+    public Optional<EpochDto> getCurrentEpochInfo() {
 
         try {
             String url = "https://solana-mainnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
@@ -72,9 +74,7 @@ public class NetworkService {
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-            // Print response
-            System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
+            return Optional.ofNullable(SolanaEpochMapper.mapJsonToEpochDto(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -90,7 +90,7 @@ public class NetworkService {
             requestBody.put("id", 1);
             requestBody.put("method", "getGenesisHash");
             requestBody.put("params", new Object[]{
-            });  // Use empty array for default params
+            });
 
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonRequest = objectMapper.writeValueAsString(requestBody);
@@ -104,7 +104,7 @@ public class NetworkService {
 
             // Print response
             System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
+            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToValue(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -134,7 +134,7 @@ public class NetworkService {
 
             // Print response
             System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
+            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToValue(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -163,7 +163,7 @@ public class NetworkService {
 
             // Print response
             System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
+            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToValue(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

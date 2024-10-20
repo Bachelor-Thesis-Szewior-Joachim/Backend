@@ -1,6 +1,12 @@
 package org.example.backend.blockchain.solana.token.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.backend.blockchain.solana.token.entity.splToken.SplToken;
+import org.example.backend.blockchain.solana.token.entity.splToken.SplTokenDto;
+import org.example.backend.blockchain.solana.token.entity.token.SolanaTokenAccount;
+import org.example.backend.blockchain.solana.token.entity.token.SolanaTokenAccountDto;
+import org.example.backend.blockchain.solana.token.mapper.SolanaTokenMapper;
+import org.example.backend.blockchain.solana.token.mapper.SplTokenMapper;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +25,7 @@ public class SolanaTokenService {
     }
 
 
-    public Optional<String> getTokenAccountsByOwner(String address, String option, String pubkey) {
+    public Optional<SolanaTokenAccountDto> getTokenAccountsByOwner(String address, String option, String pubkey) {
         try {
             String url = "https://solana-mainnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
 
@@ -52,10 +58,10 @@ public class SolanaTokenService {
             HttpEntity<String> entity = new HttpEntity<>(jsonRequest, headers);
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            SolanaTokenAccount solanaTokenAccount = SolanaTokenMapper.mapJsonToSolanaTokenAccount(response.getBody());
+            return Optional.ofNullable(SolanaTokenMapper.toDto(solanaTokenAccount));
+//            return Optional.ofNullable(response.getBody());
 
-            // Print response
-            System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +69,7 @@ public class SolanaTokenService {
 
 
 
-    public Optional<String> getTokenAccountBalance(String address) {
+    public Optional<SplTokenDto> getTokenAccountBalance(String address) {
 
         try {
             String url = "https://solana-mainnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
@@ -84,14 +90,14 @@ public class SolanaTokenService {
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-            // Print response
-            System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
+            SplToken splToken = SplTokenMapper.mapJsonToSplToken(response.getBody());
+
+            return Optional.ofNullable(SplTokenMapper.toDto(splToken));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }    }
 
-    public Optional<String> getTokenSupply(String address) {
+    public Optional<SplTokenDto> getTokenSupply(String address) {
 
         try {
             String url = "https://solana-mainnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
@@ -112,9 +118,9 @@ public class SolanaTokenService {
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-            // Print response
-            System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
+            SplToken splToken = SplTokenMapper.mapJsonToSplToken(response.getBody());
+
+            return Optional.ofNullable(SplTokenMapper.toDto(splToken));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }    }

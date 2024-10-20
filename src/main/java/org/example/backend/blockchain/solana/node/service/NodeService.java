@@ -2,12 +2,16 @@ package org.example.backend.blockchain.solana.node.service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.backend.blockchain.solana.node.entity.SolanaClusterNode;
+import org.example.backend.blockchain.solana.node.entity.SolanaClusterNodeDto;
+import org.example.backend.blockchain.solana.node.mapper.SolanaNodeMapper;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,7 +25,7 @@ public class NodeService {
     }
 
 
-    public Optional<String> getClusterNodes() {
+    public Optional<List<SolanaClusterNodeDto>> getClusterNodes() {
 
         try {
             String url = "https://solana-mainnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
@@ -42,9 +46,7 @@ public class NodeService {
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-            // Print response
-            System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
+            return Optional.ofNullable(SolanaNodeMapper.mapJsonResponseToSolanaClusterNodeDto(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }    }

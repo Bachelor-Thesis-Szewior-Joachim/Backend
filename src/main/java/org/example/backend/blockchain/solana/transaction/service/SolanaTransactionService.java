@@ -3,13 +3,15 @@ package org.example.backend.blockchain.solana.transaction.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransactionDto;
+import org.example.backend.blockchain.solana.transaction.mapper.JsonSolanaTransactionMapper;
+import org.example.backend.blockchain.solana.transaction.mapper.SolanaTransactionMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
+import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransaction;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,11 +45,13 @@ public class SolanaTransactionService {
         }
     }
 
-    public String getTransaction(String transactionSignature) {
+    public SolanaTransactionDto getTransaction(String transactionSignature) {
         String method = "getTransaction";
         Object[] params = new Object[]{transactionSignature};
         HttpEntity<String> request = createRequestBody(method, params);
-        return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+        String response =  restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+        SolanaTransaction solanaTransaction= JsonSolanaTransactionMapper.mapJsonToSolanaTransaction(response);
+        return SolanaTransactionMapper.toDto(solanaTransaction);
     }
 
     public String getSignatureStatuses(List<String> signatures) {
