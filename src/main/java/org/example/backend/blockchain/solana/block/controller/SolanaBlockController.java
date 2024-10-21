@@ -31,8 +31,8 @@ public class SolanaBlockController {
 
     //Returns the block information
     @GetMapping("/{blockNumber}")
-    public ResponseEntity<String> getBlockInfo(@PathVariable long blockNumber) {
-        Optional<String> solanaBlockDtoOptional = solanaBlockService.getBlock(blockNumber);
+    public ResponseEntity<SolanaBlockDto> getBlockInfo(@PathVariable long blockNumber) {
+        Optional<SolanaBlockDto> solanaBlockDtoOptional = solanaBlockService.getBlock(blockNumber);
         return solanaBlockDtoOptional.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

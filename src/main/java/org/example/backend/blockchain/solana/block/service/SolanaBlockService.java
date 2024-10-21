@@ -1,6 +1,9 @@
 package org.example.backend.blockchain.solana.block.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.backend.blockchain.solana.block.entity.SolanaBlock;
+import org.example.backend.blockchain.solana.block.entity.SolanaBlockDto;
+import org.example.backend.blockchain.solana.block.mapper.SolanaBlockMapper;
 import org.example.backend.blockchain.solana.block.mapper.SolanaSimpleJsonMapper;
 import org.example.backend.blockchain.solana.block.mapper.SolanaCommitmentMapper;
 import org.example.backend.blockchain.solana.block.mapper.SolanaValueMapper;
@@ -38,7 +41,7 @@ public class SolanaBlockService {
         return new HttpEntity<>(new ObjectMapper().writeValueAsString(body), headers);
     }
 
-    public Optional<String> getBlock(long blockNumber) {
+    public Optional<SolanaBlockDto> getBlock(long blockNumber) {
 
         try{
             String method = "getBlock";
@@ -53,7 +56,9 @@ public class SolanaBlockService {
             };
 
             HttpEntity<String> request = createRequestBody(method, params);
-            return Optional.ofNullable(restTemplate.postForObject(SOLANA_RPC_URL, request, String.class));
+            String jsonResponse =  restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+            SolanaBlock solanaBlock = SolanaBlockMapper.mapJsonToSolanaBlock(jsonResponse);
+            return Optional.ofNullable(SolanaBlockMapper.toDto(solanaBlock));
         } catch (Exception e) {
             System.out.println(e);
         }

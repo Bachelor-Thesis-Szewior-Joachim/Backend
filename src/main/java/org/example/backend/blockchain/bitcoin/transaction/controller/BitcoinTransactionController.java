@@ -20,6 +20,7 @@ public class BitcoinTransactionController {
         this.bitcoinTransactionService = bitcoinTransactionService;
     }
 
+    //@Todo: implement
     @GetMapping("/data/{hash}")
     public ResponseEntity<BitcoinTransactionDto> getTransaction(@PathVariable String hash) {
 
@@ -33,8 +34,9 @@ public class BitcoinTransactionController {
         }
     }
 
+    //@Todo: implement
     // Endpoint to get transaction input details
-    @GetMapping("/transaction/{txHash}/inputs")
+    @GetMapping("/{txHash}/inputs")
     public ResponseEntity<List<BitcoinTransactionInputDto>> getTransactionInput(@PathVariable String txHash) {
         List<BitcoinTransactionInputDto> inputDtoList = bitcoinTransactionService.getTransactionInput(txHash);
         if (inputDtoList != null) {
@@ -44,8 +46,9 @@ public class BitcoinTransactionController {
         }
     }
 
+    //@Todo: implement
     // Endpoint to get transaction output details
-    @GetMapping("/transaction/{txHash}/outputs")
+    @GetMapping("/{txHash}/outputs")
     public ResponseEntity<List<BitcoinTransactionOutputDto>> getTransactionOutput(@PathVariable String txHash) {
         List<BitcoinTransactionOutputDto> outputDto = bitcoinTransactionService.getTransactionOutput(txHash);
         if (outputDto != null) {
@@ -55,8 +58,9 @@ public class BitcoinTransactionController {
         }
     }
 
+    //@Todo: implement
     // Endpoint to get transaction confidence
-    @GetMapping("/transaction/{txHash}/confidence")
+    @GetMapping("/{txHash}/confidence")
     public ResponseEntity<Float> getTransactionConfidence(@PathVariable String txHash) {
         return ResponseEntity.ok(bitcoinTransactionService.getTransactionConfidence(txHash));
     }

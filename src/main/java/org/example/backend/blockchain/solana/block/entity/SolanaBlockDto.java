@@ -22,5 +22,5 @@ public class SolanaBlockDto {
     private String previousHash;
     private RewardsDto rewardsDto;
 
-    private List<SolanaTransactionDto> transactions;
+    private List<String> transactions;
 }

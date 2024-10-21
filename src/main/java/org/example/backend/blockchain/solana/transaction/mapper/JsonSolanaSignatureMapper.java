@@ -13,10 +13,11 @@ public class JsonSolanaSignatureMapper {
     public static Map<String, String> mapJsonToSolanaSignature(String jsonResponse) {
         try {
             JsonNode rootNode = objectMapper.readTree(jsonResponse);
-            JsonNode valueNode = rootNode.path("result").path("value");
+            JsonNode valueNode = rootNode.path("result").path("value").get(0); // Access the first element in the array
+
             String confirmationStatus = valueNode.path("confirmationStatus").asText();
-            String slot = valueNode.get("slot").asText();
-            String status = valueNode.get("status").asText();
+            String slot = valueNode.path("slot").asText();
+            String status = valueNode.path("status").path("Ok").asText(); // Adjusted to extract the "Ok" field if it's a nested object
 
             Map<String, String> map = new HashMap<>();
             map.put("confirmationStatus", confirmationStatus);

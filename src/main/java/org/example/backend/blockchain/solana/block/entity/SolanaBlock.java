@@ -21,5 +21,5 @@ public class SolanaBlock {
    private String parentSlot;
    private String previousHash;
    private Rewards rewards;
-   private List<SolanaTransaction> transactions;
+   private List<String> transactions;
 }

@@ -3,6 +3,7 @@ package org.example.backend.blockchain.solana.transaction.controller;
 
 import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransaction;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransactionDto;
+import org.example.backend.blockchain.solana.transaction.entity.transaction.signatureForAddress.SignatureForAddressDto;
 import org.example.backend.blockchain.solana.transaction.service.SolanaTransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,8 +46,8 @@ public class SolanaTransactionController {
     //Returns signatures for confirmed transactions that include the given address in their accountKeys list.
     // Returns signatures backwards in time from the provided signature or most recent confirmed block.
     @GetMapping("/signaturesForAddress/{signature}")
-    public ResponseEntity<String> getSignaturesForAddress(@PathVariable String signature) {
-        Optional<String> solanaTransactionDtoOptional = Optional.ofNullable(solanaTransactionService.getSignaturesForAddress(signature));
+    public ResponseEntity<List<SignatureForAddressDto>> getSignaturesForAddress(@PathVariable String signature) {
+        Optional<List<SignatureForAddressDto>> solanaTransactionDtoOptional = solanaTransactionService.getSignaturesForAddress(signature);
 
         return solanaTransactionDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }

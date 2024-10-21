@@ -3,6 +3,8 @@ package org.example.backend.blockchain.solana.transaction.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransactionDto;
+import org.example.backend.blockchain.solana.transaction.entity.transaction.signatureForAddress.SignatureForAddressDto;
+import org.example.backend.blockchain.solana.transaction.mapper.JsonSignatureForAddressMapper;
 import org.example.backend.blockchain.solana.transaction.mapper.JsonSolanaSignatureMapper;
 import org.example.backend.blockchain.solana.transaction.mapper.JsonSolanaTransactionMapper;
 import org.example.backend.blockchain.solana.transaction.mapper.SolanaTransactionMapper;
@@ -66,10 +68,13 @@ public class SolanaTransactionService {
         return Optional.ofNullable(mappedData);
     }
 
-    public String getSignaturesForAddress(String signature) {
+    public Optional<List<SignatureForAddressDto>> getSignaturesForAddress(String signature) {
         String method = "getSignaturesForAddress";
         Object[] params = new Object[]{signature};
         HttpEntity<String> request = createRequestBody(method, params);
-        return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+        String jsonResponse = restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+        List<SignatureForAddressDto> signatures = JsonSignatureForAddressMapper.mapJsonToSignaturesForAddress(jsonResponse);
+
+        return Optional.ofNullable(signatures);
     }
 }
