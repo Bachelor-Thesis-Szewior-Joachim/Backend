@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransaction;
-import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransactionDto;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.message.SolanaTransactionMessage;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.message.header.Header;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.message.instruction.Instruction;
@@ -18,29 +17,28 @@ public class JsonSolanaTransactionMapper {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static SolanaTransaction mapJsonToSolanaTransaction(String jsonResponse) {
-        // Read the JSON response as a tree
         JsonNode rootNode = null;
+        JsonNode resultNode = null;
         try {
             rootNode = objectMapper.readTree(jsonResponse);
+            resultNode = rootNode.path("result");
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
         // Extract blockTime and slot
-        String blockTime = rootNode.path("blockTime").asText();
-        String slot = rootNode.path("slot").asText();
+        String blockTime = resultNode.path("blockTime").asText();
+        String slot = resultNode.path("slot").asText();
 
         // Extract signatures
         List<String> signatures = new ArrayList<>();
-        JsonNode signaturesNode = rootNode.path("transaction").path("signatures");
+        JsonNode signaturesNode = resultNode.path("transaction").path("signatures");
         for (JsonNode signatureNode : signaturesNode) {
             signatures.add(signatureNode.asText());
         }
 
-        // Extract message
-        JsonNode messageNode = rootNode.path("transaction").path("message");
+        JsonNode messageNode = resultNode.path("transaction").path("message");
 
-        // Create SolanaTransactionMessage
         SolanaTransactionMessage message = SolanaTransactionMessage.builder()
                 .accountKeys(getAccountKeys(messageNode))
                 .header(getHeader(messageNode.path("header")))
@@ -49,7 +47,6 @@ public class JsonSolanaTransactionMapper {
                 .blockHash(messageNode.path("blockHash").asText())
                 .build();
 
-        // Create SolanaTransaction
         return SolanaTransaction.builder()
                 .blockTime(blockTime)
                 .slot(slot)

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -22,14 +23,21 @@ public class SolanaTransactionController {
 
     @GetMapping("/{signature}")
     public ResponseEntity<SolanaTransactionDto> getTransactionInfo(@PathVariable String signature) {
-        Optional<SolanaTransactionDto> solanaTransactionDtoOptional = Optional.ofNullable(solanaTransactionService.getTransaction(signature));
+        Optional<SolanaTransactionDto> solanaTransactionDtoOptional = solanaTransactionService.getTransaction(signature);
 
         return solanaTransactionDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
+//    @GetMapping("/{signature}")
+//    public ResponseEntity<String> getTransactionInfo(@PathVariable String signature) {
+//        Optional<String> solanaTransactionDtoOptional = Optional.ofNullable(solanaTransactionService.getTransaction(signature));
+//
+//        return solanaTransactionDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+//    }
+
     @GetMapping("/signatures")
-    public ResponseEntity<String> getSignatureStatuses(@RequestParam List<String> signatures) {
-        Optional<String> solanaTransactionServiceSignatureStatusesOptional = Optional.ofNullable(solanaTransactionService.getSignatureStatuses(signatures));
+    public ResponseEntity<Map<String, String>> getSignatureStatuses(@RequestParam List<String> signatures) {
+        Optional<Map<String, String>> solanaTransactionServiceSignatureStatusesOptional = solanaTransactionService.getSignatureStatuses(signatures);
 
         return solanaTransactionServiceSignatureStatusesOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }

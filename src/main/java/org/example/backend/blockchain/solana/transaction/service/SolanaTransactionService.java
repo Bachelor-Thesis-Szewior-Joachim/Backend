@@ -3,6 +3,7 @@ package org.example.backend.blockchain.solana.transaction.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransactionDto;
+import org.example.backend.blockchain.solana.transaction.mapper.JsonSolanaSignatureMapper;
 import org.example.backend.blockchain.solana.transaction.mapper.JsonSolanaTransactionMapper;
 import org.example.backend.blockchain.solana.transaction.mapper.SolanaTransactionMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,22 +46,24 @@ public class SolanaTransactionService {
         }
     }
 
-    public SolanaTransactionDto getTransaction(String transactionSignature) {
+    public Optional<SolanaTransactionDto> getTransaction(String transactionSignature) {
         String method = "getTransaction";
         Object[] params = new Object[]{transactionSignature};
         HttpEntity<String> request = createRequestBody(method, params);
         String response =  restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
         SolanaTransaction solanaTransaction= JsonSolanaTransactionMapper.mapJsonToSolanaTransaction(response);
-        return SolanaTransactionMapper.toDto(solanaTransaction);
+        return Optional.ofNullable(SolanaTransactionMapper.toDto(solanaTransaction));
     }
 
-    public String getSignatureStatuses(List<String> signatures) {
+    public Optional<Map<String, String>> getSignatureStatuses(List<String> signatures) {
         String method = "getSignatureStatuses";
         Map<String, Boolean> searchTransactionHistory = new HashMap<>();
         searchTransactionHistory.put("searchTransactionHistory", true);
         Object[] params = new Object[]{signatures, searchTransactionHistory};
         HttpEntity<String> request = createRequestBody(method, params);
-        return restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+        String response =  restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
+        Map<String, String> mappedData = JsonSolanaSignatureMapper.mapJsonToSolanaSignature(response);
+        return Optional.ofNullable(mappedData);
     }
 
     public String getSignaturesForAddress(String signature) {

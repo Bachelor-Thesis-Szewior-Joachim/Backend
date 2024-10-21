@@ -19,9 +19,9 @@ public class SolanaBlockMapper {
                 .parentSlot(blockInfo.getParentSlot())
                 .previousHash(blockInfo.getPreviousHash())
                 .rewardsDto(RewardMapper.toDto(blockInfo.getRewards()))
-                .transactions(blockInfo.getTransactions()
-                        .stream().map(JsonSolanaTransactionMapper::mapTrasactionToTransactionDto)
-                        .collect(Collectors.toList()))
+//                .transactions(blockInfo.getTransactions())
+//                        .stream().map(JsonSolanaTransactionMapper::mapTrasactionToTransactionDto)
+//                        .collect(Collectors.toList()))
                 .build();
     }
 
@@ -33,9 +33,9 @@ public class SolanaBlockMapper {
                 .parentSlot(blockInfoDto.getParentSlot())
                 .previousHash(blockInfoDto.getPreviousHash())
                 .rewards(RewardMapper.toEntity(blockInfoDto.getRewardsDto()))
-                .transactions(blockInfoDto.getTransactions()
-                        .stream().map(JsonSolanaTransactionMapper::mapTrasactionDtoToTransaction)
-                        .collect(Collectors.toList()))
+//                .transactions(blockInfoDto.getTransactions()
+//                        .stream().map(JsonSolanaTransactionMapper::mapTrasactionDtoToTransaction)
+//                        .collect(Collectors.toList()))
                 .build();
     }
 
