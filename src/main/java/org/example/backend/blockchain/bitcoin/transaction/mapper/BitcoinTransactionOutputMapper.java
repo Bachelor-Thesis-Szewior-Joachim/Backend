@@ -15,9 +15,7 @@ public class BitcoinTransactionOutputMapper {
                 .script(output.getScript())
                 .addresses(output.getAddresses())
                 .scriptType(output.getScriptType())
-                .spentBy(output.getSpentBy())
                 .dataHex(output.getDataHex())
-                .dataString(output.getDataString())
                 .build();
     }
 
@@ -28,9 +26,7 @@ public class BitcoinTransactionOutputMapper {
         .script(dto.getScript())
         .addresses(dto.getAddresses())
         .scriptType(dto.getScriptType())
-        .spentBy(dto.getSpentBy())
         .dataHex(dto.getDataHex())
-        .dataString(dto.getDataString())
                 .build();
     }
 }

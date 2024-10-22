@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
 //import org.example.backend.blockchain.accounts.entity.Account;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -19,17 +19,27 @@ import java.util.List;
 public class Client {
 
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+    @NotNull
     private String username;
+    @NotNull
     private String password;
-
-    @ElementCollection
-    private List<String> seedPhrase = new LinkedList<>();
-
-//    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-//    private List<Account> accounts = new ArrayList<>();
+    @NotNull
+    private boolean enabled;
 
     public Client() {
 
+    }
+
+    public Client(@NotNull String username, @NotNull String password ) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public Client(@NotNull String username, @NotNull String password, boolean enabled) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
     }
 }

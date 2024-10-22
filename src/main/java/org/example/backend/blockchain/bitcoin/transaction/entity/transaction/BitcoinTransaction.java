@@ -17,26 +17,26 @@ import java.util.List;
 public class BitcoinTransaction {
 
     private String blockHash;
-    private int blockHeight;
-    private int blockIndex;
+    private String blockHeight;
+    private String blockIndex;
     private String hash;
-    private List<List<String>> addresses;
-    private long total;
-    private long fees;
-    private long size;
-    private long vsize;
+    private List<String> addresses;
+    private String total;
+    private String fees;
+    private String size;
+    private String vsize;
     private String preference;
     private String confirmed;
-    private long received;
-    private int ver;
+    private String received;
+    private String ver;
     private boolean doubleSpend;
-    private int vinSz;
-    private int voutSz;
+    private String vinSz;
+    private String voutSz;
     private String dataProtocol;
-    private int confirmations;
+    private String confirmations;
     private float confidence;
-    private List<BitcoinTransactionInput> bitcoinTransactionInputs;
-    private List<BitcoinTransactionOutput> bitcoinTransactionOutputs;
+    private List<BitcoinTransactionInput> inputs;
+    private List<BitcoinTransactionOutput> outputs;
 
     public BitcoinTransaction() {
 

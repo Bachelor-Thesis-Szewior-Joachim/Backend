@@ -28,13 +28,9 @@ public class BitcoinTransactionService {
         String url = "https://api.blockcypher.com/v1/btc/main/txs/" + hash;
 
         try {
-            Optional<BitcoinTransaction> optionalBitcoinTransaction = Optional.ofNullable(
-                    restTemplate.getForObject(url, BitcoinTransaction.class));
-            if (optionalBitcoinTransaction.isPresent()) {
-                return BitcoinTransactionMapper.mapTransactionToTransactionDto(optionalBitcoinTransaction.get());
-            } else {
-                return null;
-            }
+            String jsonResponse = restTemplate.getForObject(url, String.class);
+            BitcoinTransactionDto bitcoinTransactionDto = BitcoinTransactionMapper.jsonMap(jsonResponse);
+            return bitcoinTransactionDto;
         } catch (HttpClientErrorException.NotFound e) {
             return null;
         }
@@ -44,8 +40,8 @@ public class BitcoinTransactionService {
     public List<BitcoinTransactionInputDto> getTransactionInput(String txHash) {
         BitcoinTransactionDto transactionDto = getTransactionByHash(txHash);
 
-        if (transactionDto != null && transactionDto.getBitcoinTransactionInputsDto() != null) {
-            return transactionDto.getBitcoinTransactionInputsDto();
+        if (transactionDto != null && transactionDto.getInputsDto() != null) {
+            return transactionDto.getInputsDto();
         } else {
             return null;
         }
@@ -55,8 +51,8 @@ public class BitcoinTransactionService {
     public List<BitcoinTransactionOutputDto> getTransactionOutput(String txHash) {
         BitcoinTransactionDto transactionDto = getTransactionByHash(txHash);
 
-        if (transactionDto != null && transactionDto.getBitcoinTransactionOutputsDto() != null) {
-            return transactionDto.getBitcoinTransactionOutputsDto();
+        if (transactionDto != null && transactionDto.getOutputsDto() != null) {
+            return transactionDto.getOutputsDto();
         } else {
             return null;
         }

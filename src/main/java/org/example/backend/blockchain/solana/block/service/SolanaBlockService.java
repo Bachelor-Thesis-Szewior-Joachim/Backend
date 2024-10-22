@@ -94,7 +94,7 @@ public class SolanaBlockService {
             };
             HttpEntity<String> request = createRequestBody(method, params);
             String jsonResponse = restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
-            String blockTime = SolanaSimpleJsonMapper.mapJsonToValue(jsonResponse);
+            String blockTime = SolanaSimpleJsonMapper.mapJsonToResult(jsonResponse);
             return Optional.ofNullable(blockTime);
         } catch (Exception e) {
 
@@ -129,7 +129,7 @@ public class SolanaBlockService {
             };
             HttpEntity<String> request = createRequestBody(method, params);
             String jsonResponse = restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
-            String blocksWithLimit = SolanaSimpleJsonMapper.mapJsonToValue(jsonResponse);
+            String blocksWithLimit = SolanaSimpleJsonMapper.mapJsonToResult(jsonResponse);
             return Optional.ofNullable(blocksWithLimit);
         } catch (Exception e) {
 
@@ -145,8 +145,9 @@ public class SolanaBlockService {
             };
             HttpEntity<String> request = createRequestBody(method, params);
             String jsonResponse = restTemplate.postForObject(SOLANA_RPC_URL, request, String.class);
-            String blockHeight = SolanaSimpleJsonMapper.mapJsonToValue(jsonResponse);
-            return Optional.ofNullable(blockHeight);        }
+            String blockHeight = SolanaSimpleJsonMapper.mapJsonToResult(jsonResponse);
+            return Optional.ofNullable(blockHeight);
+        }
         catch (Exception e) {
         }
         return Optional.empty();

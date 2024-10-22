@@ -18,24 +18,28 @@ import java.util.List;
 public class BitcoinTransactionDto {
 
     private String blockHash;
-    private int blockHeight;
-    private int blockIndex;
+    private String blockHeight;
+    private String blockIndex;
     private String hash;
-    private List<List<String>> addresses;
-    private long total;
-    private long fees;
-    private long size;
-    private long vsize;
+    private List<String> addresses;
+    private String total;
+    private String fees;
+    private String size;
+    private String vsize;
     private String preference;
     private String confirmed;
-    private long received;
-    private int ver;
+    private String received;
+    private String ver;
     private boolean doubleSpend;
-    private int vinSz;
-    private int voutSz;
+    private String vinSz;
+    private String voutSz;
     private String dataProtocol;
-    private int confirmations;
+    private String confirmations;
     private float confidence;
-    private List<BitcoinTransactionInputDto> bitcoinTransactionInputsDto;
-    private List<BitcoinTransactionOutputDto> bitcoinTransactionOutputsDto;
+    private List<BitcoinTransactionInputDto> inputsDto;
+    private List<BitcoinTransactionOutputDto> outputsDto;
+
+    public BitcoinTransactionDto() {
+
+    }
 }

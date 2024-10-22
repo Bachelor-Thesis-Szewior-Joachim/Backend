@@ -12,11 +12,13 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class BitcoinTransactionOutputDto {
-    private int value;
+    private String value;
     private String script;
     private List<String> addresses;
     private String scriptType;
-    private String spentBy;
     private String dataHex;
-    private String dataString;
+
+    public BitcoinTransactionOutputDto() {
+
+    }
 }

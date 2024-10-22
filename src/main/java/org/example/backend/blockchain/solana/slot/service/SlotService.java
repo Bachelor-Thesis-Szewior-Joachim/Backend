@@ -43,7 +43,7 @@ public class SlotService {
 
             // Print response
             System.out.println(response.getBody());
-            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToValue(response.getBody()));
+            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToResult(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

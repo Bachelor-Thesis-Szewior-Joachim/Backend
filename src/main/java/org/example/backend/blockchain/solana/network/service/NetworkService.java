@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -104,7 +103,7 @@ public class NetworkService {
 
             // Print response
             System.out.println(response.getBody());
-            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToValue(response.getBody()));
+            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToResult(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -134,7 +133,7 @@ public class NetworkService {
 
             // Print response
             System.out.println(response.getBody());
-            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToValue(response.getBody()));
+            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToResult(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -163,7 +162,7 @@ public class NetworkService {
 
             // Print response
             System.out.println(response.getBody());
-            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToValue(response.getBody()));
+            return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToResult(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

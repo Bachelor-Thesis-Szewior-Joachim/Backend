@@ -4,6 +4,7 @@ import  com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.solana.accounts.entity.SolanaAccount;
 import org.example.backend.blockchain.solana.accounts.entity.SolanaAccountDto;
 import org.example.backend.blockchain.solana.accounts.mapper.SolanaAccountMapper;
+import org.example.backend.blockchain.solana.block.mapper.SolanaSimpleJsonMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -87,8 +87,8 @@ public class SolanaAccountService {
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
             // Print response
-            System.out.println(response.getBody());
-            return Optional.ofNullable(response.getBody().toString());
+            String balance = SolanaSimpleJsonMapper.mapJsonToValue(response.getBody());
+            return Optional.ofNullable(balance);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
