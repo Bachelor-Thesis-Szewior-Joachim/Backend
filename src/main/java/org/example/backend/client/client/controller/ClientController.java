@@ -24,4 +24,10 @@ public class ClientController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping
+    public ResponseEntity<Boolean> login(String username, String password) {
+//        boolean result = clientService.loadUserByUsername(username);
+        return ResponseEntity.notFound().build();
+    }
 }

@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
-//import org.example.backend.blockchain.accounts.entity.Account;
 
 
 @Entity
