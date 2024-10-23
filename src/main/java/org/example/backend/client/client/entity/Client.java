@@ -26,14 +26,20 @@ public class Client {
     private String password;
     @NotNull
     private boolean enabled;
+    @NotNull
+    private String publicKey;
+    @NotNull
+    private String privateKey;
 
     public Client() {
 
     }
 
-    public Client(@NotNull String username, @NotNull String password ) {
+    public Client(@NotNull String username, @NotNull String password, @NotNull String publicKey, @NotNull String privateKey ) {
         this.username = username;
         this.password = password;
+        this.publicKey = publicKey;
+        this.privateKey = privateKey;
     }
 
     public Client(@NotNull String username, @NotNull String password, boolean enabled) {

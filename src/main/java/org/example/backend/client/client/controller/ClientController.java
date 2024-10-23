@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/client")
 public class ClientController {
@@ -43,6 +45,26 @@ public class ClientController {
             return ResponseEntity.ok("Login successful.");
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
+        }
+    }
+
+    @GetMapping("/simulateTransaction")
+    public ResponseEntity<String> simulateTransaction(@RequestParam String information, @RequestParam String publicKey) {
+        Optional<String> optionalString = clientService.tryTransaction(information, publicKey);
+        if (optionalString.isPresent()) {
+            return ResponseEntity.ok(optionalString.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/requestAirdrop")
+    public ResponseEntity<String> requestAirdrop(@RequestParam String publicKey) {
+        Optional<String> optionalString = clientService.requestAirdrop(publicKey);
+        if (optionalString.isPresent()) {
+            return ResponseEntity.ok(optionalString.get());
+        } else {
+            return ResponseEntity.status(404).body("Airdrop failed or account not found.");
         }
     }
 }
