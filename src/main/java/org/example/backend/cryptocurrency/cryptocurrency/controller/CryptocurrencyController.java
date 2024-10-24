@@ -1,21 +1,52 @@
 package org.example.backend.cryptocurrency.cryptocurrency.controller;
 
-import org.springframework.http.HttpStatus;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency.CryptocurrencyDto;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalDataDto;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.platform.PlatformDto;
+import org.example.backend.cryptocurrency.cryptocurrency.service.CryptocurrencyService;
+import org.example.backend.cryptocurrency.cryptocurrency.service.TokenService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/general-nft-statistics")
+@RequestMapping("/cryptocurrency")
 public class CryptocurrencyController {
 
-    @GetMapping
-    public ResponseEntity<?> getTokenInfo(@PathVariable String name) {
+    private final CryptocurrencyService cryptocurrencyService;
+    private final TokenService tokenService;
 
-        return new ResponseEntity<>(new Error("Couldn't find token info"), HttpStatus.NOT_FOUND);
+    public CryptocurrencyController(CryptocurrencyService cryptocurrencyService, TokenService tokenService) {
+        this.cryptocurrencyService = cryptocurrencyService;
+        this.tokenService = tokenService;
     }
 
+    @GetMapping("/ranking")
+    public ResponseEntity<List<CryptocurrencyDto>> getCryptocurrencyRanking(@RequestParam Long startIndex,@RequestParam Long lastIndex) {
+        Optional<List<CryptocurrencyDto>> optionalCryptocurrencyDtoList = cryptocurrencyService.getCryptocurrencyRanking(startIndex, lastIndex);
 
+        return optionalCryptocurrencyDtoList.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/ranking/{cmcId}")
+    public ResponseEntity<List<HistoricalDataDto>> getHistoricalDataOfCryptocurrency(@PathVariable Long cmcId) {
+        Optional<List<HistoricalDataDto>> optionalCryptocurrencyDtoList = cryptocurrencyService.getHistoricalData(cmcId);
+
+        return optionalCryptocurrencyDtoList.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/loadCryptocurrenciesToDatabase")
+    public ResponseEntity<Void> loadCryptocurrenciesToDatabase() {
+        cryptocurrencyService.fetchAndSaveCryptocurrencies();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/tokens")
+    public ResponseEntity<List<PlatformDto>> getAllTokens(@RequestParam Long startIndex, @RequestParam Long lastIndex) {
+        Optional<List<PlatformDto>> optionalTokenList = tokenService.getAllTokens(startIndex, lastIndex);
+        return optionalTokenList.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
