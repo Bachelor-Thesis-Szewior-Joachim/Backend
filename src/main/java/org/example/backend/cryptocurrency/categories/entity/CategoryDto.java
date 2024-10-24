@@ -5,21 +5,28 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency.CryptocurrencyDto;
+
+import java.util.List;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 public class CategoryDto {
+
     private Long id;
-    private Long rank;
+    private String categoryId;
     private String name;
-    private double price;
-    private double change;
-    private long volume;
-    private Long circulatingMarketCap;
-    private Long onChainMarketCap;
-    private double holder;
+    private String title;
+    private String description;
+    private Long numberOfTokens;
+    private Double avgPriceChange;
+    private String marketCap;
+    private String marketCapChange;
+    private String volume;
+    private String volumeChange;
+    private List<CryptocurrencyDto> cryptocurrencies;
 
     public CategoryDto() {
 

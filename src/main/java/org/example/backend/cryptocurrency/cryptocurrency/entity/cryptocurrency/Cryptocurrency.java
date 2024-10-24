@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.backend.cryptocurrency.categories.entity.Category;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalData;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.platform.Platform;
 
@@ -33,6 +34,8 @@ public class Cryptocurrency {
     private List<HistoricalData> pricesAllTime;
     @OneToOne
     private Platform platform;
+    @ManyToOne
+    private Category category;
     public Cryptocurrency() {
 
     }
