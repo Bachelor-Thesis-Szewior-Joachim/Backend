@@ -101,8 +101,6 @@ public class NetworkService {
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-            // Print response
-            System.out.println(response.getBody());
             return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToResult(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -130,9 +128,6 @@ public class NetworkService {
             HttpEntity<String> entity = new HttpEntity<>(jsonRequest, headers);
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-
-            // Print response
-            System.out.println(response.getBody());
             return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToResult(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -160,8 +155,6 @@ public class NetworkService {
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-            // Print response
-            System.out.println(response.getBody());
             return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToResult(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);

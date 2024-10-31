@@ -41,8 +41,6 @@ public class SlotService {
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-            // Print response
-            System.out.println(response.getBody());
             return Optional.ofNullable(SolanaSimpleJsonMapper.mapJsonToResult(response.getBody()));
         } catch (IOException e) {
             throw new RuntimeException(e);

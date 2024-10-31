@@ -1,7 +1,7 @@
 package org.example.backend.cryptocurrency.cryptocurrency.entity.platform;
 
 import lombok.*;
-import org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency.CryptocurrencyDto;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.CryptocurrencyDto;
 
 @Getter
 @Setter

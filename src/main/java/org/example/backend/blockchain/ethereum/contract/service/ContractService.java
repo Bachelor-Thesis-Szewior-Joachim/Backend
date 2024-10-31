@@ -70,7 +70,6 @@ public class ContractService {
             String response = restTemplate.getForObject(uriBuilder.toUriString(), String.class);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(response);
-            System.out.println(response);
 
             JsonNode resultNode = jsonNode.get("result").get(0);
 

@@ -1,7 +1,7 @@
 package org.example.backend.cryptocurrency.cryptocurrency.service;
 
-import org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency.Cryptocurrency;
-import org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency.CryptocurrencyDto;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.CryptocurrencyDto;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalData;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalDataDto;
 import org.example.backend.cryptocurrency.cryptocurrency.mapper.CryptocurrencyMapper;

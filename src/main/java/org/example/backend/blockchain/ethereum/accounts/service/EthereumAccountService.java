@@ -67,7 +67,6 @@ public class EthereumAccountService {
         }
     }
 
-    //Returns the current balance of an ERC-20 token of an address.
     public Double getTokenBalance(String address, String contractAddress) {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
                 .queryParam("module", "account")
@@ -79,21 +78,16 @@ public class EthereumAccountService {
 
         Optional<String> ethereumAccountOptional = Optional.ofNullable(restTemplate.getForObject(uriBuilder.toUriString(), String.class));
 
-        System.out.println(ethereumAccountOptional.toString());
 
         if (ethereumAccountOptional.isPresent()) {
             try {
-                // Parse the JSON response
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode rootNode = objectMapper.readTree(ethereumAccountOptional.get());
 
-                // Extract the "result" field as a String
                 String resultString = rootNode.get("result").asText();
 
-                // Convert the result to Double and return
                 return Double.valueOf(resultString);
             } catch (Exception e) {
-                // Handle any parsing or conversion errors
                 throw new RuntimeException("Error parsing token balance response", e);
             }
         } else {

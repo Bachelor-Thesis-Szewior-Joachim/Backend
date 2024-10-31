@@ -1,22 +1,21 @@
-package org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency;
+package org.example.backend.cryptocurrency.cryptocurrency.entity.currency;
 
-import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalData;
-import org.example.backend.cryptocurrency.cryptocurrency.entity.platform.Platform;
+import org.example.backend.cryptocurrency.categories.entity.CategoryDto;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalDataDto;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.platform.PlatformDto;
 
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
-public class Cryptocurrency {
-    @Id
+public class CryptocurrencyDto {
     private Long id;
     private Long cmcId;
     private String name;
@@ -29,12 +28,10 @@ public class Cryptocurrency {
     private double percentChange24h;
     private double percentChange7d;
     private Long marketCap;
-    @OneToMany(mappedBy = "cryptocurrency")
-    private List<HistoricalData> pricesAllTime;
-    @OneToOne
-    private Platform platform;
-    private String category;
-    public Cryptocurrency() {
+    private List<HistoricalDataDto> pricesAllTime;
+    private PlatformDto platformDto;
+    private CategoryDto categoryDto;
+    public CryptocurrencyDto() {
 
     }
 }

@@ -1,6 +1,6 @@
 package org.example.backend.cryptocurrency.cryptocurrency.controller;
 
-import org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency.CryptocurrencyDto;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.CryptocurrencyDto;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalDataDto;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.platform.PlatformDto;
 import org.example.backend.cryptocurrency.cryptocurrency.service.CryptocurrencyService;
@@ -8,7 +8,6 @@ import org.example.backend.cryptocurrency.cryptocurrency.service.TokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

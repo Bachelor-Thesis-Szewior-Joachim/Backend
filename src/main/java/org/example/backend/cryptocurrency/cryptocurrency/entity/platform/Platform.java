@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.*;
-import org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency.Cryptocurrency;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
 
 @Entity
 @Builder

@@ -25,11 +25,13 @@ services:
       - postgres
 
   app:
-    image: openjdk:21
+    build:
+      context: .
     container_name: spring_app
-    depends_on:
-      - postgres
-#      - nodejs
+    privileged: true  # Allow the container to run with elevated privileges
+    volumes:
+      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock  # Mount the Docker socket from the host
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydatabase
       SPRING_DATASOURCE_USERNAME: myuser
@@ -40,19 +42,21 @@ services:
       COINMARKETCAP_API_URL: d42f0690-3288-4f73-8230-da9ac5135859
     ports:
       - "8080:8080"
-    volumes:
-      - .:/app
-    command: ["sh", "-c", "cd /app && ./mvnw spring-boot:run"]
+    depends_on:
+      - postgres
+    command: [ "sh", "-c", "cd /app && ./mvnw spring-boot:run" ]
 
-#  nodejs:
-#    build:
-#      context: ./src/main/java/org/example/backend/client/client/service/solanaScripts
-#      dockerfile: Dockerfile
-#    container_name: nodejs_service
-#    volumes:
-#      - ./src/main/java/org/example/backend/client/client/service/solanaScripts:/app
-#    working_dir: /app
-#    command: ["npm", "start"]
+  nodejs:
+    build:
+      context: ./src/main/java/org/example/backend/client/client/service/solanaScripts
+      dockerfile: Dockerfile
+    container_name: nodejs_service
+    volumes:
+      - ./src/main/java/org/example/backend/client/client/service/solanaScripts:/app
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    command: ["npm", "start"]
 
 volumes:
   pg_data:

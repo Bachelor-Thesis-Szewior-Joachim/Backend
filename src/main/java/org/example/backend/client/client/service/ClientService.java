@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.*;
 
 @Service
@@ -52,21 +50,19 @@ public class ClientService implements UserDetailsService {
 
     public Map<String, String> createSolanaAccount() {
         try {
-            String scriptName = "create.js";
+            String url = "http://nodejs_service:3000/createAccount";
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-            ProcessBuilder processBuilder = new ProcessBuilder(
-                    "docker", "exec", "nodejs_service", "node", scriptName);
-            Process process = processBuilder.start();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            StringBuilder output = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                output.append(line);
+            if (response.getBody() == null || response.getBody().isEmpty()) {
+                throw new RuntimeException("Empty response from Node.js service");
             }
 
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, String> result = objectMapper.readValue(output.toString(), Map.class);
+            Map<String, String> result = objectMapper.readValue(response.getBody(), Map.class);
+
+            if (!result.containsKey("publicKey") || !result.containsKey("secretKey")) {
+                throw new RuntimeException("Response from Node.js service does not contain required keys");
+            }
 
             return result;
         } catch (Exception e) {
@@ -74,6 +70,7 @@ public class ClientService implements UserDetailsService {
             return new HashMap<>();
         }
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -95,39 +92,14 @@ public class ClientService implements UserDetailsService {
 
     public Optional<String> tryTransaction(String information, String publicKey) {
         try {
-            String scriptName = "createTransaction.js";
-
-            ProcessBuilder processBuilder = new ProcessBuilder(
-                    "docker", "exec", "nodejs_service", "node", scriptName, information, publicKey);
-            Process process = processBuilder.start();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            StringBuilder output = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                output.append(line);
-            }
-
-            String base64EncodedTransaction = output.toString();
-            System.out.println("Serialized Transaction: " + base64EncodedTransaction);
-
-            String url = "https://solana-devnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
-            Map<String, Object> requestBody = new HashMap<>();
-            requestBody.put("jsonrpc", "2.0");
-            requestBody.put("id", 1);
-            requestBody.put("method", "simulateTransaction");
-            requestBody.put("params", Arrays.asList(base64EncodedTransaction, Map.of("sigVerify", true)));
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonRequest = objectMapper.writeValueAsString(requestBody);
+            String url = "http://nodejs_service:3000/createTransaction";
+            Map<String, String> requestBody = Map.of("information", information, "publicKey", publicKey);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> entity = new HttpEntity<>(jsonRequest, headers);
+            HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-
-            System.out.println("Simulate Transaction Response: " + response.getBody());
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
             return Optional.ofNullable(response.getBody());
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,23 +109,15 @@ public class ClientService implements UserDetailsService {
 
     public Optional<String> requestAirdrop(String publicKey) {
         try {
-            String scriptName = "airdrop.js";
+            String url = "http://nodejs_service:3000/requestAirdrop";
+            Map<String, String> requestBody = Map.of("publicKey", publicKey);
 
-            ProcessBuilder processBuilder = new ProcessBuilder(
-                    "docker", "exec", "nodejs_service", "node", scriptName, publicKey);
-            Process process = processBuilder.start();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            StringBuilder output = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                output.append(line);
-            }
-
-            String jsonResult = output.toString();
-            System.out.println("Airdrop Script Output: " + jsonResult);
-
-            return Optional.ofNullable(jsonResult);
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+            return Optional.ofNullable(response.getBody());
         } catch (Exception e) {
             e.printStackTrace();
             return Optional.empty();

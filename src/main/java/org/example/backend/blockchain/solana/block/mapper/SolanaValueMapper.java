@@ -19,7 +19,6 @@ public class SolanaValueMapper {
             Map<String, Object> result = new HashMap<>();
 
             JsonNode byIdentityNode = valueNode.path("byIdentity");
-            System.out.println("byIdentityNode: " + byIdentityNode);
             Map<String, List<Integer>> byIdentity = new HashMap<>();
             byIdentityNode.fields().forEachRemaining(entry -> {
                 String key = entry.getKey();
@@ -32,7 +31,6 @@ public class SolanaValueMapper {
             result.put("byIdentity", byIdentity);
 
             JsonNode rangeNode = valueNode.path("range");
-            System.out.println("rangeNode: " + rangeNode);
             Map<String, Integer> range = new HashMap<>();
             rangeNode.fields().forEachRemaining(entry -> {
                 range.put(entry.getKey(), entry.getValue().asInt());

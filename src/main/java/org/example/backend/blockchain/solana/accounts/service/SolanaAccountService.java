@@ -55,8 +55,6 @@ public class SolanaAccountService {
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
             SolanaAccount account = SolanaAccountMapper.mapToSolanaAccount(response.getBody());
-            // Print response
-            System.out.println(response.getBody());
             return Optional.of(SolanaAccountMapper.mapAccountToAccountDto(account));
         } catch (IOException e) {
             throw new RuntimeException(e);

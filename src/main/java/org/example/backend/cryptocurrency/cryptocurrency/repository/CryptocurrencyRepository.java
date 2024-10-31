@@ -1,6 +1,6 @@
 package org.example.backend.cryptocurrency.cryptocurrency.repository;
 
-import org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency.Cryptocurrency;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

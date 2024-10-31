@@ -2,8 +2,8 @@ package org.example.backend.cryptocurrency.cryptocurrency.mapper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency.Cryptocurrency;
-import org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency.CryptocurrencyDto;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.CryptocurrencyDto;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.platform.Platform;
 
 import java.util.ArrayList;

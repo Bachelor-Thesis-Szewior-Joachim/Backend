@@ -109,7 +109,6 @@ public class EthereumBlockService {
                 .queryParam("apikey", apiKey);
 
         String response = restTemplate.getForObject(uriBuilder.toUriString(), String.class);
-        System.out.println(response);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(response);
