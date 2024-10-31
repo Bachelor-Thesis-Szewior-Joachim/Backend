@@ -52,14 +52,12 @@ public class ClientService implements UserDetailsService {
 
     public Map<String, String> createSolanaAccount() {
         try {
-            // Path to the JavaScript script (adjust the path if needed)
-            String scriptPath = "scripts/createSolanaAccount.js";
+            String scriptName = "create.js";
 
-            // Run the script using Node.js
-            ProcessBuilder processBuilder = new ProcessBuilder("node", scriptPath);
+            ProcessBuilder processBuilder = new ProcessBuilder(
+                    "docker", "exec", "nodejs_service", "node", scriptName);
             Process process = processBuilder.start();
 
-            // Read the output from the script
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             StringBuilder output = new StringBuilder();
             String line;
@@ -67,7 +65,6 @@ public class ClientService implements UserDetailsService {
                 output.append(line);
             }
 
-            // Convert the output (JSON) into a Map
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, String> result = objectMapper.readValue(output.toString(), Map.class);
 
@@ -98,9 +95,10 @@ public class ClientService implements UserDetailsService {
 
     public Optional<String> tryTransaction(String information, String publicKey) {
         try {
-            String scriptPath = "solanaScripts/createTransaction.js";
+            String scriptName = "createTransaction.js";
 
-            ProcessBuilder processBuilder = new ProcessBuilder("node", scriptPath, information, publicKey);
+            ProcessBuilder processBuilder = new ProcessBuilder(
+                    "docker", "exec", "nodejs_service", "node", scriptName, information, publicKey);
             Process process = processBuilder.start();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -137,17 +135,14 @@ public class ClientService implements UserDetailsService {
         }
     }
 
-
     public Optional<String> requestAirdrop(String publicKey) {
         try {
-            // Path to the JavaScript script (adjust the path if needed)
-            String scriptPath = "scripts/requestAirdrop.js";
+            String scriptName = "airdrop.js";
 
-            // Run the script using Node.js, passing the public key as an argument
-            ProcessBuilder processBuilder = new ProcessBuilder("node", scriptPath, publicKey);
+            ProcessBuilder processBuilder = new ProcessBuilder(
+                    "docker", "exec", "nodejs_service", "node", scriptName, publicKey);
             Process process = processBuilder.start();
 
-            // Read the output from the script
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             StringBuilder output = new StringBuilder();
             String line;
@@ -155,7 +150,6 @@ public class ClientService implements UserDetailsService {
                 output.append(line);
             }
 
-            // Convert the output (JSON) into a String
             String jsonResult = output.toString();
             System.out.println("Airdrop Script Output: " + jsonResult);
 

@@ -19,32 +19,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/login", "/register").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/home", true)
-//                        .permitAll()
-//                )
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/login?logout")
-//                        .permitAll()
-//                );
-//
-//        return http.build();
         http
                 .csrf(csrf -> csrf.disable())  // Disable CSRF for testing with Postman
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/client/register", "/client/login").permitAll()  // Allow access to registration without authentication
-                        .anyRequest().authenticated()
+                        .requestMatchers("/restricted1", "/restricted2", "/admin").authenticated()  // Block these endpoints unless logged in
+                        .anyRequest().permitAll()  // Allow access to all other endpoints
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")  // Custom login page (optional)
+                        .loginPage("/login")
                         .defaultSuccessUrl("/home", true)
                         .permitAll()
                 )

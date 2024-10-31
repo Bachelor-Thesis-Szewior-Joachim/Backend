@@ -1,6 +1,6 @@
 package org.example.backend.cryptocurrency.categories.entity;
 
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,12 +8,16 @@ import lombok.Setter;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.cryptocurrency.Cryptocurrency;
 import java.util.List;
 
-
+@Entity
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     private String categoryId;
     private String name;

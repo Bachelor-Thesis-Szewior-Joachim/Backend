@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,11 +31,16 @@ public class ClientController {
     public ResponseEntity<String> register(@RequestParam String username, @RequestParam String password) {
         boolean success = clientService.registerUser(username, password);
         if (success) {
-            return ResponseEntity.ok("User registered successfully.");
+            UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(username, password);
+            Authentication auth = authenticationManager.authenticate(authReq);
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            return ResponseEntity.ok("User registered successfully. Redirecting to home...");
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists.");
         }
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
