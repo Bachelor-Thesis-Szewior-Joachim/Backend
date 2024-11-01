@@ -3,6 +3,7 @@ package org.example.backend.client.client.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -17,5 +18,8 @@ public class ClientDto {
     private UUID id;
     private String username;
     private String password;
-    private List<String> seedPhrase = new LinkedList<>();
+    private boolean enabled;
+    private String publicKey;
+    private String privateKey;
+    private Double balance;
 }

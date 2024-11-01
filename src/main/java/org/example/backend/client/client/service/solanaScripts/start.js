@@ -46,12 +46,12 @@ app.post('/requestAirdrop', (req, res) => {
 
 // Endpoint to create a transaction
 app.post('/createTransaction', (req, res) => {
-    const { information, publicKey } = req.body;
-    if (!information || !publicKey) {
+    const { publicKey } = req.body;
+    if (!publicKey) {
         return res.status(400).send({ error: 'Both information and publicKey are required' });
     }
 
-    exec(`node createTransaction.js ${information} ${publicKey}`, (error, stdout, stderr) => {
+    exec(`node createTransaction.js ${publicKey}`, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error: ${stderr}`);
             res.status(500).send({ error: 'Failed to create transaction' });

@@ -1,5 +1,6 @@
 package org.example.backend.client.client.controller;
 
+import org.example.backend.client.client.entity.ClientDto;
 import org.example.backend.client.client.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/client")
@@ -55,8 +57,8 @@ public class ClientController {
     }
 
     @GetMapping("/simulateTransaction")
-    public ResponseEntity<String> simulateTransaction(@RequestParam String information, @RequestParam String publicKey) {
-        Optional<String> optionalString = clientService.tryTransaction(information, publicKey);
+    public ResponseEntity<String> simulateTransaction(@RequestParam String publicKey) {
+        Optional<String> optionalString = clientService.tryTransaction(publicKey);
         if (optionalString.isPresent()) {
             return ResponseEntity.ok(optionalString.get());
         } else {
@@ -71,6 +73,16 @@ public class ClientController {
             return ResponseEntity.ok(optionalString.get());
         } else {
             return ResponseEntity.status(404).body("Airdrop failed or account not found.");
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientDto> getClientById(@PathVariable UUID id) {
+        ClientDto clientDto = clientService.getClientById(id);
+        if (clientDto != null) {
+            return ResponseEntity.ok(clientDto);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }

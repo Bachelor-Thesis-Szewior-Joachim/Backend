@@ -91,4 +91,33 @@ public class SolanaAccountService {
             throw new RuntimeException(e);
         }
     }
+
+    public Optional<String> getDevnetAccountBalance(String address) {
+        try {
+            String url = "https://solana-devnet.g.alchemy.com/v2/NHMqw3IwndcH6j0c4Y23KgZx50v59-ts";
+
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("jsonrpc", "2.0");
+            requestBody.put("id", 1);
+            requestBody.put("method", "getBalance");
+            requestBody.put("params", new Object[]{ address });
+
+            // Convert request body to JSON
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonRequest = objectMapper.writeValueAsString(requestBody);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<String> entity = new HttpEntity<>(jsonRequest, headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+            String balance = SolanaSimpleJsonMapper.mapJsonToValue(response.getBody());
+            return Optional.ofNullable(balance);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to retrieve account balance", e);
+        }
+    }
 }

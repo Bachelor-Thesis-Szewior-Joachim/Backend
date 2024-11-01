@@ -30,7 +30,7 @@ public class Client {
     private String publicKey;
     @NotNull
     private String privateKey;
-
+    private Double balance;
     public Client() {
 
     }

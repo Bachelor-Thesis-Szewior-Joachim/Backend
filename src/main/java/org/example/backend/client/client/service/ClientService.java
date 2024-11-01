@@ -1,7 +1,10 @@
 package org.example.backend.client.client.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.backend.blockchain.solana.accounts.service.SolanaAccountService;
 import org.example.backend.client.client.entity.Client;
+import org.example.backend.client.client.entity.ClientDto;
+import org.example.backend.client.client.mapper.ClientMapper;
 import org.example.backend.client.client.repository.ClientRepository;
 import org.springframework.http.*;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,11 +23,13 @@ public class ClientService implements UserDetailsService {
     private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
     private final RestTemplate restTemplate;
+    private final SolanaAccountService solanaAccountService;
 
-    public ClientService(ClientRepository clientRepository, PasswordEncoder passwordEncoder, RestTemplate restTemplate) {
+    public ClientService(ClientRepository clientRepository, PasswordEncoder passwordEncoder, RestTemplate restTemplate, SolanaAccountService solanaAccountService) {
         this.clientRepository = clientRepository;
         this.passwordEncoder = passwordEncoder;
         this.restTemplate = restTemplate;
+        this.solanaAccountService = solanaAccountService;
     }
 
     @Transactional
@@ -90,11 +95,10 @@ public class ClientService implements UserDetailsService {
         );
     }
 
-    public Optional<String> tryTransaction(String information, String publicKey) {
+    public Optional<String> tryTransaction(String publicKey) {
         try {
             String url = "http://nodejs_service:3000/createTransaction";
-            Map<String, String> requestBody = Map.of("information", information, "publicKey", publicKey);
-
+            Map<String, String> requestBody = Map.of("publicKey", publicKey);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
@@ -121,6 +125,26 @@ public class ClientService implements UserDetailsService {
         } catch (Exception e) {
             e.printStackTrace();
             return Optional.empty();
+        }
+    }
+
+
+    public ClientDto getClientById(UUID id) {
+        Optional<Client> clientOptional = clientRepository.findById(id);
+
+
+        if (clientOptional.isPresent()) {
+            String publicKey = clientOptional.get().getPublicKey();
+            Optional<String> balance = solanaAccountService.getDevnetAccountBalance(publicKey);
+            Client client = clientOptional.get();
+            if (balance.isPresent()) {
+                client.setBalance(Double.parseDouble(balance.get()));
+            } else {
+                client.setBalance((double) 0);
+            }
+            return ClientMapper.toDto(client);
+        } else {
+            return null;
         }
     }
 }

@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface ClientRepository extends CrudRepository<Client, UUID> {
 
     Optional<Client> findByUsername(String username);
+    Optional<Client> findByPublicKey(String publicKey);
 }
