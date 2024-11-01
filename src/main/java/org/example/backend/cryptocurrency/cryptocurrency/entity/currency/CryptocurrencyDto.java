@@ -28,9 +28,10 @@ public class CryptocurrencyDto {
     private double percentChange24h;
     private double percentChange7d;
     private Long marketCap;
-    private List<HistoricalDataDto> pricesAllTime;
+    private List<Long> historicalDataIds;
+    private List<HistoricalDataDto> historicalData;
     private PlatformDto platformDto;
-    private CategoryDto categoryDto;
+    private String category;
     public CryptocurrencyDto() {
 
     }

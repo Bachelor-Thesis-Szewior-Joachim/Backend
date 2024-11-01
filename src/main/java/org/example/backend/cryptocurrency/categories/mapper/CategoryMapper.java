@@ -27,11 +27,11 @@ public class CategoryMapper {
                 .marketCapChange(category.getMarketCapChange())
                 .volume(category.getVolume())
                 .volumeChange(category.getVolumeChange())
-                .cryptocurrencies(
-                        category.getCryptocurrencies().stream()
-                                .map(cryptocurrency -> CryptocurrencyMapper.mapCryptocurrencyToCryptocurrencyDto(cryptocurrency))// Assuming Cryptocurrency has a toDto method
-                                .collect(Collectors.toList())
-                )
+//                .cryptocurrencies(
+//                        category.getCryptocurrencies().stream()
+//                                .map(cryptocurrency -> CryptocurrencyMapper.mapCryptocurrencyToCryptocurrencyDto(cryptocurrency))// Assuming Cryptocurrency has a toDto method
+//                                .collect(Collectors.toList())
+//                )
                 .build();
     }
 
@@ -48,11 +48,11 @@ public class CategoryMapper {
                 .marketCapChange(categoryDto.getMarketCapChange())
                 .volume(categoryDto.getVolume())
                 .volumeChange(categoryDto.getVolumeChange())
-                .cryptocurrencies(
-                        categoryDto.getCryptocurrencies().stream()
-                                .map(cryptocurrency -> CryptocurrencyMapper.mapCryptocurrencyDtoToCryptocurrency(cryptocurrency))// Assuming Cryptocurrency has a toDto method
-                                .collect(Collectors.toList())
-                )
+//                .cryptocurrencies(
+//                        categoryDto.getCryptocurrencies().stream()
+//                                .map(cryptocurrency -> CryptocurrencyMapper.mapCryptocurrencyDtoToCryptocurrency(cryptocurrency))// Assuming Cryptocurrency has a toDto method
+//                                .collect(Collectors.toList())
+//                )
                 .build();
     }
 

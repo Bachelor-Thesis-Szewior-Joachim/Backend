@@ -24,13 +24,11 @@ public class TokenService {
         List<Platform> platformList = new ArrayList<>();
         for (Long currentIndex=startIndex;currentIndex<=lastIndex;currentIndex++) {
             Optional<Platform> currentPlatform = platformRepository.findById(currentIndex);
-            if (currentPlatform.isPresent()) {
-                platformList.add(currentPlatform.get());
-            }
+            currentPlatform.ifPresent(platformList::add);
         }
 
         List<PlatformDto> platformDtoList = platformList.stream()
-                .map(platform -> PlatformMapper.toDto(platform)).toList();
+                .map(PlatformMapper::toDto).toList();
 
         return Optional.of(platformDtoList);
     }

@@ -6,17 +6,17 @@ import org.example.backend.cryptocurrency.cryptocurrency.entity.platform.Platfor
 public class PlatformMapper {
 
     public static PlatformDto toDto(Platform platform) {
-
-        return new PlatformDto(
-                platform.getId(),
-                platform.getPlatformId(),
-                platform.getName(),
-                platform.getSymbol(),
-                platform.getTokenAddress(),
-                platform.getCryptocurrency() != null
-                        ? CryptocurrencyMapper.mapCryptocurrencyToCryptocurrencyDto(platform.getCryptocurrency())
-                        : null
-        );
+        if (platform == null) {
+            return null;
+        }
+        return PlatformDto.builder()
+                .id(platform.getId())
+                .name(platform.getName())
+                .cmcId(platform.getCmcId())
+                .cryptocurrencyDto(CryptocurrencyMapper.toDtoForRanking(platform.getCryptocurrency()))
+                .tokenAddress(platform.getTokenAddress())
+                .symbol(platform.getSymbol())
+                .build();
     }
 
     public static Platform toEntity(PlatformDto platformDto) {
@@ -27,9 +27,6 @@ public class PlatformMapper {
                 .name(platformDto.getName())
                 .symbol(platformDto.getSymbol())
                 .tokenAddress(platformDto.getTokenAddress())
-                .cryptocurrency(platformDto.getCryptocurrencyDto() != null
-                        ? CryptocurrencyMapper.mapCryptocurrencyDtoToCryptocurrency(platformDto.getCryptocurrencyDto())
-                        : null)
                 .build();
     }
 

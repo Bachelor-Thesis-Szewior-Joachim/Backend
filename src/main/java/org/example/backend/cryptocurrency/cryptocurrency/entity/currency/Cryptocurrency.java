@@ -1,5 +1,6 @@
 package org.example.backend.cryptocurrency.cryptocurrency.entity.currency;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Cryptocurrency {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long cmcId;
     private String name;
@@ -30,6 +32,7 @@ public class Cryptocurrency {
     private double percentChange7d;
     private Long marketCap;
     @OneToMany(mappedBy = "cryptocurrency")
+    @JsonManagedReference
     private List<HistoricalData> pricesAllTime;
     @OneToOne
     private Platform platform;

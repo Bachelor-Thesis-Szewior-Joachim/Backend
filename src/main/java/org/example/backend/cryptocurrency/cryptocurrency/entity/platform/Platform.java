@@ -1,8 +1,6 @@
 package org.example.backend.cryptocurrency.cryptocurrency.entity.platform;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
 
@@ -15,11 +13,13 @@ import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptoc
 public class Platform {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long platformId;
     private String name;
     private String symbol;
     private String tokenAddress;
+    private Long cmcId;
     @OneToOne
     private Cryptocurrency cryptocurrency;
 }

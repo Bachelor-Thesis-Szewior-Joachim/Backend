@@ -4,8 +4,10 @@ import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.H
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface HistoricalDataRepository extends CrudRepository<HistoricalData, Long> {
+    List<HistoricalData> findByCmcId(Long cmcId);
 }

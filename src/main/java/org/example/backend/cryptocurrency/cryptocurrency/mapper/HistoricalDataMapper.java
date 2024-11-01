@@ -34,7 +34,7 @@ public class HistoricalDataMapper {
                         .price(usdQuoteNode.path("price").asDouble())
                         .volume24h(usdQuoteNode.path("volume_24h").asText())
                         .circulatingSupply(usdQuoteNode.path("circulating_supply").asText())
-                        .date(LocalDate.parse(quoteNode.path("timestamp").asText(), dateFormatter))
+                        .date(quoteNode.path("timestamp").asText())
                         .cryptocurrency(cryptocurrency)
                         .build();
 
@@ -46,28 +46,30 @@ public class HistoricalDataMapper {
         return historicalDataList;
     }
 
-    public static HistoricalData fromDto(HistoricalDataDto dto) {
-        return HistoricalData.builder()
-                .id(dto.getId())
-                .cmcId(dto.getCmcId())
-                .price(dto.getPrice())
-                .volume24h(dto.getVolume24h())
-                .circulatingSupply(dto.getCirculatingSupply())
-                .date(dto.getDate())
-                .cryptocurrency(CryptocurrencyMapper
-                        .mapCryptocurrencyDtoToCryptocurrency(dto.getCryptocurrencyDto()))
-                .build();
+     public static HistoricalDataDto toDto(HistoricalData historicalData) {
+            return HistoricalDataDto.builder()
+                    .id(historicalData.getId())
+                    .cmcId(historicalData.getCmcId())
+                    .price(historicalData.getPrice())
+                    .volume24h(historicalData.getVolume24h())
+                    .circulatingSupply(historicalData.getCirculatingSupply())
+                    .date(historicalData.getDate())
+                    .marketCap(historicalData.getMarketCap())
+                    .cryptocurrencyId(historicalData.getCryptocurrency() != null ? historicalData.getCryptocurrency().getId() : null)
+                    .build();
+        }
+
+        public static HistoricalData toEntity(HistoricalDataDto dto, Cryptocurrency cryptocurrency) {
+            return HistoricalData.builder()
+                    .id(dto.getId())
+                    .cmcId(dto.getCmcId())
+                    .price(dto.getPrice())
+                    .volume24h(dto.getVolume24h())
+                    .circulatingSupply(dto.getCirculatingSupply())
+                    .date(dto.getDate())
+                    .marketCap(dto.getMarketCap())
+                    .cryptocurrency(cryptocurrency)
+                    .build();
+        }
     }
 
-    public static HistoricalDataDto toDto(HistoricalData historicalData) {
-        return HistoricalDataDto.builder()
-                        .id(historicalData.getId())
-                                .cmcId(historicalData.getCmcId())
-                                        .price(historicalData.getPrice())
-                                                .volume24h(historicalData.getVolume24h())
-                .circulatingSupply(historicalData.getCirculatingSupply())
-                .cryptocurrencyDto(CryptocurrencyMapper
-                        .mapCryptocurrencyToCryptocurrencyDto(historicalData.getCryptocurrency()))
-                .build();
-    }
-}

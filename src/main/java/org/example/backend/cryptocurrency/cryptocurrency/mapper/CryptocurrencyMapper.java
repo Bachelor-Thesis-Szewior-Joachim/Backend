@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.CryptocurrencyDto;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalDataDto;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.platform.Platform;
 
+import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,28 +16,7 @@ public class CryptocurrencyMapper {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static Cryptocurrency mapCryptocurrencyDtoToCryptocurrency(CryptocurrencyDto cryptocurrencyDto) {
-        return Cryptocurrency.builder()
-                .id(cryptocurrencyDto.getId())
-                .cmcId(cryptocurrencyDto.getCmcId())
-                .name(cryptocurrencyDto.getName())
-                .cmcRank(cryptocurrencyDto.getCmcRank())
-                .symbol(cryptocurrencyDto.getSymbol())
-                .circulatingSupply(cryptocurrencyDto.getCirculatingSupply())
-                .price(cryptocurrencyDto.getPrice())
-                .volume24h(cryptocurrencyDto.getVolume24h())
-                .percentChange1h(cryptocurrencyDto.getPercentChange1h())
-                .percentChange24h(cryptocurrencyDto.getPercentChange24h())
-                .percentChange7d(cryptocurrencyDto.getPercentChange7d())
-                .marketCap(cryptocurrencyDto.getMarketCap())
-                .pricesAllTime(cryptocurrencyDto.getPricesAllTime()
-                        .stream()
-                        .map(historicalDataDto -> HistoricalDataMapper.fromDto(historicalDataDto))
-                        .collect(Collectors.toList()))
-                .build();
-    }
-
-    public static CryptocurrencyDto mapCryptocurrencyToCryptocurrencyDto(Cryptocurrency cryptocurrency) {
+    public static CryptocurrencyDto toDto(Cryptocurrency cryptocurrency, List<HistoricalDataDto> historicalDataDtoList) {
         return CryptocurrencyDto.builder()
                 .id(cryptocurrency.getId())
                 .cmcId(cryptocurrency.getCmcId())
@@ -49,10 +30,45 @@ public class CryptocurrencyMapper {
                 .percentChange24h(cryptocurrency.getPercentChange24h())
                 .percentChange7d(cryptocurrency.getPercentChange7d())
                 .marketCap(cryptocurrency.getMarketCap())
-                .pricesAllTime(cryptocurrency.getPricesAllTime()
-                        .stream()
-                        .map(historicalData -> HistoricalDataMapper.toDto(historicalData))
-                        .collect(Collectors.toList()))
+                .platformDto(PlatformMapper.toDto(cryptocurrency.getPlatform())) // This will handle null safely
+                .historicalData(historicalDataDtoList)
+                .category(cryptocurrency.getCategory())
+                .build();
+    }
+
+    public static CryptocurrencyDto toDtoForRanking(Cryptocurrency cryptocurrency) {
+        return CryptocurrencyDto.builder()
+                .id(cryptocurrency.getId())
+                .cmcId(cryptocurrency.getCmcId())
+                .name(cryptocurrency.getName())
+                .cmcRank(cryptocurrency.getCmcRank())
+                .symbol(cryptocurrency.getSymbol())
+                .circulatingSupply(cryptocurrency.getCirculatingSupply())
+                .price(cryptocurrency.getPrice())
+                .volume24h(cryptocurrency.getVolume24h())
+                .percentChange1h(cryptocurrency.getPercentChange1h())
+                .percentChange24h(cryptocurrency.getPercentChange24h())
+                .percentChange7d(cryptocurrency.getPercentChange7d())
+                .marketCap(cryptocurrency.getMarketCap())
+                .category(cryptocurrency.getCategory())
+                .build();
+    }
+
+    public static Cryptocurrency toEntity(CryptocurrencyDto dto) {
+        return Cryptocurrency.builder()
+                .id(dto.getId())
+                .cmcId(dto.getCmcId())
+                .name(dto.getName())
+                .cmcRank(dto.getCmcRank())
+                .symbol(dto.getSymbol())
+                .circulatingSupply(dto.getCirculatingSupply())
+                .price(dto.getPrice())
+                .volume24h(dto.getVolume24h())
+                .percentChange1h(dto.getPercentChange1h())
+                .percentChange24h(dto.getPercentChange24h())
+                .percentChange7d(dto.getPercentChange7d())
+                .marketCap(dto.getMarketCap())
+                .category(dto.getCategory())
                 .build();
     }
 

@@ -16,4 +16,5 @@ public class PlatformDto {
     private String symbol;
     private String tokenAddress;
     private CryptocurrencyDto cryptocurrencyDto;
+    private Long cmcId;
 }

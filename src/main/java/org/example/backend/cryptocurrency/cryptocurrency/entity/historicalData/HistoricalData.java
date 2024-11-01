@@ -1,9 +1,9 @@
 package org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,12 +20,19 @@ import java.time.LocalDate;
 public class HistoricalData {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long cmcId;
     private Double price;
     private String volume24h;
     private String circulatingSupply;
-    private LocalDate date;
+    private String date;
+    private String marketCap;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Cryptocurrency cryptocurrency;
+
+    public HistoricalData() {
+
+    }
 }

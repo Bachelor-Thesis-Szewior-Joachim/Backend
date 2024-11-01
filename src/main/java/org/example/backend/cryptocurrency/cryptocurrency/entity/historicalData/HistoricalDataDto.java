@@ -17,7 +17,8 @@ public class HistoricalDataDto {
     private Long cmcId;
     private Double price;
     private String volume24h;
-    private LocalDate date;
+    private String date;
+    private String marketCap;
     private String circulatingSupply;
-    private CryptocurrencyDto cryptocurrencyDto;
+    private Long cryptocurrencyId;
 }
