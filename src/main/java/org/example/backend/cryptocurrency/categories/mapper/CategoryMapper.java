@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.cryptocurrency.categories.entity.Category;
 import org.example.backend.cryptocurrency.categories.entity.CategoryDto;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
 import org.example.backend.cryptocurrency.cryptocurrency.mapper.CryptocurrencyMapper;
 
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ public class CategoryMapper {
                 .build();
     }
 
-
     public static Category toEntity(CategoryDto categoryDto) {
         return Category.builder()
                 .categoryId(categoryDto.getCategoryId())
@@ -56,7 +56,7 @@ public class CategoryMapper {
                 .build();
     }
 
-    public static List<Category> mapJsonResponseToCategory(String jsonResponse) {
+    public static List<Category> mapJsonResponseToCategories(String jsonResponse) {
         List<Category> categories = new ArrayList<>();
 
         try {
@@ -88,5 +88,47 @@ public class CategoryMapper {
         }
 
         return categories;
+    }
+
+
+    public static Category mapJsonResponseToCategoryWithCryptocurrencies(String jsonResponse) {
+        try {
+            JsonNode rootNode = objectMapper.readTree(jsonResponse);
+            JsonNode dataNode = rootNode.path("data");
+
+            if (dataNode.isMissingNode()) {
+                return null;
+            }
+
+            Category category = new Category();
+            category.setCategoryId(dataNode.path("id").asText());
+            category.setName(dataNode.path("name").asText());
+            category.setTitle(dataNode.path("title").asText());
+            category.setDescription(dataNode.path("description").asText());
+            category.setNumberOfTokens(dataNode.path("num_tokens").asLong());
+            category.setAvgPriceChange(dataNode.path("avg_price_change").asDouble());
+            category.setMarketCap(dataNode.path("market_cap").asText());
+            category.setMarketCapChange(dataNode.path("market_cap_change").asText());
+            category.setVolume(dataNode.path("volume").asText());
+            category.setVolumeChange(dataNode.path("volume_change").asText());
+
+            List<Cryptocurrency> cryptocurrencies = new ArrayList<>();
+            JsonNode coinsNode = dataNode.path("coins");
+            for (JsonNode coinNode : coinsNode) {
+                Cryptocurrency crypto = new Cryptocurrency();
+                crypto.setCmcId(coinNode.path("id").asLong());
+                crypto.setName(coinNode.path("name").asText());
+                crypto.setSymbol(coinNode.path("symbol").asText());
+                crypto.setCmcRank(coinNode.path("cmc_rank").asLong());
+                // Add other fields if needed
+                cryptocurrencies.add(crypto);
+            }
+            category.setCryptocurrencies(cryptocurrencies);
+
+            return category;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

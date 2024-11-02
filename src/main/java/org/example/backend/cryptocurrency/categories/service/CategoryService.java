@@ -2,17 +2,24 @@ package org.example.backend.cryptocurrency.categories.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.example.backend.cryptocurrency.categories.entity.Category;
 import org.example.backend.cryptocurrency.categories.entity.CategoryDto;
 import org.example.backend.cryptocurrency.categories.mapper.CategoryMapper;
 import org.example.backend.cryptocurrency.categories.repository.CategoryRepository;
+import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
+import org.example.backend.cryptocurrency.cryptocurrency.mapper.CryptocurrencyMapper;
+import org.example.backend.cryptocurrency.cryptocurrency.repository.CryptocurrencyRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -22,10 +29,12 @@ public class CategoryService {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final String API_KEY = "d42f0690-3288-4f73-8230-da9ac5135859";
     private static final String API_URL = "https://pro-api.coinmarketcap.com";
+    private final CryptocurrencyRepository cryptocurrencyRepository;
 
-    public CategoryService(CategoryRepository categoryRepository, RestTemplate restTemplate) {
+    public CategoryService(CategoryRepository categoryRepository, RestTemplate restTemplate, CryptocurrencyRepository cryptocurrencyRepository) {
         this.categoryRepository = categoryRepository;
         this.restTemplate = restTemplate;
+        this.cryptocurrencyRepository = cryptocurrencyRepository;
     }
 
     public Optional<CategoryDto> findByCategoryId(String categoryId) {
@@ -52,38 +61,32 @@ public class CategoryService {
         }
     }
 
-    @Scheduled(fixedRate = 3600000) // Runs every 1 hour
-    public void fetchAndSaveCategories() {
-        try {
-            String response = restTemplate.getForObject(API_URL + "/v1/cryptocurrency/categories?CMC_PRO_API_KEY=" + API_KEY, String.class);
+    public void updateCategoriesWithCryptocurrencies() {
+        List<Category> allCategories = (List<Category>) categoryRepository.findAll();
+        List<Category> categories = allCategories.subList(0,20);
 
-            List<Category> categories = CategoryMapper.mapJsonResponseToCategory(response);
+        for (Category category : categories) {
+            try {
+                UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(API_URL+ "/v1/cryptocurrency/category")
+                        .queryParam("CMC_PRO_API_KEY", API_KEY)
+                        .queryParam("id", category.getCategoryId());
 
-            categories.forEach(this::updateCategoryWithAdditionalDetails);
+                String response = restTemplate.getForObject(uriBuilder.toUriString(), String.class);
 
-            categoryRepository.deleteAll();
-            categoryRepository.saveAll(categories);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+                Category updatedCategory = CategoryMapper.mapJsonResponseToCategoryWithCryptocurrencies(response);
+                if (updatedCategory != null) {
+                    category.setCryptocurrencies(updatedCategory.getCryptocurrencies());
+                    categoryRepository.save(category);
 
-    private void updateCategoryWithAdditionalDetails(Category category) {
-        try {
-            String url = API_URL + "/v1/cryptocurrency/category?id=" + category.getCategoryId() + "&CMC_PRO_API_KEY=" + API_KEY;
-            String response = restTemplate.getForObject(url, String.class);
-
-            JsonNode rootNode = objectMapper.readTree(response);
-            JsonNode dataNode = rootNode.path("data");
-
-            if (!dataNode.isMissingNode()) {
-                category.setMarketCap(dataNode.path("market_cap").asText());
-                category.setMarketCapChange(dataNode.path("market_cap_change").asText());
-                category.setVolume(dataNode.path("volume").asText());
-                category.setVolumeChange(dataNode.path("volume_change").asText());
+                    for (Cryptocurrency crypto : updatedCategory.getCryptocurrencies()) {
+                        if (!cryptocurrencyRepository.existsByCmcId(crypto.getCmcId())) {
+                            cryptocurrencyRepository.save(crypto);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CryptocurrencyRepository extends CrudRepository<Cryptocurrency, Long> {
     Cryptocurrency findByCmcId(Long cmcId);
+    boolean existsByCmcId(Long cmcId);
 }

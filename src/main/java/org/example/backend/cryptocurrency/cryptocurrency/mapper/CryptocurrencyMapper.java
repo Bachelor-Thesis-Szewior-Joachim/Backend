@@ -9,7 +9,9 @@ import org.example.backend.cryptocurrency.cryptocurrency.entity.platform.Platfor
 
 import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalData;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CryptocurrencyMapper {
@@ -113,4 +115,26 @@ public class CryptocurrencyMapper {
         }
         return cryptocurrencies;
     }
+
+    public static String getCategoryFromJsonResponse(String jsonResponse) {
+        try {
+            JsonNode rootNode = objectMapper.readTree(jsonResponse);
+            JsonNode dataNode = rootNode.path("data");
+
+            if (dataNode.isObject()) {
+                Iterator<Map.Entry<String, JsonNode>> fields = dataNode.fields();
+                while (fields.hasNext()) {
+                    Map.Entry<String, JsonNode> field = fields.next();
+                    JsonNode entryNode = field.getValue();
+                    if (entryNode.has("category")) {
+                        return entryNode.get("category").asText();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 }

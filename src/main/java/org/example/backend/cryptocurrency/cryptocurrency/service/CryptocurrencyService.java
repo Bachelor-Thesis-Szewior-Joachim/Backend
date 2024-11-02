@@ -68,7 +68,6 @@ public class CryptocurrencyService {
     }
 
     public Optional<CryptocurrencyDto> getCryptocurrencyByCmcId(Long cmcId) {
-        // Fetch the cryptocurrency by cmcId
         Optional<Cryptocurrency> cryptocurrencyOpt = Optional.ofNullable(cryptocurrencyRepository.findByCmcId(cmcId));
         if (cryptocurrencyOpt.isEmpty()) {
             return Optional.empty();
@@ -76,13 +75,11 @@ public class CryptocurrencyService {
 
         Cryptocurrency cryptocurrency = cryptocurrencyOpt.get();
 
-        // Fetch historical data by cmcId
         List<HistoricalData> historicalDataList = historicalDataRepository.findByCmcId(cmcId);
         List<HistoricalDataDto> historicalDataDtoList = historicalDataList.stream()
                 .map(HistoricalDataMapper::toDto)
                 .collect(Collectors.toList());
 
-        // Map the Cryptocurrency to a DTO
         CryptocurrencyDto cryptocurrencyDto = CryptocurrencyMapper.toDto(cryptocurrency, historicalDataDtoList);
 
         return Optional.of(cryptocurrencyDto);
