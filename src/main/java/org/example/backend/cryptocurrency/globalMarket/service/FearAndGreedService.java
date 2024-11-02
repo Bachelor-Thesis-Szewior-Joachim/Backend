@@ -1,43 +1,69 @@
 package org.example.backend.cryptocurrency.globalMarket.service;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.backend.cryptocurrency.globalMarket.entity.FearAndGreed;
 import org.example.backend.cryptocurrency.globalMarket.entity.FearAndGreedDto;
 import org.example.backend.cryptocurrency.globalMarket.mapper.FearAndGreedMapper;
+import org.example.backend.cryptocurrency.globalMarket.repository.FearAndGreedRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class FearAndGreedService {
 
     private final RestTemplate restTemplate;
-
+    private final FearAndGreedRepository fearAndGreedRepository;
     private static final String API_KEY = "d42f0690-3288-4f73-8230-da9ac5135859";
     private static final String API_URL = "https://pro-api.coinmarketcap.com";
 
-    public FearAndGreedService(RestTemplate restTemplate) {
+    public FearAndGreedService(RestTemplate restTemplate, FearAndGreedRepository fearAndGreedRepository) {
         this.restTemplate = restTemplate;
+        this.fearAndGreedRepository = fearAndGreedRepository;
     }
 
-    public Optional<FearAndGreedDto> getLatestFearAndGreed() {
+    public void fetchAndSaveFearAndGreedData() {
+
+        fearAndGreedRepository.deleteAll();
         try {
-            // API URL for historical fear & greed data
-            String url = API_URL + "/v3/fearandgreed/historical?CMC_PRO_API_KEY=" + API_KEY;
-            String response = restTemplate.getForObject(url, String.class);
+            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(API_URL+"/v3/fear-and-greed/historical")
+                    .queryParam("CMC_PRO_API_KEY", API_KEY);
 
-            // Parse the response into a FearAndGreed entity or DTO (you might use ObjectMapper here)
-            FearAndGreedDto dto = parseJsonToDto(response);
+            String response = restTemplate.getForObject(uriBuilder.toUriString(), String.class);
 
-            return Optional.of(dto);
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(response);
+            JsonNode dataNode = rootNode.path("data");
+
+            List<FearAndGreed> fearAndGreedList = new ArrayList<>();
+            for (JsonNode node : dataNode) {
+                FearAndGreed fearAndGreed = new FearAndGreed();
+                fearAndGreed.setDate(node.path("timestamp").asText());
+                fearAndGreed.setValue(node.path("value").asInt());
+                fearAndGreed.setValueClassification(node.path("value_classification").asText());
+                fearAndGreedList.add(fearAndGreed);
+            }
+
+            fearAndGreedRepository.saveAll(fearAndGreedList);
+
         } catch (Exception e) {
             e.printStackTrace();
-            return Optional.empty();
         }
     }
 
-    private FearAndGreedDto parseJsonToDto(String jsonResponse) {
+    public Optional<List<FearAndGreedDto>> getLatestFearAndGreed() {
 
-        return new FearAndGreedDto(50, "Neutral", LocalDate.now());
+        List<FearAndGreed> fearAndGreedList = (List<FearAndGreed>) fearAndGreedRepository.findAll();
+        List<FearAndGreedDto> fearAndGreedDtosList = fearAndGreedList.stream()
+                .map(FearAndGreedMapper::toDto)
+                .toList();
+
+        return Optional.of(fearAndGreedDtosList);
     }
 }

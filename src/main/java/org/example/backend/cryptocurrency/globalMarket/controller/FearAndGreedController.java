@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 import java.util.Optional;
 @RestController
 @RequestMapping("/global-data")
@@ -20,8 +22,8 @@ public class FearAndGreedController {
     }
 
     @GetMapping("/latest")
-    public ResponseEntity<FearAndGreedDto> getLatestFearAndGreed() {
-        Optional<FearAndGreedDto> fearAndGreedDto = fearAndGreedService.getLatestFearAndGreed();
+    public ResponseEntity<List<FearAndGreedDto>> getLatestFearAndGreed() {
+        Optional<List<FearAndGreedDto>> fearAndGreedDto = fearAndGreedService.getLatestFearAndGreed();
 
         return fearAndGreedDto.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

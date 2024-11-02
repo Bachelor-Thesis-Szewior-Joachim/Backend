@@ -1,28 +1,28 @@
-package org.example.backend.cryptocurrency.globalMarket.entity;
-
+package org.example.backend.nft.entity.collection.stats;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class FearAndGreed {
-
+@NoArgsConstructor
+public class CollectionStats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int value;
-    private String valueClassification;
-    private String date;
+    private String collectionSlug;
+    private Double floorPrice;
+    private Double totalVolume;
+    private Long numOwners;
+    private Long totalSupply;
 }

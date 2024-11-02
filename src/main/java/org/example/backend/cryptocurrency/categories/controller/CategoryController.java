@@ -35,6 +35,4 @@ public class CategoryController {
 
         return optionalCategoryDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
-
 }

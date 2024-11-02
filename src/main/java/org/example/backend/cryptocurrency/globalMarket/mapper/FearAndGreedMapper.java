@@ -11,7 +11,7 @@ public class FearAndGreedMapper {
         return new FearAndGreedDto(
                 entity.getValue(),
                 entity.getValueClassification(),
-                entity.getTimestamp()
+                entity.getDate()
         );
     }
 
@@ -19,7 +19,7 @@ public class FearAndGreedMapper {
         FearAndGreed entity = new FearAndGreed();
         entity.setValue(dto.getValue());
         entity.setValueClassification(dto.getValueClassification());
-        entity.setTimestamp(dto.getTimestamp());
+        entity.setDate(dto.getDate());
         return entity;
     }
 }

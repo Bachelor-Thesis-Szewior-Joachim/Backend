@@ -1,7 +1,4 @@
-package org.example.backend.tokens.nft.mapper;
-
-import org.example.backend.tokens.nft.entity.NftToken;
-import org.example.backend.tokens.nft.entity.NftTokenDto;
+package org.example.backend.nft.mapper;
 
 public class NftTokenMapper {
 //    public static NftToken mapTokenDtoToToken(NftTokenDto tokenDto) {

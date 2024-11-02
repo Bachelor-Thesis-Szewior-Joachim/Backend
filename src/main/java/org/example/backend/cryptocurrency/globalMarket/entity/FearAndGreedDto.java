@@ -20,5 +20,5 @@ public class FearAndGreedDto {
 
     private int value;
     private String valueClassification;
-    private LocalDate timestamp;
+    private String date;
 }

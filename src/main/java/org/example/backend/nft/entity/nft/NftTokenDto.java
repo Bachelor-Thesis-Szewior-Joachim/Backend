@@ -1,4 +1,4 @@
-package org.example.backend.tokens.nft.entity;
+package org.example.backend.nft.entity.nft;
 
 
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package org.example.backend.tokens.token.entity;
+package org.example.backend.nft.entity.nft;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -16,20 +16,24 @@ import java.util.Map;
 @Setter
 @Builder
 @AllArgsConstructor
-public class Token {
+public class NftToken {
     @Id
     private Long id;
     private Long rank;
     private String name;
     private double price;
-    private double change;
-    private long volume;
-    private Long circulatingMarketCap;
-    private Long onChainMarketCap;
-    private double holder;
+    private double chain;
+    private Long volume24h;
+    private Long estimatedMarketCap;
+    private double floorPrice;
+    private double averagePrice24h;
+    private Long sales24h;
+    private Long assets;
+    private double owners;
+    private double ownersPercentage;
     @ElementCollection
     private Map<String, Long> balances = new HashMap<>();
-    public Token() {
+    public NftToken() {
 
     }
 }

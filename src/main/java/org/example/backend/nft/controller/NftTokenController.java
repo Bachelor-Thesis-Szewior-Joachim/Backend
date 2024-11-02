@@ -1,4 +1,4 @@
-package org.example.backend.tokens.nft.controller;
+package org.example.backend.nft.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
