@@ -26,6 +26,7 @@ public class HistoricalData {
     private Double price;
     private String volume24h;
     private String circulatingSupply;
+    @Column(name = "date")
     private String date;
     private String marketCap;
     @JsonIgnore

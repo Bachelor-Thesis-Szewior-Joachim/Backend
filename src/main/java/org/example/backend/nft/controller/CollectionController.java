@@ -7,12 +7,14 @@ import org.example.backend.nft.entity.collection.stats.CollectionStatsDto;
 import org.example.backend.nft.mapper.CollectionMapper;
 import org.example.backend.nft.mapper.CollectionStatsMapper;
 import org.example.backend.nft.service.CollectionService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/collections")
@@ -24,7 +26,21 @@ public class CollectionController {
         this.collectionService = collectionService;
     }
 
-    @GetMapping("/{slug}/stats")
+    @GetMapping("/collection/{slug}")
+    public ResponseEntity<CollectionDto> getCollection(@PathVariable String slug) {
+        Optional<CollectionDto> collectionOptionalDto = collectionService.getCollection(slug);
+
+        return collectionOptionalDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{blockchain}")
+    public ResponseEntity<List<CollectionDto>> getCollectionsByBlockchain(@PathVariable String blockchain) {
+        Optional<List<CollectionDto>> optionalCollectionDtoList = collectionService.getCollectionsByBlockchain(blockchain);
+
+        return optionalCollectionDtoList.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/collection/{slug}/stats")
     public CollectionStatsDto getCollectionStats(@PathVariable String slug) {
         CollectionStats collectionStats = collectionService.fetchAndSaveCollectionStats(slug);
         return CollectionStatsMapper.toDto(collectionStats);
@@ -33,7 +49,7 @@ public class CollectionController {
     @GetMapping("/fetch-collections")
     public String fetchCollections() {
         System.out.println("Fetching collections");
-        collectionService.fetchAndSaveCollectionsForBlockchains(Arrays.asList("solana", "ethereum", "klaytn"));
+        collectionService.updateCollectionsFromOpensea();
         return "Collections fetched and saved successfully!";
     }
 }

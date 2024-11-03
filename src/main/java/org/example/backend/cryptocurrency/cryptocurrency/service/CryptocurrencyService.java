@@ -86,7 +86,7 @@ public class CryptocurrencyService {
     }
 
 
-    @Scheduled(fixedRate = 3600000)
+    //@Scheduled(fixedRate = 3600000)
     public List<Cryptocurrency> fetchAndSaveCryptocurrencies() {
         try {
             String response = restTemplate.getForObject(API_URL + "?CMC_PRO_API_KEY=" + API_KEY, String.class);
