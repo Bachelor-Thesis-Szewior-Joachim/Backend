@@ -1,4 +1,4 @@
-package org.example.backend.nft.mapper;
+package org.example.backend.nft.mapper.collection;
 
 
 import com.fasterxml.jackson.databind.JsonNode;

@@ -3,7 +3,7 @@ package org.example.backend.nft.service;
 import org.example.backend.nft.entity.collection.Collection;
 import org.example.backend.nft.entity.collection.CollectionDto;
 import org.example.backend.nft.entity.collection.stats.CollectionStats;
-import org.example.backend.nft.mapper.CollectionMapper;
+import org.example.backend.nft.mapper.collection.CollectionMapper;
 import org.example.backend.nft.repository.CollectionRepository;
 import org.example.backend.nft.repository.CollectionStatsRepository;
 import org.springframework.http.HttpEntity;
@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.example.backend.nft.mapper.CollectionStatsMapper.mapJsonResponseToEntity;
+import static org.example.backend.nft.mapper.collection.CollectionStatsMapper.mapJsonResponseToEntity;
 
 @Service
 @EnableScheduling

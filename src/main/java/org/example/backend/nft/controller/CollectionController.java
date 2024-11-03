@@ -1,11 +1,9 @@
 package org.example.backend.nft.controller;
 
-import org.example.backend.nft.entity.collection.Collection;
 import org.example.backend.nft.entity.collection.CollectionDto;
 import org.example.backend.nft.entity.collection.stats.CollectionStats;
 import org.example.backend.nft.entity.collection.stats.CollectionStatsDto;
-import org.example.backend.nft.mapper.CollectionMapper;
-import org.example.backend.nft.mapper.CollectionStatsMapper;
+import org.example.backend.nft.mapper.collection.CollectionStatsMapper;
 import org.example.backend.nft.service.CollectionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

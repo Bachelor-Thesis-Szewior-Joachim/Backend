@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.backend.nft.entity.nft.NFT;
 
 import java.util.List;
 
@@ -57,6 +58,9 @@ public class Collection {
 
     @Column(length = 50)
     private String createdDate;
+
+    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NFT> nfts;
 }
 
 

@@ -39,5 +39,6 @@ public class CollectionDto {
     private int totalSupply;
     private String rarityStrategyVersion;
     private String createdDate;
+    private List<String> nftIdentifiers;
 }
 
