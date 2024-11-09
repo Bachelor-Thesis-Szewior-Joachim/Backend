@@ -1,6 +1,7 @@
 package org.example.backend.blockchain.ethereum.transaction.controller;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import okhttp3.Response;
 import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransactionDto;
 import org.example.backend.blockchain.ethereum.transaction.service.EthereumTransactionService;
@@ -19,6 +20,12 @@ public class EthereumTransactionController {
 
     public EthereumTransactionController(EthereumTransactionService ethereumTransactionService) {
         this.ethereumTransactionService = ethereumTransactionService;
+    }
+
+    @GetMapping("/{address}")
+    public ResponseEntity<JsonNode> getTransaction(@PathVariable String address) {
+        System.out.println("getTransaction");
+        return ResponseEntity.ok(ethereumTransactionService.getTransactionDetails(address));
     }
 
     //Returns the list of transactions performed by an address, with optional pagination.

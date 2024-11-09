@@ -1,7 +1,6 @@
 package org.example.backend.blockchain.solana.transaction.controller;
 
 
-import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransaction;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransactionDto;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.signatureForAddress.SignatureForAddressDto;
 import org.example.backend.blockchain.solana.transaction.service.SolanaTransactionService;
@@ -28,13 +27,6 @@ public class SolanaTransactionController {
 
         return solanaTransactionDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
-
-//    @GetMapping("/{signature}")
-//    public ResponseEntity<String> getTransactionInfo(@PathVariable String signature) {
-//        Optional<String> solanaTransactionDtoOptional = Optional.ofNullable(solanaTransactionService.getTransaction(signature));
-//
-//        return solanaTransactionDtoOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-//    }
 
     @GetMapping("/signatures")
     public ResponseEntity<Map<String, String>> getSignatureStatuses(@RequestParam List<String> signatures) {

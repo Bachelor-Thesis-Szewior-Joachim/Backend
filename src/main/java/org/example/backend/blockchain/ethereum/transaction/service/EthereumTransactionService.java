@@ -7,17 +7,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransaction;
 import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransactionDto;
 import org.example.backend.blockchain.ethereum.transaction.mapper.EthereumTransactionMapper;
+import org.h2.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class EthereumTransactionService {
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Value("${etherscan.api.key}")
     private String apiKey;
@@ -185,4 +189,35 @@ public class EthereumTransactionService {
             throw new RuntimeException("Error parsing contract execution status", e);
         }
     }
+    public JsonNode getTransactionDetails(String txHash) {
+        // Build the URL with query parameters
+        String url = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                .queryParam("module", "proxy")
+                .queryParam("action", "eth_getTransactionByHash")
+                .queryParam("txhash", txHash)
+                .queryParam("apikey", apiKey)
+                .toUriString();
+
+        // Make the API request
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+        try {
+            // Parse the JSON response using ObjectMapper
+            JsonNode root = objectMapper.readTree(response.getBody());
+
+            // Check if the API response is successful
+            if (root.path("status").asText().equals("1")) {
+                // Get the transaction details
+                JsonNode transaction = root.path("result");
+                return transaction;
+            } else {
+                System.out.println("Error: " + root.path("message").asText());
+                return null;
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to parse JSON response: " + e.getMessage());
+            return null;
+        }
+    }
+
 }
