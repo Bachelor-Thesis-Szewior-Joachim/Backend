@@ -189,7 +189,7 @@ public class EthereumTransactionService {
             throw new RuntimeException("Error parsing contract execution status", e);
         }
     }
-    public JsonNode getTransactionDetails(String txHash) {
+    public Optional<EthereumTransactionDto> getTransactionDetails(String txHash) {
         // Build the URL with query parameters
         String url = UriComponentsBuilder.fromHttpUrl(apiUrl)
                 .queryParam("module", "proxy")
@@ -198,25 +198,13 @@ public class EthereumTransactionService {
                 .queryParam("apikey", apiKey)
                 .toUriString();
 
-        // Make the API request
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         try {
-            // Parse the JSON response using ObjectMapper
-            JsonNode root = objectMapper.readTree(response.getBody());
-
-            // Check if the API response is successful
-            if (root.path("status").asText().equals("1")) {
-                // Get the transaction details
-                JsonNode transaction = root.path("result");
-                return transaction;
-            } else {
-                System.out.println("Error: " + root.path("message").asText());
-                return null;
-            }
-        } catch (IOException e) {
-            System.err.println("Failed to parse JSON response: " + e.getMessage());
-            return null;
+            EthereumTransaction ethereumTransaction = EthereumTransactionMapper.mapResponseToEthereumTransaction(response.getBody());
+            return Optional.ofNullable(EthereumTransactionMapper.mapTransactionToTransactionDto(ethereumTransaction));
+        } catch (Exception e) {
+            return Optional.empty();
         }
     }
 

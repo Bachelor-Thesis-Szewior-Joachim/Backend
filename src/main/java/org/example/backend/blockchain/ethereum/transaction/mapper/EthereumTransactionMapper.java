@@ -1,11 +1,16 @@
 package org.example.backend.blockchain.ethereum.transaction.mapper;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransaction;
 import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransactionDto;
 
 public class EthereumTransactionMapper {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
 
     public static EthereumTransactionDto mapTransactionToTransactionDto(EthereumTransaction transaction) {
         return EthereumTransactionDto.builder()
@@ -101,4 +106,47 @@ public class EthereumTransactionMapper {
                 .build();
     }
 
+
+
+
+    public static EthereumTransaction mapResponseToEthereumTransaction (String jsonResponse) {
+        JsonNode rootNode = null;
+        try {
+            rootNode = objectMapper.readTree(jsonResponse);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        JsonNode resultNode = rootNode.path("result");
+
+        EthereumTransaction transaction = new EthereumTransaction();
+        transaction.setBlockNumber(resultNode.path("blockNumber").asText(null));
+        transaction.setBlockHash(resultNode.path("blockHash").asText(null));
+        transaction.setHash(resultNode.path("hash").asText(null));
+        transaction.setNonce(resultNode.path("nonce").asText(null));
+        transaction.setTransactionIndex(resultNode.path("transactionIndex").asText(null));
+        transaction.setFrom(resultNode.path("from").asText(null));
+        transaction.setTo(resultNode.path("to").asText("N/A")); // Handle null to "N/A"
+        transaction.setValue(resultNode.path("value").asText(null));
+        transaction.setGas(resultNode.path("gas").asText(null));
+        transaction.setGasPrice(resultNode.path("gasPrice").asText(null));
+        transaction.setInput(resultNode.path("input").asText(null));
+        transaction.setType(resultNode.path("type").asText(null));
+
+        transaction.setMethodId(null);
+        transaction.setFunctionName(null);
+        transaction.setContractAddress(null);
+        transaction.setCumulativeGasUsed(null);
+        transaction.setTxReceiptStatus(null);
+        transaction.setGasUsed(null);
+        transaction.setConfirmations(null);
+        transaction.setIsError(null);
+        transaction.setTokenName(null);
+        transaction.setTokenSymbol(null);
+        transaction.setTokenDecimal(null);
+        transaction.setTokenId(null);
+        transaction.setTraceId(null);
+        transaction.setErrorCode(null);
+
+        return transaction;
+    }
 }
