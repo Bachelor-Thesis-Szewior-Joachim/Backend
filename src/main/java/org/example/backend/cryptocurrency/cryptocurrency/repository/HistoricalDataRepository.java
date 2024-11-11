@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface HistoricalDataRepository extends CrudRepository<HistoricalData, Long> {
     List<HistoricalData> findByCmcId(Long cmcId);
+    List<HistoricalData> findByDate(String date);
 }

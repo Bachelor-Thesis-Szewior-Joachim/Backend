@@ -53,9 +53,15 @@ public class ClientService implements UserDetailsService {
         return true;
     }
 
+    public Client getClientByUsername(String username) {
+        Optional<Client> clientOptional = clientRepository.findByUsername(username);
+        return clientOptional.orElse(null);
+    }
+
     public Map<String, String> createSolanaAccount() {
         try {
-            String url = "http://nodejs_service:3001/createAccount";
+//            String url = "http://nodejs_service:3001/createAccount";
+            String url = "http://localhost:3001/createAccount";
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
             if (response.getBody() == null || response.getBody().isEmpty()) {
@@ -97,7 +103,8 @@ public class ClientService implements UserDetailsService {
 
     public Optional<String> tryTransaction(String publicKey) {
         try {
-            String url = "http://nodejs_service:3001/createTransaction";
+//            String url = "http://nodejs_service:3001/createTransaction";
+            String url = "http://localhost:3001/createTransaction";
             Map<String, String> requestBody = Map.of("publicKey", publicKey);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -113,7 +120,9 @@ public class ClientService implements UserDetailsService {
 
     public Optional<String> requestAirdrop(String publicKey) {
         try {
-            String url = "http://nodejs_service:3001/requestAirdrop";
+//            String url = "http://nodejs_service:3001/requestAirdrop";
+            String url = "http://localhost:3001/requestAirdrop";
+
             Map<String, String> requestBody = Map.of("publicKey", publicKey);
 
             HttpHeaders headers = new HttpHeaders();

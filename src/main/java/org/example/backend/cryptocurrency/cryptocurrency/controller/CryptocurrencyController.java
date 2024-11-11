@@ -47,6 +47,7 @@ public class CryptocurrencyController {
         return optionalCryptocurrencyDtoList.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
     @GetMapping("/loadCryptocurrenciesToDatabase")
     public ResponseEntity<List<Cryptocurrency>> loadCryptocurrenciesToDatabase() {
         List<Cryptocurrency> cryptocurrencies = cryptocurrencyService.fetchAndSaveCryptocurrencies();
@@ -63,5 +64,11 @@ public class CryptocurrencyController {
     public ResponseEntity<List<PlatformDto>> getAllTokens(@RequestParam Long startIndex, @RequestParam Long lastIndex) {
         Optional<List<PlatformDto>> optionalTokenList = tokenService.getAllTokens(startIndex, lastIndex);
         return optionalTokenList.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/getSpecificDayHistoricalData/{day}")
+    public ResponseEntity<List<HistoricalDataDto>> getSpecificDayHistoricalData(@PathVariable String day) {
+        Optional<List<HistoricalDataDto>> optionalHistoricalDataList = cryptocurrencyService.getSpecificDayHistoricalData(day);
+        return optionalHistoricalDataList.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

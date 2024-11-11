@@ -117,7 +117,7 @@ public class NetworkService {
             requestBody.put("id", 1);
             requestBody.put("method", "getFirstAvailableBlock");
             requestBody.put("params", new Object[]{
-            });  // Use empty array for default params
+            });
 
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonRequest = objectMapper.writeValueAsString(requestBody);

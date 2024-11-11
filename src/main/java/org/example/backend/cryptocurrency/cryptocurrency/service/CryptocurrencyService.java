@@ -3,6 +3,7 @@ package org.example.backend.cryptocurrency.cryptocurrency.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
+import org.antlr.v4.runtime.ListTokenSource;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.CryptocurrencyDto;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalData;
@@ -166,6 +167,15 @@ public class CryptocurrencyService {
 
     public Optional<List<HistoricalDataDto>> getHistoricalDataByCmcId(Long cmcId) {
         List<HistoricalData> historicalDataList = historicalDataRepository.findByCmcId(cmcId);
+        List<HistoricalDataDto> historicalDataDtoList = historicalDataList.stream()
+                .map(HistoricalDataMapper::toDto)
+                .collect(Collectors.toList());
+
+        return Optional.of(historicalDataDtoList);
+    }
+
+    public Optional<List<HistoricalDataDto>> getSpecificDayHistoricalData(String day) {
+        List<HistoricalData> historicalDataList = historicalDataRepository.findByDate(day);
         List<HistoricalDataDto> historicalDataDtoList = historicalDataList.stream()
                 .map(HistoricalDataMapper::toDto)
                 .collect(Collectors.toList());

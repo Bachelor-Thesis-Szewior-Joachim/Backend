@@ -127,12 +127,11 @@ public class EthereumBlockMapper {
 
     public static List<EthereumBlockDto> mapMinedBlocks(JsonNode jsonNode) {
         List<EthereumBlockDto> blocks = new ArrayList<>();
-        JsonNode blocksNode = jsonNode.get("results");
-        if (blocksNode != null && blocksNode.isArray()) {
-            for (JsonNode blockNode : blocksNode) {
+        if (jsonNode != null && jsonNode.isArray()) {
+            for (JsonNode blockNode : jsonNode) {
                 EthereumBlockDto blockDto = new EthereumBlockDto();
                 blockDto.setNumber(blockNode.get("blockNumber").asText());
-                blockDto.setTimestamp(blockNode.get("timestamp").asText());
+                blockDto.setTimestamp(blockNode.get("timeStamp").asText()); // corrected field name
                 blockDto.setBlockReward(blockNode.get("blockReward").asText());
                 blocks.add(blockDto);
             }

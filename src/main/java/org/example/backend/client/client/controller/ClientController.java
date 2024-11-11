@@ -1,7 +1,9 @@
 package org.example.backend.client.client.controller;
 
+import org.example.backend.client.client.entity.Client;
 import org.example.backend.client.client.entity.ClientDto;
 import org.example.backend.client.client.service.ClientService;
+import org.example.backend.config.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,35 +24,49 @@ public class ClientController {
 
     private final ClientService clientService;
     private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
 
-    public ClientController(ClientService clientService, AuthenticationManager authenticationManager) {
+    public static class RegisterRequest {
+        public String username;
+        public String password;
+    }
+
+    public ClientController(ClientService clientService, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.clientService = clientService;
         this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestParam String username, @RequestParam String password) {
-        boolean success = clientService.registerUser(username, password);
-        if (success) {
-            UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(username, password);
-            Authentication auth = authenticationManager.authenticate(authReq);
-            SecurityContextHolder.getContext().setAuthentication(auth);
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
 
+        String username = request.username;
+        String password = request.password;
+
+        System.out.println("Registering user: " + username);
+
+        boolean success = clientService.registerUser(username, password);
+        System.out.println("User registered: " + success);
+        if (success) {
             return ResponseEntity.ok("User registered successfully. Redirecting to home...");
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists.");
         }
     }
 
-
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<String> login(Authentication authentication) {
+
+        Client client = clientService.getClientByUsername(authentication.getName());
+        if (client == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
+        }
+        System.out.println("Login user: ");
+
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
-            );
-            return ResponseEntity.ok("Login successful.");
+
+            return ResponseEntity.ok("Logged");
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
         }
