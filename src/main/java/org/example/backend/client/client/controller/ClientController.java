@@ -3,7 +3,7 @@ package org.example.backend.client.client.controller;
 import org.example.backend.client.client.entity.Client;
 import org.example.backend.client.client.entity.ClientDto;
 import org.example.backend.client.client.service.ClientService;
-import org.example.backend.config.JwtUtil;
+import org.example.backend.config.JwtTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +23,7 @@ import java.util.UUID;
 public class ClientController {
 
     private final ClientService clientService;
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
+    private final JwtTokenUtils jwtUtil;
 
 
     public static class RegisterRequest {
@@ -32,9 +31,8 @@ public class ClientController {
         public String password;
     }
 
-    public ClientController(ClientService clientService, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+    public ClientController(ClientService clientService, JwtTokenUtils jwtUtil) {
         this.clientService = clientService;
-        this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }
 

@@ -7,14 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransaction;
 import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransactionDto;
 import org.example.backend.blockchain.ethereum.transaction.mapper.EthereumTransactionMapper;
-import org.h2.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 

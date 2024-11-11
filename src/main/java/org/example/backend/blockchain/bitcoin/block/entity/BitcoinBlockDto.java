@@ -1,5 +1,6 @@
 package org.example.backend.blockchain.bitcoin.block.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
 public class BitcoinBlockDto {
 
     private Long id;
@@ -32,4 +34,7 @@ public class BitcoinBlockDto {
     private String prev_block_url;
     private String tx_url;
     private String next_txids;
+
+    public BitcoinBlockDto() {
+    }
 }

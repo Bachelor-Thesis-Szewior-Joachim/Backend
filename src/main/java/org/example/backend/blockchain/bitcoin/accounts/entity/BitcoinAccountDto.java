@@ -20,4 +20,8 @@ public class BitcoinAccountDto {
     private int unconfirmed_n_tx;
     private int final_n_tx;
     private List<BitcoinTransaction> transactions;
+
+    public BitcoinAccountDto() {
+
+    }
 }
