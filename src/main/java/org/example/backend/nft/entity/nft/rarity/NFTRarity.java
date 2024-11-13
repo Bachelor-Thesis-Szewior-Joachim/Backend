@@ -1,11 +1,7 @@
 package org.example.backend.nft.entity.nft.rarity;
 
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Embeddable
 @Getter

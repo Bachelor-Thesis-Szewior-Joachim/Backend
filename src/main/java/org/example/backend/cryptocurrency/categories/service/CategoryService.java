@@ -1,25 +1,19 @@
 package org.example.backend.cryptocurrency.categories.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.example.backend.cryptocurrency.categories.entity.Category;
 import org.example.backend.cryptocurrency.categories.entity.CategoryDto;
 import org.example.backend.cryptocurrency.categories.mapper.CategoryMapper;
 import org.example.backend.cryptocurrency.categories.repository.CategoryRepository;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
-import org.example.backend.cryptocurrency.cryptocurrency.mapper.CryptocurrencyMapper;
 import org.example.backend.cryptocurrency.cryptocurrency.repository.CryptocurrencyRepository;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {

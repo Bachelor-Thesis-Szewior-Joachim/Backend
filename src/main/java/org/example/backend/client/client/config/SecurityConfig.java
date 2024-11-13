@@ -15,24 +15,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -90,11 +86,15 @@ public class SecurityConfig {
                 .securityMatcher(new OrRequestMatcher(new AntPathRequestMatcher("/blockchain/**"),
                         new AntPathRequestMatcher("/bitcoin/**"),
                         new AntPathRequestMatcher("/ethereum/**"),
-                        new AntPathRequestMatcher("solana/**"),
+                        new AntPathRequestMatcher("/solana/**"),
                         new AntPathRequestMatcher("/categories/**"),
                         new AntPathRequestMatcher("/cryptocurrency/**"),
                         new AntPathRequestMatcher("/global-data/**"),
-                        new AntPathRequestMatcher("/collections/**")))
+                        new AntPathRequestMatcher("/collections/**"),
+                        new AntPathRequestMatcher("/nft-statistics/**"),
+                        new AntPathRequestMatcher("/converter/**"),
+                        new AntPathRequestMatcher("/news/**"),
+                        new AntPathRequestMatcher("/predictPrices/**")))
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth->auth
@@ -102,7 +102,7 @@ public class SecurityConfig {
                 )
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtAccessTokenFilter(rsaKeyRecord, jwtUtil), UsernamePasswordAuthenticationFilter.class)
-                .oauth2ResourceServer(oauth2->oauth2.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
+                .oauth2ResourceServer(oauth2->oauth2.jwt(withDefaults()))
                 .build();
     }
 
@@ -134,22 +134,4 @@ public class SecurityConfig {
         JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwkSource);
     }
-
-    @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(jwt -> {
-            List<GrantedAuthority> authorities = new ArrayList<>();
-
-            // Extract role claim
-            String role = jwt.getClaimAsString("role");
-            if (role != null) {
-                authorities.add(new SimpleGrantedAuthority(role));
-            }
-
-            return authorities;
-        });
-        return converter;
-    }
-
 }

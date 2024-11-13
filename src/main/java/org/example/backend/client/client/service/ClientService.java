@@ -1,36 +1,39 @@
 package org.example.backend.client.client.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.example.backend.blockchain.solana.accounts.service.SolanaAccountService;
 import org.example.backend.client.client.entity.Client;
 import org.example.backend.client.client.entity.ClientDto;
 import org.example.backend.client.client.mapper.ClientMapper;
 import org.example.backend.client.client.repository.ClientRepository;
-import org.springframework.http.*;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
-public class ClientService implements UserDetailsService {
+@RequiredArgsConstructor
+public class ClientService {
 
     private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
     private final RestTemplate restTemplate;
     private final SolanaAccountService solanaAccountService;
-
-    public ClientService(ClientRepository clientRepository, PasswordEncoder passwordEncoder, RestTemplate restTemplate, SolanaAccountService solanaAccountService) {
-        this.clientRepository = clientRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.restTemplate = restTemplate;
-        this.solanaAccountService = solanaAccountService;
-    }
+    private final JwtEncoder jwtEncoder;
 
     @Transactional
     public boolean registerUser(String username, String password) {
@@ -58,9 +61,20 @@ public class ClientService implements UserDetailsService {
         return clientOptional.orElse(null);
     }
 
+    public String createAccessToken(Client client) {
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("blockchain-backend")
+                .issuedAt(Instant.now())
+                .expiresAt(Instant.now().plusSeconds(300))
+                .subject(client.getUsername())
+                .claim("publicKey", client.getPublicKey())
+                .build();
+        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+
     public Map<String, String> createSolanaAccount() {
         try {
-//            String url = "http://nodejs_service:3001/createAccount";
             String url = "http://localhost:3001/createAccount";
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
@@ -82,24 +96,6 @@ public class ClientService implements UserDetailsService {
         }
     }
 
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Client> clientOptional = clientRepository.findByUsername(username);
-        if (clientOptional.isEmpty()) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
-        Client client = clientOptional.get();
-        return new org.springframework.security.core.userdetails.User(
-                client.getUsername(),
-                client.getPassword(),
-                client.isEnabled(),
-                true,
-                true,
-                true,
-                new ArrayList<>()
-        );
-    }
 
     public Optional<String> tryTransaction(String publicKey) {
         try {

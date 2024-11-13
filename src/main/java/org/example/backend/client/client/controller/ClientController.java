@@ -2,15 +2,11 @@ package org.example.backend.client.client.controller;
 
 import org.example.backend.client.client.entity.Client;
 import org.example.backend.client.client.entity.ClientDto;
+import org.example.backend.client.client.entity.LoginResponse;
 import org.example.backend.client.client.service.ClientService;
-import org.example.backend.config.JwtTokenUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.backend.config.TokenType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +19,6 @@ import java.util.UUID;
 public class ClientController {
 
     private final ClientService clientService;
-    private final JwtTokenUtils jwtUtil;
 
 
     public static class RegisterRequest {
@@ -31,9 +26,8 @@ public class ClientController {
         public String password;
     }
 
-    public ClientController(ClientService clientService, JwtTokenUtils jwtUtil) {
+    public ClientController(ClientService clientService) {
         this.clientService = clientService;
-        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
@@ -54,20 +48,17 @@ public class ClientController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(Authentication authentication) {
+    public ResponseEntity<LoginResponse> login(Authentication authentication) throws Exception {
 
         Client client = clientService.getClientByUsername(authentication.getName());
         if (client == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
+            throw new Exception("User not found");
         }
         System.out.println("Login user: ");
-
-        try {
-
-            return ResponseEntity.ok("Logged");
-        } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
-        }
+        return ResponseEntity.ok(LoginResponse.builder()
+                .accessToken(clientService.createAccessToken(client))
+                .tokenType(TokenType.Bearer)
+                .build());
     }
 
     @GetMapping("/simulateTransaction")

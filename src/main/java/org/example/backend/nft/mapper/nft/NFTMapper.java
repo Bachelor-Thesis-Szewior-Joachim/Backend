@@ -8,11 +8,9 @@ import org.example.backend.nft.entity.nft.NFTDto;
 import org.example.backend.nft.entity.nft.owner.NFTOwner;
 import org.example.backend.nft.entity.nft.rarity.NFTRarity;
 import org.example.backend.nft.entity.nft.trait.NFTTrait;
-import org.example.backend.nft.mapper.collection.CollectionMapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class NFTMapper {
 

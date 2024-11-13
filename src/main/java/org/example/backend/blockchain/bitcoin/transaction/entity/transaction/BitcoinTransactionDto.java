@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.backend.blockchain.bitcoin.transaction.entity.input.BitcoinTransactionInput;
 import org.example.backend.blockchain.bitcoin.transaction.entity.input.BitcoinTransactionInputDto;
-import org.example.backend.blockchain.bitcoin.transaction.entity.output.BitcoinTransactionOutput;
 import org.example.backend.blockchain.bitcoin.transaction.entity.output.BitcoinTransactionOutputDto;
 
 import java.util.List;

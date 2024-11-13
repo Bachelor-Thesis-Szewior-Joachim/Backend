@@ -1,6 +1,7 @@
 package org.example.backend.blockchain.bitcoin.block.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -5,14 +5,11 @@ import org.example.backend.blockchain.ethereum.accounts.entity.EthereumAccount;
 import org.example.backend.blockchain.ethereum.accounts.entity.EthereumAccountDto;
 import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransaction;
 import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransactionDto;
-
 import org.example.backend.blockchain.ethereum.transaction.mapper.EthereumTransactionMapper;
 
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class EthereumAccountMapper {

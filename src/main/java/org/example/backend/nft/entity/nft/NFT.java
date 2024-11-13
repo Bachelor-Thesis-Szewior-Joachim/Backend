@@ -1,11 +1,7 @@
 package org.example.backend.nft.entity.nft;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.example.backend.nft.entity.collection.Collection;
 import org.example.backend.nft.entity.nft.owner.NFTOwner;
 import org.example.backend.nft.entity.nft.rarity.NFTRarity;

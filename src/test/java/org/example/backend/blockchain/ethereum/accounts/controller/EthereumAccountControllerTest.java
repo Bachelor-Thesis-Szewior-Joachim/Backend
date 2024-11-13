@@ -2,8 +2,6 @@ package org.example.backend.blockchain.ethereum.accounts.controller;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class EthereumAccountControllerTest {
 
     @Test

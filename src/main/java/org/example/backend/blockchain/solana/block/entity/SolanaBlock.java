@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.backend.blockchain.solana.block.entity.rewards.Rewards;
-import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransaction;
 
 import java.util.List;
 

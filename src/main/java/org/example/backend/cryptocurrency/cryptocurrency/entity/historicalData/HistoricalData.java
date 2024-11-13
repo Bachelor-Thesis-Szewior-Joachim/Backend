@@ -1,16 +1,12 @@
 package org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
-
-import java.time.LocalDate;
 
 @Entity
 @Getter

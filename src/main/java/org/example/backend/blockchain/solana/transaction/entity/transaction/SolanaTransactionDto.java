@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.backend.blockchain.solana.transaction.entity.transaction.message.SolanaTransactionMessage;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.message.SolanaTransactionMessageDto;
 
 import java.util.List;

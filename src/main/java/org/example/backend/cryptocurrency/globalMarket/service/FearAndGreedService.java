@@ -1,16 +1,15 @@
 package org.example.backend.cryptocurrency.globalMarket.service;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.cryptocurrency.globalMarket.entity.FearAndGreed;
 import org.example.backend.cryptocurrency.globalMarket.entity.FearAndGreedDto;
 import org.example.backend.cryptocurrency.globalMarket.mapper.FearAndGreedMapper;
 import org.example.backend.cryptocurrency.globalMarket.repository.FearAndGreedRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

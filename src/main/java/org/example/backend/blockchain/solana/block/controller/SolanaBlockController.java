@@ -2,11 +2,9 @@ package org.example.backend.blockchain.solana.block.controller;
 
 import org.example.backend.blockchain.solana.block.entity.SolanaBlockDto;
 import org.example.backend.blockchain.solana.block.service.SolanaBlockService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 

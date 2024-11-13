@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransaction;
 
 import java.util.List;
 

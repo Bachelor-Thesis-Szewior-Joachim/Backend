@@ -5,11 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.cryptocurrency.categories.entity.Category;
 import org.example.backend.cryptocurrency.categories.entity.CategoryDto;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
-import org.example.backend.cryptocurrency.cryptocurrency.mapper.CryptocurrencyMapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class CategoryMapper {

@@ -1,15 +1,13 @@
 package org.example.backend.blockchain.solana.block.mapper;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.solana.block.entity.SolanaBlock;
 import org.example.backend.blockchain.solana.block.entity.SolanaBlockDto;
 import org.example.backend.blockchain.solana.block.entity.rewards.Rewards;
-import org.example.backend.blockchain.solana.transaction.mapper.JsonSolanaTransactionMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SolanaBlockMapper {
 

@@ -2,7 +2,6 @@ package org.example.backend.blockchain.ethereum.contract.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.backend.blockchain.ethereum.contract.entity.contract.Contract;
 import org.example.backend.blockchain.ethereum.contract.entity.contract.ContractDto;
 import org.example.backend.blockchain.ethereum.contract.entity.response.ContractResponse;
 import org.example.backend.blockchain.ethereum.contract.entity.sourceCode.SourceCode;
@@ -16,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

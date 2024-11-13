@@ -7,7 +7,6 @@ import org.example.backend.blockchain.ethereum.block.entity.WithdrawalDto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EthereumBlockMapper {
 

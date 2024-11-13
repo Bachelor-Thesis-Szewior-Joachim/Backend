@@ -2,8 +2,6 @@ package org.example.backend.cryptocurrency.cryptocurrency.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
-import org.antlr.v4.runtime.ListTokenSource;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptocurrency;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.CryptocurrencyDto;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalData;
@@ -14,19 +12,17 @@ import org.example.backend.cryptocurrency.cryptocurrency.mapper.HistoricalDataMa
 import org.example.backend.cryptocurrency.cryptocurrency.repository.CryptocurrencyRepository;
 import org.example.backend.cryptocurrency.cryptocurrency.repository.HistoricalDataRepository;
 import org.example.backend.cryptocurrency.cryptocurrency.repository.PlatformRepository;
-import org.springframework.http.*;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service

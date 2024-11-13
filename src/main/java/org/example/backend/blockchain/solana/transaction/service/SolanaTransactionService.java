@@ -2,6 +2,7 @@ package org.example.backend.blockchain.solana.transaction.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransaction;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransactionDto;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.signatureForAddress.SignatureForAddressDto;
 import org.example.backend.blockchain.solana.transaction.mapper.JsonSignatureForAddressMapper;
@@ -14,7 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransaction;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

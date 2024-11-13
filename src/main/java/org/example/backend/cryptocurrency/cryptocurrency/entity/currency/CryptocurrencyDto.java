@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.backend.cryptocurrency.categories.entity.CategoryDto;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalDataDto;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.platform.PlatformDto;
 

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.backend.blockchain.ethereum.block.entity.EthereumBlock;
 import org.example.backend.blockchain.ethereum.block.entity.EthereumBlockDto;
 import org.example.backend.blockchain.ethereum.block.mapper.EthereumBlockMapper;
 import org.springframework.beans.factory.annotation.Value;

@@ -2,8 +2,6 @@ package org.example.backend.blockchain.ethereum.accounts.mapper;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class EthereumAccountMapperTest {
 
     @Test

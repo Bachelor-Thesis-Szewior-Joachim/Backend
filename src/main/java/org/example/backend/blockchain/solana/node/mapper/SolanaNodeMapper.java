@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.blockchain.solana.node.entity.SolanaClusterNode;
 import org.example.backend.blockchain.solana.node.entity.SolanaClusterNodeDto;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

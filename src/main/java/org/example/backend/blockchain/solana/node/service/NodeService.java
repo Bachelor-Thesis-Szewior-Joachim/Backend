@@ -2,7 +2,6 @@ package org.example.backend.blockchain.solana.node.service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.backend.blockchain.solana.node.entity.SolanaClusterNode;
 import org.example.backend.blockchain.solana.node.entity.SolanaClusterNodeDto;
 import org.example.backend.blockchain.solana.node.mapper.SolanaNodeMapper;
 import org.springframework.http.*;

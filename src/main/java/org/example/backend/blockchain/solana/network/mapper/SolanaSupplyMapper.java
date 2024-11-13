@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.backend.blockchain.solana.network.entity.supply.SupplyDto;
 import org.example.backend.blockchain.solana.network.entity.supply.Supply;
+import org.example.backend.blockchain.solana.network.entity.supply.SupplyDto;
 
 
 public class SolanaSupplyMapper {

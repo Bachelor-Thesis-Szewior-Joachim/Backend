@@ -2,8 +2,6 @@ package org.example.backend.nft.entity.nft;
 
 import lombok.*;
 
-import java.util.List;
-
 @Data
 @Builder
 @Getter

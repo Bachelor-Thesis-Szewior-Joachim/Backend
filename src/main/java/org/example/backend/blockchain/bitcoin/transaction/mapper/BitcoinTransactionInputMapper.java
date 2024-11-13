@@ -3,8 +3,6 @@ package org.example.backend.blockchain.bitcoin.transaction.mapper;
 
 import org.example.backend.blockchain.bitcoin.transaction.entity.input.BitcoinTransactionInput;
 import org.example.backend.blockchain.bitcoin.transaction.entity.input.BitcoinTransactionInputDto;
-import org.example.backend.blockchain.bitcoin.transaction.entity.transaction.BitcoinTransaction;
-import org.example.backend.blockchain.bitcoin.transaction.entity.transaction.BitcoinTransactionDto;
 
 public class BitcoinTransactionInputMapper {
 

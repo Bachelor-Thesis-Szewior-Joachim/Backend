@@ -6,7 +6,6 @@ import org.example.backend.cryptocurrency.cryptocurrency.entity.currency.Cryptoc
 import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalData;
 import org.example.backend.cryptocurrency.cryptocurrency.entity.historicalData.HistoricalDataDto;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;

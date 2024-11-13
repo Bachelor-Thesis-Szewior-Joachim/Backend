@@ -4,7 +4,6 @@ package org.example.backend.blockchain.ethereum.contract.controller;
 import org.example.backend.blockchain.ethereum.contract.entity.contract.ContractDto;
 import org.example.backend.blockchain.ethereum.contract.entity.sourceCode.SourceCodeDto;
 import org.example.backend.blockchain.ethereum.contract.service.ContractService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -2,7 +2,6 @@ package org.example.backend.blockchain.solana.transaction.mapper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.backend.blockchain.solana.transaction.entity.transaction.SolanaTransaction;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.signatureForAddress.SignatureForAddress;
 import org.example.backend.blockchain.solana.transaction.entity.transaction.signatureForAddress.SignatureForAddressDto;
 

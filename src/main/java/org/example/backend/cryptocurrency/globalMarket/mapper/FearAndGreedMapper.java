@@ -2,7 +2,6 @@ package org.example.backend.cryptocurrency.globalMarket.mapper;
 
 import org.example.backend.cryptocurrency.globalMarket.entity.FearAndGreed;
 import org.example.backend.cryptocurrency.globalMarket.entity.FearAndGreedDto;
-import org.springframework.stereotype.Component;
 
 
 public class FearAndGreedMapper {

@@ -2,7 +2,6 @@ package org.example.backend.cryptocurrency.categories.controller;
 
 import org.example.backend.cryptocurrency.categories.entity.CategoryDto;
 import org.example.backend.cryptocurrency.categories.service.CategoryService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

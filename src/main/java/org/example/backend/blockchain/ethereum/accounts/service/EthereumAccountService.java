@@ -2,12 +2,11 @@ package org.example.backend.blockchain.ethereum.accounts.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.backend.blockchain.ethereum.accounts.entity.EthereumAccount;
 import org.example.backend.blockchain.ethereum.accounts.entity.EthereumAccountDto;
+import org.example.backend.blockchain.ethereum.accounts.mapper.EthereumAccountMapper;
 import org.example.backend.blockchain.ethereum.transaction.entity.EthereumTransactionDto;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.example.backend.blockchain.ethereum.accounts.mapper.EthereumAccountMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
