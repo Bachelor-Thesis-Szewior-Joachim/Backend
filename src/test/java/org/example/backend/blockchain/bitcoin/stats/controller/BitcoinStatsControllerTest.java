@@ -2,8 +2,8 @@ package org.example.backend.blockchain.bitcoin.stats.controller;
 
 //@WebMvcTest(BitcoinStatsController.class)
 //@AutoConfigureMockMvc(addFilters = false) // Disables security filters for this test
-//class BitcoinStatsControllerTest {
-//
+class BitcoinStatsControllerTest {
+
 //    @Autowired
 //    private MockMvc mockMvc;
 //
@@ -25,4 +25,4 @@ package org.example.backend.blockchain.bitcoin.stats.controller;
 //                .andExpect(status().isOk())
 //                .andExpect(content().string(expectedStats));
 //    }
-//}
+}
