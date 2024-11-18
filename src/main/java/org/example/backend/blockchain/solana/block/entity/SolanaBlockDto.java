@@ -22,4 +22,8 @@ public class SolanaBlockDto {
     private RewardsDto rewardsDto;
 
     private List<String> transactions;
+
+    public SolanaBlockDto() {
+
+    }
 }

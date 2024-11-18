@@ -12,4 +12,12 @@ import java.util.List;
 public class EthereumAccountDto {
     private String balance;
     private List<EthereumTransactionDto> transactions;
+
+    public EthereumAccountDto() {
+
+    }
+    public EthereumAccountDto(String balance, List<EthereumTransactionDto> transactions) {
+        this.balance = balance;
+        this.transactions = transactions;
+    }
 }

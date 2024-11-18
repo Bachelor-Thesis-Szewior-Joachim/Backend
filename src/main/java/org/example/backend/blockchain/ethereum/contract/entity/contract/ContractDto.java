@@ -13,4 +13,8 @@ public class ContractDto {
     String contractAddress;
     String contractCreator;
     String txHash;
+
+    public ContractDto() {
+
+    }
 }

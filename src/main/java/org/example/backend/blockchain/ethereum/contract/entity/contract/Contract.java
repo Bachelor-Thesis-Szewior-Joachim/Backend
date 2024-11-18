@@ -13,4 +13,8 @@ public class Contract {
      String contractAddress;
      String contractCreator;
      String txHash;
+
+     public Contract() {
+
+     }
 }

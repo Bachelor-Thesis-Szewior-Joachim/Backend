@@ -12,4 +12,8 @@ import lombok.Setter;
 public class SourceCodeDto {
     private String sourceCode;
     private String ABI;
+
+    public SourceCodeDto() {
+
+    }
 }
