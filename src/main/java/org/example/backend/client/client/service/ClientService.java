@@ -76,19 +76,21 @@ public class ClientService {
     public Map<String, String> createSolanaAccount() {
         try {
             String url = "http://localhost:3001/createAccount";
-            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+            // ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-            if (response.getBody() == null || response.getBody().isEmpty()) {
-                throw new RuntimeException("Empty response from Node.js service");
-            }
+            // if (response.getBody() == null || response.getBody().isEmpty()) {
+            //     throw new RuntimeException("Empty response from Node.js service");
+            // }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, String> result = objectMapper.readValue(response.getBody(), Map.class);
+            // ObjectMapper objectMapper = new ObjectMapper();
+            // Map<String, String> result = objectMapper.readValue(response.getBody(), Map.class);
 
-            if (!result.containsKey("publicKey") || !result.containsKey("secretKey")) {
-                throw new RuntimeException("Response from Node.js service does not contain required keys");
-            }
-
+            // if (!result.containsKey("publicKey") || !result.containsKey("secretKey")) {
+            //     throw new RuntimeException("Response from Node.js service does not contain required keys");
+            // }
+            Map<String, String> result = new HashMap<>();
+            result.put("publicKey", "publicKey");
+            result.put("secretKey", "privateKey");
             return result;
         } catch (Exception e) {
             e.printStackTrace();
