@@ -76,21 +76,19 @@ public class ClientService {
     public Map<String, String> createSolanaAccount() {
         try {
             String url = "http://localhost:3001/createAccount";
-            // ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-            // if (response.getBody() == null || response.getBody().isEmpty()) {
-            //     throw new RuntimeException("Empty response from Node.js service");
-            // }
+             if (response.getBody() == null || response.getBody().isEmpty()) {
+                 throw new RuntimeException("Empty response from Node.js service");
+             }
 
-            // ObjectMapper objectMapper = new ObjectMapper();
-            // Map<String, String> result = objectMapper.readValue(response.getBody(), Map.class);
+             ObjectMapper objectMapper = new ObjectMapper();
+             Map<String, String> result = objectMapper.readValue(response.getBody(), Map.class);
 
-            // if (!result.containsKey("publicKey") || !result.containsKey("secretKey")) {
-            //     throw new RuntimeException("Response from Node.js service does not contain required keys");
-            // }
-            Map<String, String> result = new HashMap<>();
-            result.put("publicKey", "publicKey");
-            result.put("secretKey", "privateKey");
+             if (!result.containsKey("publicKey") || !result.containsKey("secretKey")) {
+                 throw new RuntimeException("Response from Node.js service does not contain required keys");
+             }
+
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +99,6 @@ public class ClientService {
 
     public Optional<String> tryTransaction(String publicKey) {
         try {
-//            String url = "http://nodejs_service:3001/createTransaction";
             String url = "http://localhost:3001/createTransaction";
             Map<String, String> requestBody = Map.of("publicKey", publicKey);
             HttpHeaders headers = new HttpHeaders();
@@ -118,7 +115,6 @@ public class ClientService {
 
     public Optional<String> requestAirdrop(String publicKey) {
         try {
-//            String url = "http://nodejs_service:3001/requestAirdrop";
             String url = "http://localhost:3001/requestAirdrop";
 
             Map<String, String> requestBody = Map.of("publicKey", publicKey);

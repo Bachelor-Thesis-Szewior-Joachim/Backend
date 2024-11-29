@@ -1,12 +1,16 @@
 {
   "name": "solanascripts",
   "version": "1.0.0",
-  "description": "",
   "main": "airdrop.js",
   "scripts": {
     "start": "node start.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@solana/web3.js": "^1.95.5",
+    "express": "^4.21.1"
+  }
 }
