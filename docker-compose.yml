@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   postgres:
-    image: postgres:16
+    image: postgres_custom
     container_name: postgres_db
     environment:
       POSTGRES_USER: myuser
@@ -25,8 +23,7 @@ services:
       - postgres
 
   app:
-    build:
-      context: .
+    image: backend_image
     container_name: spring_app
     privileged: true
     volumes:
@@ -55,7 +52,7 @@ services:
       - ./src/main/java/org/example/backend/client/client/service/solanaScripts:/app
     working_dir: /app
     ports:
-      - "3000:3000"
+      - "3001:3001"
     command: ["npm", "start"]
 
 volumes:

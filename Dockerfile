@@ -17,6 +17,9 @@ COPY src ./src
 # Build the application
 RUN mvn package -DskipTests
 
+# Copy the target directory to ensure the built JAR is included
+COPY target ./target
+
 # Generate RSA key pair
 RUN openssl genrsa -out keypair.pem 2048
 

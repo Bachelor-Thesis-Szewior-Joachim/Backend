@@ -48,13 +48,15 @@ public class ClientController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(Authentication authentication) throws Exception {
+    public ResponseEntity<LoginResponse> login(@RequestBody RegisterRequest request) throws Exception {
+        String username = request.username;
+        String password = request.password;
 
-        Client client = clientService.getClientByUsername(authentication.getName());
-        if (client == null) {
-            throw new Exception("User not found");
+        Client client = clientService.getClientByUsername(username);
+        if (client == null || !clientService.validatePassword(password, client.getPassword())) {
+            throw new Exception("Invalid username or password");
         }
-        System.out.println("Login user: ");
+
         return ResponseEntity.ok(LoginResponse.builder()
                 .accessToken(clientService.createAccessToken(client))
                 .tokenType(TokenType.Bearer)

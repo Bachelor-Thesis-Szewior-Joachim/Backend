@@ -150,4 +150,9 @@ public class ClientService {
             return null;
         }
     }
+
+    public boolean validatePassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
 }
