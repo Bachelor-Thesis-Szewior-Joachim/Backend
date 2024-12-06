@@ -1,5 +1,7 @@
 package org.example.backend.client.client.controller;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.example.backend.client.client.entity.Client;
 import org.example.backend.client.client.entity.ClientDto;
 import org.example.backend.client.client.entity.LoginResponse;
@@ -11,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,9 +24,19 @@ public class ClientController {
     private final ClientService clientService;
 
 
+    @Getter
+    @Setter
     public static class RegisterRequest {
-        public String username;
-        public String password;
+        private String username;
+        private String password;
+
+        @Override
+        public String toString() {
+            return "RegisterRequest{" +
+                    "username='" + username + '\'' +
+                    ", password='" + password + '\'' +
+                    '}';
+        }
     }
 
     public ClientController(ClientService clientService) {
@@ -48,9 +61,16 @@ public class ClientController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody RegisterRequest request) throws Exception {
-        String username = request.username;
-        String password = request.password;
+    public ResponseEntity<LoginResponse> login(@RequestBody Map<String, String> payload) throws Exception {
+        String username = payload.get("username");
+        String password = payload.get("password");
+
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + password);
+
+        if (username == null || password == null) {
+            throw new Exception("Username or password is missing");
+        }
 
         Client client = clientService.getClientByUsername(username);
         if (client == null || !clientService.validatePassword(password, client.getPassword())) {
@@ -62,6 +82,7 @@ public class ClientController {
                 .tokenType(TokenType.Bearer)
                 .build());
     }
+
 
     @GetMapping("/simulateTransaction")
     public ResponseEntity<String> simulateTransaction(@RequestParam String publicKey) {
