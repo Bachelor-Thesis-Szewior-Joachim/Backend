@@ -80,6 +80,8 @@ public class ClientController {
         return ResponseEntity.ok(LoginResponse.builder()
                 .accessToken(clientService.createAccessToken(client))
                 .tokenType(TokenType.Bearer)
+                .publicKey(client.getPublicKey())
+                .privateKey(client.getPrivateKey())
                 .build());
     }
 

@@ -19,13 +19,13 @@ public class PredictPricesController {
 
     /**
      * Get predictions for Ethereum, Bitcoin, and Solana models in one request
-     * @param dayInput Array of input values for the models
      * @return Predictions from all models
      */
-    @PostMapping
-    public ResponseEntity<Map<String, Object>> getAllPredictions(@RequestBody double[] dayInput) {
+    @PostMapping("/predict")
+    public ResponseEntity<Map<String, Object>> getAllPredictions(@RequestBody Map<String, String> request) {
         try {
-            Map<String, Object> predictions = predictionService.getAllPredictions(dayInput);
+            String dateInput = request.get("dateInput");
+            Map<String, Object> predictions = predictionService.getAllPredictions(dateInput);
             return ResponseEntity.ok(predictions);
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));

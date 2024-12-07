@@ -6,6 +6,8 @@ import org.example.backend.config.TokenType;
 @Builder
 public record LoginResponse(
         String accessToken,
-        TokenType tokenType
+        TokenType tokenType,
+        String publicKey,
+        String privateKey
 ) {
 }

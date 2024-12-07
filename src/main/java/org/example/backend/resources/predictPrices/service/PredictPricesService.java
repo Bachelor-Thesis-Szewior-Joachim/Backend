@@ -17,15 +17,14 @@ public class PredictPricesService {
         this.restTemplate = restTemplate;
     }
 
-    public Map<String, Object> getAllPredictions(double[] dayInput) {
-        String url = "http://python-service:5000/predict";
-
-        // Build request payload
-        Map<String, Object> requestPayload = Map.of("day", dayInput);
+    public Map<String, Object> getAllPredictions(String dateInput) {
+        String url = "http://model_server:5000/predict";
+        System.out.println("Date input java: " + dateInput);
+        Map<String, String> requestPayload = Map.of("date", dateInput);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
-        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestPayload, headers);
+        HttpEntity<Map<String, String>> request = new HttpEntity<>(requestPayload, headers);
 
         ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
         return response.getBody();

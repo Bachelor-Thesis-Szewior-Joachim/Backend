@@ -6,6 +6,7 @@ from datetime import datetime  # Import for date preprocessing
 # Helper function to preprocess the date
 def preprocess_date(date_string):
     # Parse the date string
+    print("Date string: ", date_string)
     date = datetime.strptime(date_string, "%Y-%m-%d")
 
     # Option 1: Day of the year
